@@ -1,0 +1,77 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Armazenamento de Estoque"
+  description="Armazenamento de estoque em Florianópolis. Boxes seguros e flexíveis para guardar produtos e mercadorias na F.Horn Self Storage."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li><a href="/self-storage-para-empresas/">Para Empresas</a></li>
+          <li aria-current="page">Armazenamento de Estoque</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Empresas</span>
+        <h1>Armazenamento de estoque em Florianópolis</h1>
+        <p class="service-intro">
+          Guarde seu estoque com segurança e flexibilidade. Nossos boxes são ideais para empresas que precisam de espaço extra sem o custo de um galpão.
+        </p>
+
+        <div class="content-body">
+          <h2>Para quem é indicado</h2>
+          <ul>
+            <li>E-commerces que precisam de espaço para produtos.</li>
+            <li>Pequenas empresas com estoque sazonal.</li>
+            <li>Representantes comerciais com amostras e materiais.</li>
+            <li>Negócios em crescimento que precisam de espaço temporário.</li>
+          </ul>
+
+          <h2>Vantagens</h2>
+          <ul>
+            <li>Acesso ao seu estoque dentro do horário de funcionamento.</li>
+            <li>Planos mensais sem compromisso de longo prazo.</li>
+            <li>Ambiente monitorado e protegido.</li>
+            <li>Diferentes tamanhos de box para cada volume de estoque.</li>
+          </ul>
+        </div>
+
+        <div class="service-cta">
+          <a href="/contato/" class="btn btn-primary btn-lg">Solicitar orçamento</a>
+          <a href="/boxes/" class="btn btn-ghost btn-lg">Ver tamanhos disponíveis</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+
+  .service-cta { margin-top: 3rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+</style>

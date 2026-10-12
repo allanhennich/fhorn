@@ -1,0 +1,232 @@
+---
+/**
+ * CTA section leading to the full calculator page.
+ * Shows a lightweight preview to build interest.
+ */
+---
+
+<section class="section calc-preview-section" id="simulador">
+  <div class="container">
+    <div class="calc-preview-grid">
+      <div class="calc-preview-content">
+        <span class="section-label">Simulador de espaço</span>
+        <h2>Descubra o espaço ideal para você</h2>
+        <p class="calc-preview-desc">
+          Selecione os objetos que pretende armazenar e nossa calculadora sugere o box adequado. Simples, rápido e sem compromisso.
+        </p>
+        <ul class="calc-preview-features">
+          <li>Selecione objetos por categoria</li>
+          <li>Ajuste quantidades livremente</li>
+          <li>Receba uma sugestão de box automaticamente</li>
+          <li>Envie seu resultado como pedido de orçamento</li>
+        </ul>
+        <a href="/simulador-de-espaco/" class="btn btn-primary btn-lg">
+          Abrir simulador de espaço
+        </a>
+      </div>
+      <div class="calc-preview-visual" aria-hidden="true">
+        <div class="calc-preview-mockup">
+          <div class="mockup-header">
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-tabs">
+              <span class="mockup-tab mockup-tab-active">Sala</span>
+              <span class="mockup-tab">Quarto</span>
+              <span class="mockup-tab">Cozinha</span>
+            </div>
+            <div class="mockup-items">
+              <div class="mockup-item">
+                <span>Sofá</span>
+                <span class="mockup-badge">1</span>
+              </div>
+              <div class="mockup-item">
+                <span>Rack</span>
+                <span class="mockup-badge">1</span>
+              </div>
+              <div class="mockup-item mockup-item-empty">
+                <span>Poltrona</span>
+                <span class="mockup-badge-empty">0</span>
+              </div>
+            </div>
+            <div class="mockup-result">
+              <span>Volume estimado</span>
+              <strong>2.4 m³</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .calc-preview-section {
+    background-color: var(--color-brand-900);
+    color: white;
+  }
+
+  .calc-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .calc-preview-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .calc-preview-content .section-label {
+    color: var(--color-accent-400);
+  }
+
+  .calc-preview-content h2 {
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .calc-preview-desc {
+    font-size: var(--text-body-lg);
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .calc-preview-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  .calc-preview-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .calc-preview-features li::before {
+    content: '→';
+    color: var(--color-accent-400);
+    font-weight: 700;
+  }
+
+  /* Mockup */
+  .calc-preview-visual {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .calc-preview-visual {
+      display: block;
+    }
+  }
+
+  .calc-preview-mockup {
+    background: var(--color-brand-800);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mockup-header {
+    display: flex;
+    gap: 0.375rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .mockup-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .mockup-body {
+    padding: 1.25rem;
+  }
+
+  .mockup-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .mockup-tab {
+    font-size: var(--text-xs);
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-sm);
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .mockup-tab-active {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 600;
+  }
+
+  .mockup-items {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .mockup-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .mockup-item-empty {
+    opacity: 0.4;
+  }
+
+  .mockup-badge {
+    background: var(--color-accent-500);
+    color: white;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .mockup-badge-empty {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .mockup-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .mockup-result strong {
+    color: var(--color-accent-400);
+    font-size: var(--text-body-lg);
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Guarda Móveis em Florianópolis"
+  description="Guarda móveis em Florianópolis para mudança, reforma ou organização. Espaços seguros e flexíveis na F.Horn Self Storage."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Guarda Móveis</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Para você</span>
+        <h1>Guarda móveis em Florianópolis</h1>
+        <p class="service-intro">
+          Precisa de espaço durante uma mudança, reforma ou simplesmente quer organizar melhor sua casa? Nosso serviço de guarda móveis oferece boxes seguros com acesso facilitado.
+        </p>
+
+        <div class="use-cases">
+          <div class="use-case">
+            <h2>Mudanças</h2>
+            <p>
+              Entre a saída de um imóvel e a entrada em outro, seus móveis ficam protegidos em um box seguro. Sem pressa, sem improviso.
+            </p>
+          </div>
+          <div class="use-case">
+            <h2>Reformas</h2>
+            <p>
+              Durante a obra, proteja seus móveis e pertences da poeira, umidade e riscos de danos. Guarde tudo e resgate quando a reforma terminar.
+            </p>
+          </div>
+          <div class="use-case">
+            <h2>Organização</h2>
+            <p>
+              Itens sazonais, coleções, equipamentos esportivos. Libere espaço em casa sem se desfazer do que é importante para você.
+            </p>
+          </div>
+        </div>
+
+        <div class="service-cta">
+          <h2>Encontre o espaço certo</h2>
+          <p>Use nosso simulador para estimar o box ideal ou fale diretamente com nossa equipe.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="/simulador-de-espaco/" class="btn btn-primary btn-lg">Simulador de espaço</a>
+            <a href="/boxes/" class="btn btn-secondary btn-lg">Ver boxes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .use-cases { display: grid; gap: 2rem; margin-bottom: 4rem; }
+  .use-case {
+    padding: 1.5rem; border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-lg);
+  }
+  .use-case h2 { font-size: var(--text-h4); margin-bottom: 0.5rem; }
+  .use-case p { font-size: var(--text-body); color: var(--color-neutral-600); line-height: 1.6; }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

@@ -1,0 +1,219 @@
+---
+import { footerNavigation } from '../../data/navigation';
+import { siteConfig } from '../../config/site';
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <!-- Main footer grid -->
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href="/" class="footer-logo" aria-label="F.Horn Self Storage">
+          <img
+            src="/images/fhorn-logo.png"
+            alt="F.Horn Self Storage"
+            class="footer-logo-img"
+            width="938"
+            height="396"
+            loading="lazy"
+          />
+        </a>
+        <p class="footer-description">
+          Soluções de guarda móveis e self storage em Florianópolis para você e sua empresa.
+        </p>
+        <div class="footer-social">
+          {siteConfig.social.instagram && (
+            <a
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram da F.Horn Self Storage"
+              class="social-link"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+            </a>
+          )}
+          {siteConfig.social.linkedin && (
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn da F.Horn Self Storage"
+              class="social-link"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+          )}
+        </div>
+      </div>
+
+      <!-- Serviços -->
+      <div class="footer-col">
+        <h3 class="footer-heading">Serviços</h3>
+        <ul class="footer-links">
+          {footerNavigation.services.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Boxes -->
+      <div class="footer-col">
+        <h3 class="footer-heading">Nossos Espaços</h3>
+        <ul class="footer-links">
+          {footerNavigation.boxes.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Institucional & Contato -->
+      <div class="footer-col">
+        <h3 class="footer-heading">Institucional</h3>
+        <ul class="footer-links">
+          {footerNavigation.institutional.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+        <div class="footer-address">
+          <p>{siteConfig.address.street}</p>
+          <p>{siteConfig.address.neighborhood}, {siteConfig.address.city} - {siteConfig.address.state}</p>
+          <p>CEP {siteConfig.address.zip}</p>
+          <p style="margin-top: 0.75rem;">
+            <a href={`tel:${siteConfig.contact.phoneRaw}`}>{siteConfig.contact.phone}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p>&copy; {new Date().getFullYear()} {siteConfig.name}. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-brand-900);
+    color: rgba(255, 255, 255, 0.7);
+    padding-top: 4rem;
+    padding-bottom: 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+      gap: 3rem;
+    }
+  }
+
+  /* Brand */
+  .footer-logo {
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo-img {
+    height: 3rem;
+    width: auto;
+  }
+
+  .footer-description {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    max-width: 280px;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    color: rgba(255, 255, 255, 0.6);
+    transition: color var(--duration-fast), background-color var(--duration-fast);
+  }
+  .social-link:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Columns */
+  .footer-heading {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links a {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color var(--duration-fast);
+  }
+  .footer-links a:hover {
+    color: white;
+  }
+
+  .footer-address {
+    margin-top: 1.5rem;
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .footer-address a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+  }
+  .footer-address a:hover {
+    color: white;
+  }
+
+  /* Bottom */
+  .footer-bottom {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.4);
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+>
+  <article class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li aria-current="page">{post.data.title}</li>
+        </ol>
+      </nav>
+
+      <header class="article-header">
+        <time datetime={post.data.publishDate}>
+          {new Date(post.data.publishDate).toLocaleDateString('pt-BR', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          })}
+        </time>
+        <h1>{post.data.title}</h1>
+        <p class="article-description">{post.data.description}</p>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <footer class="article-footer">
+        <a href="/blog/" class="btn btn-ghost">&larr; Voltar ao blog</a>
+        <a href="/contato/" class="btn btn-primary">Solicitar orçamento</a>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500); flex-wrap: wrap;
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .article-header {
+    max-width: 65ch; margin-bottom: 3rem;
+  }
+  .article-header time {
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .article-header h1 { margin-top: 0.75rem; margin-bottom: 1rem; }
+  .article-description {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600); line-height: 1.6;
+  }
+
+  .article-footer {
+    margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--color-neutral-200);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+</style>

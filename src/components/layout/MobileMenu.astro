@@ -1,0 +1,100 @@
+---
+import { mainNavigation, ctaNavItem } from '../../data/navigation';
+import { siteConfig } from '../../config/site';
+---
+
+<div
+  class="mobile-menu"
+  id="mobile-menu"
+  role="dialog"
+  aria-label="Menu de navegação"
+>
+  <nav aria-label="Menu mobile">
+    <ul class="mobile-nav-list">
+      {mainNavigation.map((item) => (
+        <li>
+          <a href={item.href} class="mobile-nav-link">{item.label}</a>
+        </li>
+      ))}
+    </ul>
+    <div class="mobile-cta">
+      <a href={ctaNavItem.href} class="btn btn-primary btn-lg" style="width:100%">
+        {ctaNavItem.label}
+      </a>
+    </div>
+    <div class="mobile-contact">
+      <a href={`tel:${siteConfig.contact.phoneRaw}`} class="mobile-contact-link">
+        {siteConfig.contact.phone}
+      </a>
+      <span class="mobile-contact-separator">|</span>
+      <a href={siteConfig.address.full ? '#' : '#'} class="mobile-contact-link">
+        {siteConfig.address.neighborhood}, {siteConfig.address.city}
+      </a>
+    </div>
+  </nav>
+</div>
+
+<style>
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    top: 4.5rem;
+    z-index: 40;
+    background-color: white;
+    padding: 2rem 1.25rem;
+    transform: translateX(100%);
+    transition: transform var(--duration-slow) var(--ease-out);
+    overflow-y: auto;
+  }
+
+  .mobile-menu.mobile-menu-open {
+    transform: translateX(0);
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 1rem 0;
+    font-size: var(--text-body-lg);
+    font-weight: 500;
+    color: var(--color-neutral-800);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-neutral-100);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--color-brand-600);
+  }
+
+  .mobile-cta {
+    margin-top: 2rem;
+  }
+
+  .mobile-contact {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-sm);
+    color: var(--color-neutral-500);
+  }
+
+  .mobile-contact-link {
+    color: var(--color-neutral-500);
+    text-decoration: none;
+  }
+
+  .mobile-contact-separator {
+    color: var(--color-neutral-300);
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-menu { display: none; }
+  }
+</style>

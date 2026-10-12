@@ -1,0 +1,117 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Novo Usuario">
+  <div class="admin-page-header">
+    <div>
+      <h1>Novo Usuario</h1>
+      <p>Crie uma nova conta de acesso ao painel administrativo.</p>
+    </div>
+    <a href="/admin/users/" class="admin-btn admin-btn-secondary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Voltar
+    </a>
+  </div>
+
+  <div class="admin-card">
+    <div class="admin-card-body">
+      <form class="admin-form" id="userForm" novalidate>
+        <!-- Name -->
+        <div class="admin-form-group">
+          <label for="name">Nome completo <span class="required">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Nome do usuario" required />
+        </div>
+
+        <!-- Email -->
+        <div class="admin-form-group">
+          <label for="email">E-mail <span class="required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="usuario@email.com" autocomplete="off" required />
+        </div>
+
+        <!-- Password -->
+        <div class="admin-form-group">
+          <label for="password">Senha <span class="required">*</span></label>
+          <input type="password" id="password" name="password" placeholder="Minimo 8 caracteres" autocomplete="new-password" required minlength="8" />
+          <span class="admin-form-hint">A senha deve ter no minimo 8 caracteres.</span>
+        </div>
+
+        <!-- Role -->
+        <div class="admin-form-group">
+          <label for="role">Papel <span class="required">*</span></label>
+          <select id="role" name="role" required>
+            <option value="editor">Editor</option>
+            <option value="admin">Administrador</option>
+          </select>
+          <span class="admin-form-hint">Administradores tem acesso completo. Editores podem gerenciar conteudo.</span>
+        </div>
+
+        <!-- Active -->
+        <div class="admin-form-group">
+          <label class="admin-toggle">
+            <input type="checkbox" id="active" name="active" checked />
+            <span>Ativo</span>
+          </label>
+        </div>
+
+        <!-- Actions -->
+        <div class="admin-form-actions">
+          <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+            Criar Usuario
+          </button>
+          <a href="/admin/users/" class="admin-btn admin-btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    const form = document.getElementById('userForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name')?.value?.trim();
+      const email = document.getElementById('email')?.value?.trim();
+      const password = document.getElementById('password')?.value;
+      const role = document.getElementById('role')?.value;
+      const active = document.getElementById('active')?.checked ?? true;
+
+      if (!name || !email || !password) {
+        window.showToast?.('Preencha todos os campos obrigatorios.', 'error');
+        return;
+      }
+
+      if (password.length < 8) {
+        window.showToast?.('A senha deve ter no minimo 8 caracteres.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Criando...';
+
+      try {
+        const res = await fetch('/api/admin/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password, role, active }),
+        });
+
+        if (res.ok) {
+          window.showToast?.('Usuario criado com sucesso!');
+          setTimeout(() => { window.location.href = '/admin/users/'; }, 800);
+        } else {
+          const err = await res.json().catch(() => ({}));
+          window.showToast?.(err.error || 'Erro ao criar usuario.', 'error');
+        }
+      } catch {
+        window.showToast?.('Erro de conexao.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Criar Usuario';
+      }
+    });
+  </script>
+</AdminLayout>

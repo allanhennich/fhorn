@@ -1,0 +1,119 @@
+---
+const services = [
+  {
+    title: 'Para você',
+    description: 'Mudança, reforma ou simplesmente precisa de mais espaço? Guarde seus pertences com segurança e acesse quando precisar.',
+    href: '/guarda-moveis-florianopolis/',
+    items: ['Guarda Móveis', 'Mudanças', 'Reformas', 'Itens Sazonais'],
+  },
+  {
+    title: 'Para empresas',
+    description: 'Estoque, documentos, equipamentos. Soluções flexíveis que acompanham o ritmo do seu negócio.',
+    href: '/self-storage-para-empresas/',
+    items: ['Estoque', 'Documentos', 'Equipamentos', 'Materiais Promocionais'],
+  },
+];
+---
+
+<section class="section services-section">
+  <div class="container">
+    <div class="services-header">
+      <span class="section-label">Soluções</span>
+      <h2>Espaço sob medida para cada perfil</h2>
+    </div>
+
+    <div class="services-grid">
+      {services.map((service) => (
+        <div class="service-block">
+          <div class="service-content">
+            <h3 class="service-title">{service.title}</h3>
+            <p class="service-desc">{service.description}</p>
+            <ul class="service-items">
+              {service.items.map((item) => (
+                <li class="service-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success-500)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <a href={service.href} class="btn btn-ghost service-link">
+              Saiba mais
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .service-block {
+    border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color var(--duration-normal) var(--ease-out);
+  }
+
+  .service-block:hover {
+    border-color: var(--color-brand-300);
+  }
+
+  .service-content {
+    padding: 2rem;
+  }
+
+  .service-title {
+    font-size: var(--text-h3);
+    margin-bottom: 0.75rem;
+  }
+
+  .service-desc {
+    color: var(--color-neutral-600);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.625rem;
+  }
+
+  .service-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-sm);
+    color: var(--color-neutral-700);
+  }
+
+  .service-link {
+    padding-left: 0;
+  }
+</style>

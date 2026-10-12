@@ -1,0 +1,268 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Novo Box">
+  <div class="admin-page-header">
+    <div>
+      <h1>Novo Box</h1>
+      <p>Preencha os dados para criar um novo box de armazenamento.</p>
+    </div>
+    <a href="/admin/boxes/" class="admin-btn admin-btn-secondary">
+      <!-- Lucide: ArrowLeft -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Voltar
+    </a>
+  </div>
+
+  <div class="admin-card">
+    <div class="admin-card-body">
+      <form class="admin-form" id="boxForm" novalidate>
+        <!-- Name + Slug -->
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="name">Nome <span class="required">*</span></label>
+            <input type="text" id="name" name="name" placeholder="Ex: Box Pequeno" required />
+          </div>
+          <div class="admin-form-group">
+            <label for="slug">Slug <span class="required">*</span></label>
+            <input type="text" id="slug" name="slug" placeholder="box-pequeno" required />
+            <span class="admin-form-hint">Gerado automaticamente a partir do nome.</span>
+          </div>
+        </div>
+
+        <!-- Volume + Volume Label -->
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="volume">Volume (m³) <span class="required">*</span></label>
+            <input type="number" id="volume" name="volume" step="0.1" min="0" placeholder="0.0" required />
+          </div>
+          <div class="admin-form-group">
+            <label for="volumeLabel">Label do Volume</label>
+            <input type="text" id="volumeLabel" name="volumeLabel" placeholder="1.0 m³" />
+            <span class="admin-form-hint">Auto-formatado se vazio.</span>
+          </div>
+        </div>
+
+        <!-- Dimensions -->
+        <div class="admin-form-group">
+          <label>Dimensoes (metros) <span class="required">*</span></label>
+          <div class="admin-form-grid-3">
+            <div>
+              <input type="number" id="dimWidth" name="dimWidth" step="0.01" min="0" placeholder="Largura" required />
+            </div>
+            <div>
+              <input type="number" id="dimHeight" name="dimHeight" step="0.01" min="0" placeholder="Altura" required />
+            </div>
+            <div>
+              <input type="number" id="dimDepth" name="dimDepth" step="0.01" min="0" placeholder="Profundidade" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="dimensionLabel">Label das Dimensoes</label>
+          <input type="text" id="dimensionLabel" name="dimensionLabel" placeholder="1.0 x 1.0 x 1.0 m" />
+          <span class="admin-form-hint">Auto-formatado a partir das dimensoes.</span>
+        </div>
+
+        <!-- Image -->
+        <div class="admin-form-group">
+          <label>Imagem</label>
+          <div class="admin-form-grid-3">
+            <div class="admin-form-group" style="margin-bottom:0">
+              <input type="text" id="imageSrc" name="imageSrc" placeholder="/images/box.webp" />
+              <span class="admin-form-hint">Caminho principal</span>
+            </div>
+            <div class="admin-form-group" style="margin-bottom:0">
+              <input type="text" id="imageFallback" name="imageFallback" placeholder="/images/box.png" />
+              <span class="admin-form-hint">Fallback (PNG/JPG)</span>
+            </div>
+            <div class="admin-form-group" style="margin-bottom:0">
+              <input type="text" id="imageAlt" name="imageAlt" placeholder="Foto do Box Pequeno" />
+              <span class="admin-form-hint">Texto alternativo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="admin-form-group">
+          <label for="description">Descricao</label>
+          <textarea id="description" name="description" placeholder="Descreva o box de armazenamento..."></textarea>
+        </div>
+
+        <!-- Sample Items -->
+        <div class="admin-form-group">
+          <label>Itens de Exemplo</label>
+          <div class="admin-list-field" id="sampleItemsList">
+            <!-- Items will be dynamically added here -->
+          </div>
+          <button type="button" class="admin-list-add" id="addSampleItem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Adicionar item
+          </button>
+        </div>
+
+        <!-- Active + Sort Order -->
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label class="admin-toggle">
+              <input type="checkbox" id="active" name="active" checked />
+              <span>Ativo</span>
+            </label>
+          </div>
+          <div class="admin-form-group">
+            <label for="sortOrder">Ordem de exibicao</label>
+            <input type="number" id="sortOrder" name="sortOrder" min="0" value="0" />
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="admin-form-actions">
+          <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">
+            <!-- Lucide: Save -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+            Salvar Box
+          </button>
+          <a href="/admin/boxes/" class="admin-btn admin-btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    // ── Slug generation ──
+    const nameInput = document.getElementById('name');
+    const slugInput = document.getElementById('slug');
+
+    function toSlug(str) {
+      return str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/[\s_]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    }
+
+    nameInput?.addEventListener('input', () => {
+      slugInput.value = toSlug(nameInput.value);
+    });
+
+    // ── Auto-format volume/dimension labels ──
+    const volumeInput = document.getElementById('volume');
+    const volumeLabel = document.getElementById('volumeLabel');
+    const dimW = document.getElementById('dimWidth');
+    const dimH = document.getElementById('dimHeight');
+    const dimD = document.getElementById('dimDepth');
+    const dimLabel = document.getElementById('dimensionLabel');
+
+    function updateVolumeLabel() {
+      const v = parseFloat(volumeInput?.value);
+      if (!isNaN(v) && v > 0) {
+        volumeLabel.value = `${v} m\u00b3`;
+      }
+    }
+
+    function updateDimLabel() {
+      const w = parseFloat(dimW?.value);
+      const h = parseFloat(dimH?.value);
+      const d = parseFloat(dimD?.value);
+      if (!isNaN(w) && !isNaN(h) && !isNaN(d) && w > 0 && h > 0 && d > 0) {
+        dimLabel.value = `${w} x ${h} x ${d} m`;
+      }
+    }
+
+    volumeInput?.addEventListener('input', updateVolumeLabel);
+    dimW?.addEventListener('input', updateDimLabel);
+    dimH?.addEventListener('input', updateDimLabel);
+    dimD?.addEventListener('input', updateDimLabel);
+
+    // ── Dynamic sample items ──
+    const sampleItemsList = document.getElementById('sampleItemsList');
+    const addSampleItemBtn = document.getElementById('addSampleItem');
+
+    function addSampleItemRow(value = '') {
+      const row = document.createElement('div');
+      row.className = 'admin-list-item';
+      row.innerHTML = `
+        <input type="text" value="${value.replace(/"/g, '&quot;')}" placeholder="Ex: Caixas de mudanca" class="sample-item-input" />
+        <button type="button" class="admin-btn admin-btn-ghost admin-btn-sm btn-remove-item" style="color: var(--admin-danger);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      `;
+      row.querySelector('.btn-remove-item')?.addEventListener('click', () => row.remove());
+      sampleItemsList?.appendChild(row);
+    }
+
+    addSampleItemBtn?.addEventListener('click', () => addSampleItemRow());
+
+    // ── Form submission ──
+    const form = document.getElementById('boxForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const sampleItems = Array.from(document.querySelectorAll('.sample-item-input'))
+        .map((input) => input.value.trim())
+        .filter(Boolean);
+
+      const data = {
+        name: nameInput?.value?.trim() || '',
+        slug: slugInput?.value?.trim() || '',
+        volume: parseFloat(volumeInput?.value) || 0,
+        volumeLabel: volumeLabel?.value?.trim() || '',
+        dimensions: {
+          width: parseFloat(dimW?.value) || 0,
+          height: parseFloat(dimH?.value) || 0,
+          depth: parseFloat(dimD?.value) || 0,
+        },
+        dimensionLabel: dimLabel?.value?.trim() || '',
+        image: {
+          src: document.getElementById('imageSrc')?.value?.trim() || '',
+          fallback: document.getElementById('imageFallback')?.value?.trim() || '',
+          width: 600,
+          height: 400,
+          alt: document.getElementById('imageAlt')?.value?.trim() || '',
+        },
+        description: document.getElementById('description')?.value?.trim() || '',
+        sampleItems,
+        isDemonstrative: true,
+        active: document.getElementById('active')?.checked ?? true,
+        sortOrder: parseInt(document.getElementById('sortOrder')?.value) || 0,
+      };
+
+      if (!data.name || !data.slug || !data.volume) {
+        window.showToast?.('Preencha os campos obrigatorios.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Salvando...';
+
+      try {
+        const res = await fetch('/api/admin/boxes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          window.showToast?.('Box criado com sucesso!');
+          window.location.href = '/admin/boxes/';
+        } else {
+          const err = await res.json().catch(() => ({}));
+          window.showToast?.(err.error || 'Erro ao criar box.', 'error');
+        }
+      } catch {
+        window.showToast?.('Erro de conexao.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Salvar Box';
+      }
+    });
+  </script>
+</AdminLayout>

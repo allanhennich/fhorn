@@ -1,0 +1,263 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Contato"
+  description="Entre em contato com a F.Horn Self Storage em Florianópolis. Solicite um orçamento ou tire suas dúvidas."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Contato</li>
+        </ol>
+      </nav>
+
+      <div class="contact-layout">
+        <div class="contact-info">
+          <span class="section-label">Contato</span>
+          <h1>Fale com a gente</h1>
+          <p class="contact-intro">
+            Solicite um orçamento, tire dúvidas sobre nossos espaços ou agende uma visita.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <h3>Telefone</h3>
+              <a href={`tel:${siteConfig.contact.phoneRaw}`}>{siteConfig.contact.phone}</a>
+            </div>
+
+            {siteConfig.contact.whatsappRaw && (
+              <div class="contact-item">
+                <h3>WhatsApp</h3>
+                <a
+                  href={`https://wa.me/${siteConfig.contact.whatsappRaw}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {siteConfig.contact.whatsapp}
+                </a>
+              </div>
+            )}
+
+            <div class="contact-item">
+              <h3>Endereço</h3>
+              <address>
+                {siteConfig.address.street}<br />
+                {siteConfig.address.neighborhood}, {siteConfig.address.city} - {siteConfig.address.state}<br />
+                CEP {siteConfig.address.zip}
+              </address>
+            </div>
+
+            {siteConfig.social.instagram && (
+              <div class="contact-item">
+                <h3>Instagram</h3>
+                <a href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer">
+                  {siteConfig.contact.instagram}
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div class="contact-form-wrap">
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="form-group">
+              <label for="name">Nome</label>
+              <input type="text" id="name" name="name" required autocomplete="name" placeholder="Seu nome completo" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" required autocomplete="email" placeholder="seu@email.com" />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Telefone</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="(48) 99999-9999" />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Assunto</label>
+              <select id="subject" name="subject" required>
+                <option value="">Selecione</option>
+                <option value="orcamento">Solicitar orçamento</option>
+                <option value="visita">Agendar visita</option>
+                <option value="duvida">Tirar dúvidas</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Mensagem</label>
+              <textarea id="message" name="message" rows="4" required placeholder="Como podemos ajudar?"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              Enviar pelo WhatsApp
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Mapa -->
+      <div class="map-section">
+        <h2 class="map-title">Onde estamos</h2>
+        <p class="map-address">{siteConfig.address.full}</p>
+        <div class="map-wrap">
+          <iframe
+            src={`https://www.google.com/maps?q=${encodeURIComponent('F.Horn Self Storage, ' + siteConfig.address.street + ', ' + siteConfig.address.neighborhood + ', ' + siteConfig.address.city + ' - ' + siteConfig.address.state)}&output=embed`}
+            width="100%"
+            height="450"
+            style="border:0;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Localização da F.Horn Self Storage no mapa"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = (document.getElementById('name') as HTMLInputElement).value.trim();
+    const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+    const phone = (document.getElementById('phone') as HTMLInputElement).value.trim();
+    const subject = (document.getElementById('subject') as HTMLSelectElement);
+    const subjectText = subject.options[subject.selectedIndex]?.text || '';
+    const message = (document.getElementById('message') as HTMLTextAreaElement).value.trim();
+
+    if (!name || !email || !subjectText || subjectText === 'Selecione' || !message) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
+    const text = [
+      `*Contato via site - F.Horn Self Storage*`,
+      ``,
+      `*Nome:* ${name}`,
+      `*E-mail:* ${email}`,
+      phone ? `*Telefone:* ${phone}` : '',
+      `*Assunto:* ${subjectText}`,
+      ``,
+      `*Mensagem:*`,
+      message,
+    ].filter(Boolean).join('\n');
+
+    const whatsappUrl = `https://wa.me/554833800272?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+  });
+</script>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr; gap: 3rem;
+  }
+  @media (min-width: 768px) {
+    .contact-layout { grid-template-columns: 1fr 1fr; }
+  }
+
+  .contact-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600); line-height: 1.6;
+    margin-top: 0.75rem; margin-bottom: 2rem;
+  }
+
+  .contact-details { display: grid; gap: 1.5rem; }
+
+  .contact-item h3 {
+    font-size: var(--text-sm); font-weight: 600; margin-bottom: 0.25rem;
+    color: var(--color-neutral-500); text-transform: uppercase; letter-spacing: 0.05em;
+    font-family: var(--font-sans);
+  }
+
+  .contact-item a,
+  .contact-item address {
+    font-size: var(--text-body); color: var(--color-neutral-800); text-decoration: none;
+    font-style: normal; line-height: 1.5;
+  }
+  .contact-item a:hover { color: var(--color-brand-600); }
+
+  /* Form */
+  .contact-form-wrap {
+    background: var(--color-neutral-50); padding: 2rem; border-radius: var(--radius-lg);
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  .form-group label {
+    display: block; font-size: var(--text-sm); font-weight: 500;
+    margin-bottom: 0.375rem; color: var(--color-neutral-700);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; padding: 0.75rem 1rem; font-size: var(--text-body);
+    border: 1px solid var(--color-neutral-300); border-radius: var(--radius-md);
+    background: white; color: var(--color-neutral-800); font-family: var(--font-sans);
+    transition: border-color var(--duration-fast);
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none; border-color: var(--color-brand-500);
+    box-shadow: 0 0 0 3px rgba(37, 99, 168, 0.1);
+  }
+  .form-group textarea { resize: vertical; }
+
+  .form-note {
+    margin-top: 1rem; font-size: var(--text-xs); color: var(--color-neutral-400);
+    text-align: center; font-style: italic;
+  }
+
+  /* Mapa */
+  .map-section {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--color-neutral-200);
+  }
+
+  .map-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--color-neutral-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .map-address {
+    font-size: var(--text-body);
+    color: var(--color-neutral-500);
+    margin-bottom: 1.5rem;
+  }
+
+  .map-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .map-wrap iframe {
+    display: block;
+    width: 100%;
+    min-height: 350px;
+  }
+</style>

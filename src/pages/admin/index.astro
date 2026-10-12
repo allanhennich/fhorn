@@ -1,0 +1,134 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { listBoxes } from '../../data/admin/boxes';
+import { getAnalyticsSummary } from '../../data/admin/analytics';
+
+const user = Astro.locals.user as { name: string } | undefined;
+
+let totalBoxes = 0;
+let activeBoxes = 0;
+let totalPageViews = 0;
+let todayViews = 0;
+
+try {
+  const boxes = await listBoxes();
+  totalBoxes = boxes.length;
+  activeBoxes = boxes.filter((b) => b.active).length;
+
+  const analytics = await getAnalyticsSummary();
+  totalPageViews = analytics.totalPageViews;
+
+  const today = new Date().toISOString().slice(0, 10);
+  todayViews = analytics.recentViews.filter((v) => v.timestamp.slice(0, 10) === today).length;
+} catch {
+  // Data not yet initialized
+}
+---
+
+<AdminLayout title="Painel">
+  <div class="admin-welcome">
+    <h2>Bem-vindo, {user?.name ?? 'Administrador'}!</h2>
+    <p>Aqui esta o resumo do seu painel de controle.</p>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="admin-stats-grid">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon blue">
+        <!-- Lucide: Box -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+      </div>
+      <div class="admin-stat-info">
+        <div class="admin-stat-value">{totalBoxes}</div>
+        <div class="admin-stat-label">Total de Boxes</div>
+      </div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon green">
+        <!-- Lucide: CheckCircle -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+      </div>
+      <div class="admin-stat-info">
+        <div class="admin-stat-value">{activeBoxes}</div>
+        <div class="admin-stat-label">Boxes Ativos</div>
+      </div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon orange">
+        <!-- Lucide: Eye -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <div class="admin-stat-info">
+        <div class="admin-stat-value">{todayViews}</div>
+        <div class="admin-stat-label">Visitantes Hoje</div>
+      </div>
+    </div>
+
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon purple">
+        <!-- Lucide: TrendingUp -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      </div>
+      <div class="admin-stat-info">
+        <div class="admin-stat-value">{totalPageViews}</div>
+        <div class="admin-stat-label">Visualizacoes Total</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <h2>Acoes Rapidas</h2>
+    </div>
+    <div class="admin-card-body">
+      <div class="admin-quick-actions">
+        <a href="/admin/boxes/new/" class="admin-quick-action">
+          <div class="admin-quick-action-icon">
+            <!-- Lucide: Plus -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </div>
+          <div class="admin-quick-action-text">
+            <strong>Novo Box</strong>
+            <span>Adicionar um novo box de armazenamento</span>
+          </div>
+        </a>
+
+        <a href="/admin/users/new/" class="admin-quick-action">
+          <div class="admin-quick-action-icon">
+            <!-- Lucide: UserPlus -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+          </div>
+          <div class="admin-quick-action-text">
+            <strong>Novo Usuario</strong>
+            <span>Criar uma nova conta de acesso</span>
+          </div>
+        </a>
+
+        <a href="/admin/analytics/" class="admin-quick-action">
+          <div class="admin-quick-action-icon">
+            <!-- Lucide: BarChart3 -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+          </div>
+          <div class="admin-quick-action-text">
+            <strong>Ver Analytics</strong>
+            <span>Acompanhar acessos e estatisticas</span>
+          </div>
+        </a>
+
+        <a href="/" target="_blank" rel="noopener noreferrer" class="admin-quick-action">
+          <div class="admin-quick-action-icon">
+            <!-- Lucide: ExternalLink -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </div>
+          <div class="admin-quick-action-text">
+            <strong>Ver Site</strong>
+            <span>Abrir o site publico em nova aba</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</AdminLayout>

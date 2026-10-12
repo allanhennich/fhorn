@@ -1,0 +1,80 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Self Storage para Empresas"
+  description="Self storage empresarial em Florianópolis. Armazene estoque, documentos e equipamentos com segurança e flexibilidade na F.Horn Self Storage."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Para Empresas</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Para empresas</span>
+        <h1>Self storage para empresas em Florianópolis</h1>
+        <p class="service-intro">
+          Espaço seguro e flexível para armazenar estoque, documentos, equipamentos e materiais do seu negócio. Sem contratos longos, com acesso facilitado.
+        </p>
+
+        <div class="use-cases">
+          <div class="use-case">
+            <h2>Estoque</h2>
+            <p>Armazene produtos e mercadorias em um ambiente organizado, sem precisar de um galpão próprio.</p>
+          </div>
+          <div class="use-case">
+            <h2>Documentos</h2>
+            <p>Mantenha arquivos e documentos em local seguro e acessível, atendendo a necessidades de guarda e organização.</p>
+          </div>
+          <div class="use-case">
+            <h2>Equipamentos</h2>
+            <p>Ferramentas, equipamentos sazonais e materiais promocionais ficam protegidos e disponíveis quando necessário.</p>
+          </div>
+        </div>
+
+        <div class="service-cta">
+          <h2>Fale com nossa equipe</h2>
+          <p>Vamos encontrar a melhor solução para a necessidade da sua empresa.</p>
+          <a href="/contato/" class="btn btn-primary btn-lg">Solicitar orçamento</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .use-cases { display: grid; gap: 2rem; margin-bottom: 4rem; }
+  .use-case {
+    padding: 1.5rem; border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-lg);
+  }
+  .use-case h2 { font-size: var(--text-h4); margin-bottom: 0.5rem; }
+  .use-case p { font-size: var(--text-body); color: var(--color-neutral-600); line-height: 1.6; }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

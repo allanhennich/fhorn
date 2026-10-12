@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.fhorn.com.br/sitemap-index.xml
+
+# Dev/preview environments should not be indexed
+# Ensure X-Robots-Tag: noindex is set on staging servers

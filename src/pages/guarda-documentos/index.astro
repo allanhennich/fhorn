@@ -1,0 +1,78 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Guarda Documentos"
+  description="Guarda documentos em Florianópolis. Armazene arquivos e documentos com segurança na F.Horn Self Storage."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li><a href="/self-storage-para-empresas/">Para Empresas</a></li>
+          <li aria-current="page">Guarda Documentos</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Empresas</span>
+        <h1>Guarda documentos em Florianópolis</h1>
+        <p class="service-intro">
+          Mantenha seus documentos e arquivos em um local seguro, organizado e acessível. Ideal para empresas que precisam cumprir prazos de guarda ou liberar espaço no escritório.
+        </p>
+
+        <div class="content-body">
+          <h2>Para quem é indicado</h2>
+          <ul>
+            <li>Escritórios de contabilidade e advocacia.</li>
+            <li>Empresas com obrigações de guarda fiscal.</li>
+            <li>Profissionais liberais com acúmulo de documentos.</li>
+            <li>Qualquer negócio que precise de arquivo externo.</li>
+          </ul>
+
+          <h2>Como funciona</h2>
+          <p>
+            Você aloca um box do tamanho adequado para seus documentos. Os espaços menores, como o Minibox, podem ser suficientes para caixas de arquivo. Para volumes maiores, temos boxes com capacidade ampliada.
+          </p>
+        </div>
+
+        <div class="service-cta">
+          <a href="/contato/" class="btn btn-primary btn-lg">Solicitar orçamento</a>
+          <a href="/boxes/" class="btn btn-ghost btn-lg">Ver tamanhos disponíveis</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body p {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+
+  .service-cta { margin-top: 3rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+</style>

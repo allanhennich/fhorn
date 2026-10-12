@@ -1,0 +1,466 @@
+---
+/**
+ * VideoHero — Cinematic full-viewport hero with video background.
+ *
+ * Configurable props for reuse. Falls back to poster image when:
+ * - Video file is missing
+ * - User prefers reduced motion
+ * - Mobile viewport (performance optimization)
+ * - Browser blocks autoplay
+ */
+
+interface Props {
+  videoMp4?: string;
+  videoWebm?: string;
+  poster?: string;
+  headline?: string;
+  description?: string;
+  ctaPrimaryText?: string;
+  ctaPrimaryHref?: string;
+  ctaSecondaryText?: string;
+  ctaSecondaryHref?: string;
+  overlayOpacity?: number;
+  textAlign?: 'left' | 'center';
+}
+
+const {
+  videoMp4 = '/videos/fhorn-hero.mp4',
+  videoWebm = '/videos/fhorn-hero.webm',
+  poster = '/images/hero-poster.jpg',
+  headline = 'Mais espaço para o que importa.',
+  description = 'Guarde seus móveis, objetos e pertences em um espaço pensado para trazer mais praticidade à sua rotina. Conheça as soluções de armazenamento da F.Horn Self Storage.',
+  ctaPrimaryText = 'Encontre seu espaço',
+  ctaPrimaryHref = '/boxes/',
+  ctaSecondaryText = 'Conheça a F.Horn',
+  ctaSecondaryHref = '/sobre/',
+  textAlign = 'left',
+} = Astro.props;
+---
+
+<section class="vhero" aria-label="Apresentação da F.Horn Self Storage">
+  <!-- Video / Image background -->
+  <div class="vhero-media">
+    <!-- Poster (always rendered as fallback / LCP image) -->
+    <img
+      class="vhero-poster"
+      src={poster}
+      alt="Interior da F.Horn Self Storage com corredores iluminados e boxes organizados"
+      width="1920"
+      height="1080"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+
+    <!-- Video (hidden until can play) -->
+    <video
+      class="vhero-video"
+      id="vhero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster={poster}
+      aria-hidden="true"
+    >
+      <source src={videoWebm} type="video/webm" />
+      <source src={videoMp4} type="video/mp4" />
+    </video>
+
+    <!-- Gradient overlay -->
+    <div class="vhero-overlay"></div>
+  </div>
+
+  <!-- Content -->
+  <div class:list={['container', 'vhero-content', { 'vhero-center': textAlign === 'center' }]}>
+    <!-- Top label -->
+    <div class="vhero-label" aria-hidden="true">
+      <span class="vhero-label-line"></span>
+      <span class="vhero-label-text">F.Horn Self Storage &middot; Self Storage em Florianópolis</span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="vhero-title">{headline}</h1>
+
+    <!-- Description -->
+    <p class="vhero-desc">{description}</p>
+
+    <!-- CTAs -->
+    <div class="vhero-actions">
+      <a href={ctaPrimaryHref} class="vhero-btn-primary">
+        {ctaPrimaryText}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href={ctaSecondaryHref} class="vhero-btn-secondary">
+        {ctaSecondaryText}
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="vhero-scroll" aria-hidden="true">
+    <span class="vhero-scroll-text">Deslize</span>
+    <div class="vhero-scroll-track">
+      <div class="vhero-scroll-dot"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initVideoHero() {
+    const video = document.getElementById('vhero-video') as HTMLVideoElement | null;
+    if (!video) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth < 768;
+
+    // Don't load heavy video on mobile
+    if (isMobile) {
+      video.preload = 'none';
+      video.removeAttribute('autoplay');
+      video.remove();
+      return;
+    }
+
+    // Respect reduced motion
+    if (prefersReducedMotion) {
+      video.pause();
+      video.remove();
+      return;
+    }
+
+    // Show video only when it can play
+    video.addEventListener('canplay', () => {
+      video.classList.add('vhero-video-ready');
+    }, { once: true });
+
+    // Try to play — fallback gracefully
+    video.play().catch(() => {
+      video.remove();
+    });
+  }
+
+  // Animate content on load
+  function animateHeroContent() {
+    const section = document.querySelector('.vhero');
+    if (!section) return;
+    // Small delay for smooth entrance after page paint
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        section.classList.add('vhero-loaded');
+      }, 100);
+    });
+  }
+
+  initVideoHero();
+  animateHeroContent();
+</script>
+
+<style>
+  /* ===== Container ===== */
+  .vhero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background-color: var(--color-brand-900);
+  }
+
+  @media (min-width: 768px) {
+    .vhero {
+      align-items: center;
+    }
+  }
+
+  /* ===== Media layer ===== */
+  .vhero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .vhero-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .vhero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+
+  .vhero-video.vhero-video-ready {
+    opacity: 1;
+  }
+
+  /* Cinematic gradient overlay */
+  .vhero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(10, 28, 50, 0.92) 0%,
+        rgba(10, 28, 50, 0.75) 40%,
+        rgba(10, 28, 50, 0.60) 65%,
+        rgba(10, 28, 50, 0.78) 100%
+      );
+  }
+
+  /* Extra bottom gradient for text readability on mobile */
+  .vhero-overlay::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(10, 28, 50, 0.85) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* ===== Content ===== */
+  .vhero-content {
+    position: relative;
+    z-index: 1;
+    padding-top: 8rem;
+    padding-bottom: 6rem;
+    max-width: 680px;
+  }
+
+  .vhero-center {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .vhero-center .vhero-actions {
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .vhero-content {
+      padding-bottom: 8rem;
+    }
+  }
+
+  /* ===== Top label ===== */
+  .vhero-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+  }
+
+  .vhero-loaded .vhero-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .vhero-label-line {
+    width: 2rem;
+    height: 1px;
+    background-color: var(--color-accent-400);
+    flex-shrink: 0;
+  }
+
+  .vhero-label-text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  /* ===== Headline ===== */
+  .vhero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5.5vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.08;
+    color: white;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.25rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.35s, transform 0.8s ease 0.35s;
+  }
+
+  .vhero-loaded .vhero-title {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== Description ===== */
+  .vhero-desc {
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.65;
+    max-width: 520px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease 0.55s, transform 0.8s ease 0.55s;
+  }
+
+  .vhero-loaded .vhero-desc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== CTAs ===== */
+  .vhero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.7s ease 0.75s, transform 0.7s ease 0.75s;
+  }
+
+  .vhero-loaded .vhero-actions {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .vhero-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background-color: var(--color-accent-500);
+    color: white;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+
+  .vhero-btn-primary:hover {
+    background-color: var(--color-accent-600);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(221, 107, 32, 0.35);
+  }
+
+  .vhero-btn-primary svg {
+    transition: transform 0.2s;
+  }
+  .vhero-btn-primary:hover svg {
+    transform: translateX(3px);
+  }
+
+  .vhero-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem 1.75rem;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .vhero-btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: white;
+  }
+
+  /* ===== Scroll indicator ===== */
+  .vhero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 1s ease 1.2s;
+  }
+
+  .vhero-loaded .vhero-scroll {
+    opacity: 1;
+  }
+
+  .vhero-scroll-text {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .vhero-scroll-track {
+    width: 1px;
+    height: 2.5rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+    border-radius: 1px;
+  }
+
+  .vhero-scroll-dot {
+    width: 1px;
+    height: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 1px;
+    animation: scrollDot 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDot {
+    0% { transform: translateY(-0.75rem); }
+    50% { transform: translateY(2.5rem); }
+    100% { transform: translateY(-0.75rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vhero-scroll-dot { animation: none; transform: translateY(0.875rem); }
+
+    .vhero-label,
+    .vhero-title,
+    .vhero-desc,
+    .vhero-actions,
+    .vhero-scroll {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ===== Mobile adjustments ===== */
+  @media (max-width: 767px) {
+    .vhero {
+      align-items: flex-end;
+    }
+    .vhero-content {
+      padding-bottom: 5rem;
+    }
+    .vhero-scroll {
+      display: none;
+    }
+  }
+</style>

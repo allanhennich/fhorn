@@ -1,0 +1,40 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoHero from '../components/home/VideoHero.astro';
+import HowItWorks from '../components/home/HowItWorks.astro';
+import StorageSection from '../components/home/StorageSection.astro';
+import ServicesOverview from '../components/home/ServicesOverview.astro';
+import CalculatorPreview from '../components/home/CalculatorPreview.astro';
+import { siteConfig } from '../config/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': siteConfig.url,
+  name: siteConfig.name,
+  description: siteConfig.seo.defaultDescription,
+  url: siteConfig.url,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rua Fermino Costa, 186',
+    addressLocality: 'Florianópolis',
+    addressRegion: 'SC',
+    postalCode: '88085-030',
+    addressCountry: 'BR',
+  },
+  telephone: siteConfig.contact.phone,
+  areaServed: {
+    '@type': 'City',
+    name: 'Florianópolis',
+  },
+};
+---
+
+<BaseLayout jsonLd={jsonLd} headerVariant="transparent">
+  <VideoHero />
+  <HowItWorks />
+  <StorageSection />
+  <ServicesOverview />
+  <CalculatorPreview />
+</BaseLayout>

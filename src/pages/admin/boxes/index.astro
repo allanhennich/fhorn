@@ -1,0 +1,189 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { listBoxes } from '../../../data/admin/boxes';
+
+let boxes: Awaited<ReturnType<typeof listBoxes>> = [];
+try {
+  boxes = await listBoxes();
+} catch {
+  // Data not initialized
+}
+---
+
+<AdminLayout title="Boxes">
+  <div class="admin-page-header">
+    <div>
+      <h1>Boxes</h1>
+      <p>Gerencie os boxes de armazenamento do site.</p>
+    </div>
+    <a href="/admin/boxes/new/" class="admin-btn admin-btn-primary">
+      <!-- Lucide: Plus -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+      Novo Box
+    </a>
+  </div>
+
+  <div class="admin-card">
+    {boxes.length === 0 ? (
+      <div class="admin-empty">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        <p>Nenhum box cadastrado ainda.</p>
+        <a href="/admin/boxes/new/" class="admin-btn admin-btn-primary">Criar Primeiro Box</a>
+      </div>
+    ) : (
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Volume</th>
+              <th>Dimensoes</th>
+              <th>Ordem</th>
+              <th>Status</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {boxes.map((box) => (
+              <tr data-box-id={box.id}>
+                <td>
+                  <strong>{box.name}</strong>
+                  <br />
+                  <small style="color: var(--admin-text-muted); font-size: 0.75rem;">{box.slug}</small>
+                </td>
+                <td>{box.volumeLabel || `${box.volume} m³`}</td>
+                <td>{box.dimensionLabel || `${box.dimensions.width}x${box.dimensions.height}x${box.dimensions.depth}`}</td>
+                <td>{box.sortOrder}</td>
+                <td>
+                  <span class={`admin-badge ${box.active ? 'admin-badge-active' : 'admin-badge-inactive'}`}>
+                    {box.active ? 'Ativo' : 'Inativo'}
+                  </span>
+                </td>
+                <td>
+                  <div class="admin-table-actions">
+                    <a href={`/admin/boxes/${box.id}/`} class="admin-btn admin-btn-secondary admin-btn-sm">
+                      <!-- Lucide: Pencil -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      Editar
+                    </a>
+                    <button
+                      type="button"
+                      class="admin-btn admin-btn-secondary admin-btn-sm btn-toggle"
+                      data-id={box.id}
+                      data-active={box.active ? 'true' : 'false'}
+                    >
+                      {box.active ? 'Desativar' : 'Ativar'}
+                    </button>
+                    <button
+                      type="button"
+                      class="admin-btn admin-btn-ghost admin-btn-sm btn-delete"
+                      data-id={box.id}
+                      data-name={box.name}
+                      style="color: var(--admin-danger);"
+                    >
+                      <!-- Lucide: Trash2 -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="admin-modal-overlay" id="deleteModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h3>Confirmar Exclusao</h3>
+        <button class="admin-modal-close" id="deleteModalClose">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body">
+        <p>Tem certeza que deseja excluir o box <strong id="deleteBoxName"></strong>? Esta acao nao pode ser desfeita.</p>
+      </div>
+      <div class="admin-modal-footer">
+        <button class="admin-btn admin-btn-secondary" id="deleteModalCancel">Cancelar</button>
+        <button class="admin-btn admin-btn-danger" id="deleteModalConfirm">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    let deleteId = null;
+
+    // Toggle box active state
+    document.querySelectorAll('.btn-toggle').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        btn.disabled = true;
+        try {
+          const res = await fetch(`/api/admin/boxes/${id}/toggle`, { method: 'POST' });
+          if (res.ok) {
+            window.location.reload();
+          } else {
+            window.showToast?.('Erro ao alterar status.', 'error');
+          }
+        } catch {
+          window.showToast?.('Erro de conexao.', 'error');
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    });
+
+    // Delete box
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteBoxName = document.getElementById('deleteBoxName');
+    const deleteModalClose = document.getElementById('deleteModalClose');
+    const deleteModalCancel = document.getElementById('deleteModalCancel');
+    const deleteModalConfirm = document.getElementById('deleteModalConfirm');
+
+    function openDeleteModal(id, name) {
+      deleteId = id;
+      deleteBoxName.textContent = name;
+      deleteModal?.classList.add('open');
+    }
+
+    function closeDeleteModal() {
+      deleteId = null;
+      deleteModal?.classList.remove('open');
+    }
+
+    document.querySelectorAll('.btn-delete').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        openDeleteModal(btn.dataset.id, btn.dataset.name);
+      });
+    });
+
+    deleteModalClose?.addEventListener('click', closeDeleteModal);
+    deleteModalCancel?.addEventListener('click', closeDeleteModal);
+
+    deleteModal?.addEventListener('click', (e) => {
+      if (e.target === deleteModal) closeDeleteModal();
+    });
+
+    deleteModalConfirm?.addEventListener('click', async () => {
+      if (!deleteId) return;
+      deleteModalConfirm.disabled = true;
+      try {
+        const res = await fetch(`/api/admin/boxes/${deleteId}`, { method: 'DELETE' });
+        if (res.ok) {
+          window.showToast?.('Box excluido com sucesso.');
+          closeDeleteModal();
+          window.location.reload();
+        } else {
+          window.showToast?.('Erro ao excluir box.', 'error');
+        }
+      } catch {
+        window.showToast?.('Erro de conexao.', 'error');
+      } finally {
+        deleteModalConfirm.disabled = false;
+      }
+    });
+  </script>
+</AdminLayout>

@@ -1,0 +1,104 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Escolha seu espaço',
+    description: 'Use nosso simulador para encontrar o box ideal ou fale diretamente com nossa equipe.',
+  },
+  {
+    number: '02',
+    title: 'Contrate com flexibilidade',
+    description: 'Planos mensais, sem burocracia. Você escolhe o período que precisar.',
+  },
+  {
+    number: '03',
+    title: 'Guarde com segurança',
+    description: 'Acesse seu box quando precisar, em um ambiente monitorado e protegido.',
+  },
+];
+---
+
+<section class="section how-section" id="como-funciona">
+  <div class="container">
+    <div class="how-header">
+      <span class="section-label">Como funciona</span>
+      <h2>Simples, rápido e seguro</h2>
+    </div>
+
+    <div class="how-steps">
+      {steps.map((step, i) => (
+        <div class="how-step">
+          <div class="step-number" aria-hidden="true">{step.number}</div>
+          <div class="step-content">
+            <h3 class="step-title">{step.title}</h3>
+            <p class="step-desc">{step.description}</p>
+          </div>
+          {i < steps.length - 1 && <div class="step-connector" aria-hidden="true"></div>}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .how-steps {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  .how-step {
+    position: relative;
+    text-align: center;
+  }
+
+  .step-number {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-brand-100);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .step-title {
+    font-size: var(--text-h4);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-desc {
+    font-size: var(--text-sm);
+    color: var(--color-neutral-600);
+    line-height: 1.6;
+  }
+
+  .step-connector {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .step-connector {
+      display: block;
+      position: absolute;
+      top: 1.5rem;
+      right: -1.5rem;
+      width: 3rem;
+      height: 1px;
+      background: var(--color-neutral-200);
+    }
+  }
+</style>

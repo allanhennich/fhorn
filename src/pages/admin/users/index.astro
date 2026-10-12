@@ -1,0 +1,161 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { listUsers } from '../../../data/admin/users';
+
+let users: Awaited<ReturnType<typeof listUsers>> = [];
+try {
+  users = await listUsers();
+} catch {
+  // Data not initialized
+}
+---
+
+<AdminLayout title="Usuarios">
+  <div class="admin-page-header">
+    <div>
+      <h1>Usuarios</h1>
+      <p>Gerencie os usuarios com acesso ao painel administrativo.</p>
+    </div>
+    <a href="/admin/users/new/" class="admin-btn admin-btn-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+      Novo Usuario
+    </a>
+  </div>
+
+  <div class="admin-card">
+    {users.length === 0 ? (
+      <div class="admin-empty">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <p>Nenhum usuario cadastrado ainda.</p>
+        <a href="/admin/users/new/" class="admin-btn admin-btn-primary">Criar Primeiro Usuario</a>
+      </div>
+    ) : (
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Papel</th>
+              <th>Status</th>
+              <th>Criado em</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr data-user-id={user.id}>
+                <td><strong>{user.name}</strong></td>
+                <td>{user.email}</td>
+                <td>
+                  <span class={`admin-badge ${user.role === 'admin' ? 'admin-badge-admin' : 'admin-badge-editor'}`}>
+                    {user.role === 'admin' ? 'Administrador' : 'Editor'}
+                  </span>
+                </td>
+                <td>
+                  <span class={`admin-badge ${user.active ? 'admin-badge-active' : 'admin-badge-inactive'}`}>
+                    {user.active ? 'Ativo' : 'Inativo'}
+                  </span>
+                </td>
+                <td>
+                  <span style="font-size: 0.8125rem; color: var(--admin-text-secondary);">
+                    {new Date(user.createdAt).toLocaleDateString('pt-BR')}
+                  </span>
+                </td>
+                <td>
+                  <div class="admin-table-actions">
+                    <a href={`/admin/users/${user.id}/`} class="admin-btn admin-btn-secondary admin-btn-sm">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                      Editar
+                    </a>
+                    <button
+                      type="button"
+                      class="admin-btn admin-btn-ghost admin-btn-sm btn-delete-user"
+                      data-id={user.id}
+                      data-name={user.name}
+                      style="color: var(--admin-danger);"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="admin-modal-overlay" id="deleteModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h3>Confirmar Exclusao</h3>
+        <button class="admin-modal-close" id="deleteModalClose">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="admin-modal-body">
+        <p>Tem certeza que deseja excluir o usuario <strong id="deleteUserName"></strong>? Esta acao nao pode ser desfeita.</p>
+      </div>
+      <div class="admin-modal-footer">
+        <button class="admin-btn admin-btn-secondary" id="deleteModalCancel">Cancelar</button>
+        <button class="admin-btn admin-btn-danger" id="deleteModalConfirm">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    let deleteId = null;
+
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteUserName = document.getElementById('deleteUserName');
+    const deleteModalClose = document.getElementById('deleteModalClose');
+    const deleteModalCancel = document.getElementById('deleteModalCancel');
+    const deleteModalConfirm = document.getElementById('deleteModalConfirm');
+
+    function openDeleteModal(id, name) {
+      deleteId = id;
+      deleteUserName.textContent = name;
+      deleteModal?.classList.add('open');
+    }
+
+    function closeDeleteModal() {
+      deleteId = null;
+      deleteModal?.classList.remove('open');
+    }
+
+    document.querySelectorAll('.btn-delete-user').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        openDeleteModal(btn.dataset.id, btn.dataset.name);
+      });
+    });
+
+    deleteModalClose?.addEventListener('click', closeDeleteModal);
+    deleteModalCancel?.addEventListener('click', closeDeleteModal);
+
+    deleteModal?.addEventListener('click', (e) => {
+      if (e.target === deleteModal) closeDeleteModal();
+    });
+
+    deleteModalConfirm?.addEventListener('click', async () => {
+      if (!deleteId) return;
+      deleteModalConfirm.disabled = true;
+      try {
+        const res = await fetch(`/api/admin/users/${deleteId}`, { method: 'DELETE' });
+        if (res.ok) {
+          window.showToast?.('Usuario excluido com sucesso.');
+          closeDeleteModal();
+          window.location.reload();
+        } else {
+          window.showToast?.('Erro ao excluir usuario.', 'error');
+        }
+      } catch {
+        window.showToast?.('Erro de conexao.', 'error');
+      } finally {
+        deleteModalConfirm.disabled = false;
+      }
+    });
+  </script>
+</AdminLayout>

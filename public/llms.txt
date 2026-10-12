@@ -1,0 +1,27 @@
+# F.Horn Self Storage
+
+> Guarda móveis e self storage em Florianópolis, SC.
+
+F.Horn Self Storage oferece soluções de armazenamento seguras e flexíveis para pessoas e empresas em Florianópolis, Santa Catarina.
+
+## Serviços
+
+- Guarda Móveis: armazenamento de móveis durante mudanças, reformas ou para liberar espaço em casa.
+- Self Storage para Empresas: armazenamento de estoque, documentos e equipamentos empresariais.
+- Guarda Documentos: armazenamento seguro de arquivos e documentos.
+
+## Localização
+
+Rua Fermino Costa, 186 - Capoeiras, Florianópolis - SC, CEP 88085-030
+
+## Contato
+
+Telefone: (48) 3380-0272
+
+## Links úteis
+
+- Nossos espaços: /boxes/
+- Simulador de espaço: /simulador-de-espaco/
+- Como funciona: /como-funciona/
+- Blog: /blog/
+- Contato: /contato/
