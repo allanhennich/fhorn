@@ -1,6 +1,8 @@
 ---
-import { storageUnits } from '../../data/storageUnits';
+import { getActiveBoxes } from '../../data/admin/boxes';
 import StorageCard from '../storage/StorageCard.astro';
+
+const storageUnits = await getActiveBoxes();
 ---
 
 <section class="section storage-section" id="nossos-espacos">

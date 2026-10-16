@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getActiveBoxes } from '../../data/admin/boxes';
-import { formatMeters } from '../../data/storageUnits';
 
 const { slug } = Astro.params;
 const allBoxes = await getActiveBoxes();
@@ -13,6 +12,7 @@ if (!unit) {
 
 function formatDimensions(u: any) { return u.dimensionLabel; }
 function floorArea(u: any) { return u.dimensions.width * u.dimensions.depth; }
+function formatMeters(n: number) { return n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 ---
 
 <BaseLayout
