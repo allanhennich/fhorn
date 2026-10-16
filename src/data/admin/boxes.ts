@@ -3,7 +3,7 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import { getPool } from './db.js';
+import { query } from './db.js';
 import type { AdminBox } from './types.js';
 
 /**
@@ -56,6 +56,9 @@ function rowToBox(row: any): AdminBox {
     isDemonstrative: Boolean(row.is_demonstrative),
     active: Boolean(row.active),
     sortOrder: row.sort_order,
+    price: row.price != null ? Number(row.price) : null,
+    pricePromotional: row.price_promotional != null ? Number(row.price_promotional) : null,
+    priceVisible: Boolean(row.price_visible),
     createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
     updatedAt: row.updated_at instanceof Date ? row.updated_at.toISOString() : String(row.updated_at),
   };
@@ -63,15 +66,13 @@ function rowToBox(row: any): AdminBox {
 
 /** List all boxes. */
 export async function listBoxes(): Promise<AdminBox[]> {
-  const pool = getPool();
-  const [rows] = await pool.execute<any[]>('SELECT * FROM admin_boxes ORDER BY sort_order');
+  const [rows] = await query<any[]>('SELECT * FROM admin_boxes ORDER BY sort_order');
   return rows.map(rowToBox);
 }
 
 /** Get only active boxes, sorted by sortOrder ascending. */
 export async function getActiveBoxes(): Promise<AdminBox[]> {
-  const pool = getPool();
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_boxes WHERE active = TRUE ORDER BY sort_order',
   );
   return rows.map(rowToBox);
@@ -79,8 +80,7 @@ export async function getActiveBoxes(): Promise<AdminBox[]> {
 
 /** Get a single box by id. */
 export async function getBox(id: string): Promise<AdminBox | undefined> {
-  const pool = getPool();
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_boxes WHERE id = ?',
     [id],
   );
@@ -89,8 +89,7 @@ export async function getBox(id: string): Promise<AdminBox | undefined> {
 
 /** Get a single box by slug. */
 export async function getBoxBySlug(slug: string): Promise<AdminBox | undefined> {
-  const pool = getPool();
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_boxes WHERE slug = ?',
     [slug],
   );
@@ -101,16 +100,16 @@ export async function getBoxBySlug(slug: string): Promise<AdminBox | undefined> 
 export async function createBox(
   data: Omit<AdminBox, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
 ): Promise<AdminBox> {
-  const pool = getPool();
   const id = randomUUID();
   const slug = generateSlug(data.name);
 
-  await pool.execute(
+  await query(
     `INSERT INTO admin_boxes
      (id, name, slug, volume, volume_label, dim_width, dim_height, dim_depth,
       dimension_label, image_src, image_fallback, image_width, image_height,
-      image_alt, description, sample_items, is_demonstrative, active, sort_order)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      image_alt, description, sample_items, is_demonstrative, active, sort_order,
+      price, price_promotional, price_visible)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       id,
       data.name,
@@ -131,10 +130,13 @@ export async function createBox(
       data.isDemonstrative,
       data.active,
       data.sortOrder,
+      data.price ?? null,
+      data.pricePromotional ?? null,
+      data.priceVisible ?? false,
     ],
   );
 
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_boxes WHERE id = ?',
     [id],
   );
@@ -146,8 +148,6 @@ export async function updateBox(
   id: string,
   data: Partial<Omit<AdminBox, 'id' | 'createdAt' | 'updatedAt'>>,
 ): Promise<AdminBox | undefined> {
-  const pool = getPool();
-
   const fields: string[] = [];
   const values: any[] = [];
 
@@ -213,16 +213,28 @@ export async function updateBox(
     fields.push('sort_order = ?');
     values.push(data.sortOrder);
   }
+  if (data.price !== undefined) {
+    fields.push('price = ?');
+    values.push(data.price);
+  }
+  if (data.pricePromotional !== undefined) {
+    fields.push('price_promotional = ?');
+    values.push(data.pricePromotional);
+  }
+  if (data.priceVisible !== undefined) {
+    fields.push('price_visible = ?');
+    values.push(data.priceVisible);
+  }
 
   if (fields.length === 0) return undefined;
 
   values.push(id);
-  await pool.execute(
+  await query(
     `UPDATE admin_boxes SET ${fields.join(', ')} WHERE id = ?`,
     values,
   );
 
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_boxes WHERE id = ?',
     [id],
   );
@@ -232,8 +244,7 @@ export async function updateBox(
 
 /** Delete a box by id. */
 export async function deleteBox(id: string): Promise<boolean> {
-  const pool = getPool();
-  const [result] = await pool.execute<any>(
+  const [result] = await query<any>(
     'DELETE FROM admin_boxes WHERE id = ?',
     [id],
   );
@@ -242,14 +253,12 @@ export async function deleteBox(id: string): Promise<boolean> {
 
 /** Toggle a box between active and inactive. */
 export async function toggleBox(id: string): Promise<AdminBox | undefined> {
-  const pool = getPool();
-
-  await pool.execute(
+  await query(
     'UPDATE admin_boxes SET active = NOT active WHERE id = ?',
     [id],
   );
 
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_boxes WHERE id = ?',
     [id],
   );

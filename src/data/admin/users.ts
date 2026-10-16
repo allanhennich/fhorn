@@ -4,7 +4,7 @@
 
 import bcrypt from 'bcryptjs';
 import { randomUUID } from 'node:crypto';
-import { getPool } from './db.js';
+import { query } from './db.js';
 import type { AdminUser } from './types.js';
 
 const SALT_ROUNDS = 10;
@@ -38,17 +38,16 @@ export async function createUser(data: {
   password: string;
   role: AdminUser['role'];
 }): Promise<SafeUser> {
-  const pool = getPool();
   const passwordHash = await bcrypt.hash(data.password, SALT_ROUNDS);
   const id = randomUUID();
 
-  await pool.execute(
+  await query(
     `INSERT INTO admin_users (id, name, email, password_hash, role, active)
      VALUES (?, ?, ?, ?, ?, ?)`,
     [id, data.name, data.email.toLowerCase(), passwordHash, data.role, true],
   );
 
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_users WHERE id = ?',
     [id],
   );
@@ -58,8 +57,7 @@ export async function createUser(data: {
 
 /** Find a user by email address. */
 export async function getUserByEmail(email: string): Promise<AdminUser | undefined> {
-  const pool = getPool();
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_users WHERE email = ?',
     [email.toLowerCase()],
   );
@@ -68,8 +66,7 @@ export async function getUserByEmail(email: string): Promise<AdminUser | undefin
 
 /** Find a user by id. */
 export async function getUserById(id: string): Promise<AdminUser | undefined> {
-  const pool = getPool();
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_users WHERE id = ?',
     [id],
   );
@@ -97,7 +94,6 @@ export async function updateUser(
     password?: string;
   },
 ): Promise<SafeUser | undefined> {
-  const pool = getPool();
   const { password, ...rest } = data;
 
   const fields: string[] = [];
@@ -128,12 +124,12 @@ export async function updateUser(
   if (fields.length === 0) return undefined;
 
   values.push(id);
-  await pool.execute(
+  await query(
     `UPDATE admin_users SET ${fields.join(', ')} WHERE id = ?`,
     values,
   );
 
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM admin_users WHERE id = ?',
     [id],
   );
@@ -143,8 +139,7 @@ export async function updateUser(
 
 /** Delete a user by id. */
 export async function deleteUser(id: string): Promise<boolean> {
-  const pool = getPool();
-  const [result] = await pool.execute<any>(
+  const [result] = await query<any>(
     'DELETE FROM admin_users WHERE id = ?',
     [id],
   );
@@ -153,7 +148,6 @@ export async function deleteUser(id: string): Promise<boolean> {
 
 /** List all users (passwordHash stripped). */
 export async function listUsers(): Promise<SafeUser[]> {
-  const pool = getPool();
-  const [rows] = await pool.execute<any[]>('SELECT * FROM admin_users');
+  const [rows] = await query<any[]>('SELECT * FROM admin_users');
   return rows.map((row: any) => stripPassword(rowToUser(row)));
 }

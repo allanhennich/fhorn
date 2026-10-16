@@ -1,0 +1,112 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Armazenamento para Mudança em Florianópolis"
+  description="Guarde seus móveis durante a mudança em Florianópolis. Boxes seguros e temporários na F.Horn Self Storage, em Capoeiras."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li><a href="/guarda-moveis-florianopolis/">Guarda Móveis</a></li>
+          <li aria-current="page">Mudança</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Para você</span>
+        <h1>Armazenamento para mudança em Florianópolis</h1>
+        <p class="service-intro">
+          Entre a saída de um imóvel e a entrada em outro, seus móveis e pertences precisam de um lugar seguro. Na F.Horn Self Storage, você aluga um box pelo tempo que precisar, sem pressa e sem improviso.
+        </p>
+
+        <div class="content-body">
+          <h2>Por que guardar móveis durante a mudança?</h2>
+          <p>
+            Nem sempre as datas de saída e entrada coincidem. É comum precisar desocupar um imóvel antes que o novo esteja pronto. Nesses casos, um box de self storage é a solução mais prática: seus móveis ficam protegidos em um espaço individual até você poder levá-los para o novo endereço.
+          </p>
+          <p>
+            Usar um box temporário também pode facilitar a organização da mudança. Você pode transportar os itens gradualmente, em vez de fazer tudo em um único dia.
+          </p>
+
+          <h2>Situações comuns</h2>
+          <ul>
+            <li><strong>Mudança entre apartamentos:</strong> o contrato do aluguel atual terminou, mas o novo imóvel só fica disponível em algumas semanas.</li>
+            <li><strong>Compra de imóvel novo:</strong> a casa está em fase final de acabamento e você precisa sair do aluguel.</li>
+            <li><strong>Mudança para outra cidade:</strong> vai para Florianópolis e precisa de um lugar temporário para guardar tudo até se instalar.</li>
+            <li><strong>Redução de espaço:</strong> está se mudando para um imóvel menor e precisa decidir com calma o que levar.</li>
+            <li><strong>Separação de bens:</strong> durante um processo de divisão, os itens precisam ficar em local neutro e seguro.</li>
+          </ul>
+
+          <h2>Como funciona na F.Horn</h2>
+          <p>
+            O processo é simples: você avalia o volume dos itens que precisa guardar, escolhe o tamanho de box adequado e agenda a entrega. Nosso <a href="/simulador-de-espaco/">simulador de espaço</a> ajuda a estimar o box certo com base nos móveis e objetos que você tem.
+          </p>
+          <p>
+            Os planos são mensais, sem exigência de permanência mínima prolongada. Quando sua situação se resolver, você retira seus pertences e encerra o contrato.
+          </p>
+
+          <h2>Tamanhos recomendados para mudanças</h2>
+          <p>
+            Para uma mudança parcial (parte dos móveis de um quarto), um Box M (7,50 m³) ou Box M+ (8,49 m³) costuma ser suficiente. Para uma mudança completa de apartamento, considere o Box GG (9,95 m³) ou o Box XG (11,09 m³). Veja todos os <a href="/boxes/">tamanhos de box disponíveis</a>.
+          </p>
+
+          <h2>Localização estratégica</h2>
+          <p>
+            A F.Horn fica em Capoeiras, na região continental de Florianópolis ({siteConfig.address.full}). A localização facilita o transporte de móveis, com acesso rápido pela BR-282 e proximidade com as principais vias do continente e da ilha.
+          </p>
+        </div>
+
+        <div class="service-cta">
+          <h2>Planeje sua mudança com tranquilidade</h2>
+          <p>Simule o espaço que você precisa ou entre em contato para agendar.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="/simulador-de-espaco/" class="btn btn-primary btn-lg">Simulador de espaço</a>
+            <a href="/contato/" class="btn btn-secondary btn-lg">Solicitar orçamento</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body p {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+  .content-body a { color: var(--color-brand-600); text-decoration: underline; }
+  .content-body a:hover { color: var(--color-brand-700); }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center; margin-top: 3rem;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

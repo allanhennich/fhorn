@@ -61,7 +61,7 @@ if (!box) {
 
         <!-- Dimensions -->
         <div class="admin-form-group">
-          <label>Dimensoes (metros) <span class="required">*</span></label>
+          <label>Dimensões (metros) <span class="required">*</span></label>
           <div class="admin-form-grid-3">
             <div>
               <input type="number" id="dimWidth" name="dimWidth" step="0.01" min="0" value={box.dimensions.width} required />
@@ -76,22 +76,45 @@ if (!box) {
         </div>
 
         <div class="admin-form-group">
-          <label for="dimensionLabel">Label das Dimensoes</label>
+          <label for="dimensionLabel">Label das Dimensões</label>
           <input type="text" id="dimensionLabel" name="dimensionLabel" value={box.dimensionLabel} />
-          <span class="admin-form-hint">Auto-formatado a partir das dimensoes.</span>
+          <span class="admin-form-hint">Auto-formatado a partir das dimensões.</span>
         </div>
 
         <!-- Image -->
         <div class="admin-form-group">
           <label>Imagem</label>
+          <!-- Preview da imagem atual -->
+          <div id="imagePreview" style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: flex-start;">
+            {box.image.src && (
+              <div style="border: 2px solid #e2e8f0; border-radius: 8px; overflow: hidden; width: 160px; flex-shrink: 0;">
+                <img src={box.image.src} alt={box.image.alt} style="width: 100%; height: auto; display: block;" />
+                <div style="padding: 0.5rem; font-size: 0.75rem; color: #64748b; background: #f8fafc;">Imagem atual</div>
+              </div>
+            )}
+            <div id="newImagePreview" style="display: none; border: 2px solid #dd6b20; border-radius: 8px; overflow: hidden; width: 160px; flex-shrink: 0;">
+              <img id="newImagePreviewImg" src="" alt="Nova imagem" style="width: 100%; height: auto; display: block;" />
+              <div style="padding: 0.5rem; font-size: 0.75rem; color: #dd6b20; background: #fffaf0; font-weight: 600;">Nova imagem</div>
+            </div>
+          </div>
+          <!-- Upload de nova imagem -->
+          <div style="margin-bottom: 1rem;">
+            <label for="imageUpload" class="admin-btn admin-btn-secondary admin-btn-sm" style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+              Trocar imagem
+            </label>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
+            <span id="uploadStatus" style="margin-left: 0.5rem; font-size: 0.8rem; color: #64748b;"></span>
+          </div>
+          <!-- Caminhos manuais -->
           <div class="admin-form-grid-3">
             <div class="admin-form-group" style="margin-bottom:0">
               <input type="text" id="imageSrc" name="imageSrc" value={box.image.src} />
-              <span class="admin-form-hint">Caminho principal</span>
+              <span class="admin-form-hint">Caminho principal (.webp)</span>
             </div>
             <div class="admin-form-group" style="margin-bottom:0">
               <input type="text" id="imageFallback" name="imageFallback" value={box.image.fallback} />
-              <span class="admin-form-hint">Fallback (PNG/JPG)</span>
+              <span class="admin-form-hint">Fallback (.png/.jpg)</span>
             </div>
             <div class="admin-form-group" style="margin-bottom:0">
               <input type="text" id="imageAlt" name="imageAlt" value={box.image.alt} />
@@ -102,7 +125,7 @@ if (!box) {
 
         <!-- Description -->
         <div class="admin-form-group">
-          <label for="description">Descricao</label>
+          <label for="description">Descrição</label>
           <textarea id="description" name="description">{box.description}</textarea>
         </div>
 
@@ -118,6 +141,32 @@ if (!box) {
           </button>
         </div>
 
+        <!-- Pricing -->
+        <div class="admin-form-group">
+          <label style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Preços
+          </label>
+        </div>
+        <div class="admin-form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="admin-form-group">
+            <label for="price">Preço Mensal (R$)</label>
+            <input type="number" id="price" name="price" step="0.01" min="0" placeholder="0,00" value={box.price ?? ''} />
+            <span class="admin-form-hint">Valor mensal do aluguel.</span>
+          </div>
+          <div class="admin-form-group">
+            <label for="pricePromotional">Preço Promocional (R$)</label>
+            <input type="number" id="pricePromotional" name="pricePromotional" step="0.01" min="0" placeholder="0,00" value={box.pricePromotional ?? ''} />
+            <span class="admin-form-hint">Deixe vazio se não houver promoção.</span>
+          </div>
+          <div class="admin-form-group" style="display: flex; align-items: flex-end; padding-bottom: 1.75rem;">
+            <label class="admin-toggle">
+              <input type="checkbox" id="priceVisible" name="priceVisible" checked={box.priceVisible} />
+              <span>Exibir preço no site</span>
+            </label>
+          </div>
+        </div>
+
         <!-- Active + Sort Order -->
         <div class="admin-form-grid">
           <div class="admin-form-group">
@@ -127,7 +176,7 @@ if (!box) {
             </label>
           </div>
           <div class="admin-form-group">
-            <label for="sortOrder">Ordem de exibicao</label>
+            <label for="sortOrder">Ordem de exibição</label>
             <input type="number" id="sortOrder" name="sortOrder" min="0" value={box.sortOrder} />
           </div>
         </div>
@@ -136,7 +185,7 @@ if (!box) {
         <div class="admin-form-actions">
           <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
-            Salvar Alteracoes
+            Salvar Alterações
           </button>
           <a href="/admin/boxes/" class="admin-btn admin-btn-secondary">Cancelar</a>
         </div>
@@ -219,6 +268,53 @@ if (!box) {
 
     addSampleItemBtn?.addEventListener('click', () => addSampleItemRow());
 
+    // ── Image upload ──
+    const imageUpload = document.getElementById('imageUpload');
+    const imageSrcInput = document.getElementById('imageSrc');
+    const imageFallbackInput = document.getElementById('imageFallback');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const newImagePreview = document.getElementById('newImagePreview');
+    const newImagePreviewImg = document.getElementById('newImagePreviewImg');
+
+    imageUpload?.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      // Show preview immediately
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        newImagePreviewImg.src = ev.target.result;
+        newImagePreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+
+      uploadStatus.textContent = 'Enviando...';
+      uploadStatus.style.color = '#dd6b20';
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('slug', slugInput?.value || 'box');
+
+      try {
+        const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+        const result = await res.json();
+
+        if (res.ok && result.path) {
+          imageSrcInput.value = result.path;
+          imageFallbackInput.value = result.path;
+          uploadStatus.textContent = 'Imagem enviada!';
+          uploadStatus.style.color = '#16a34a';
+          window.showToast?.('Imagem enviada com sucesso!');
+        } else {
+          uploadStatus.textContent = result.error || 'Erro no upload';
+          uploadStatus.style.color = '#dc2626';
+        }
+      } catch {
+        uploadStatus.textContent = 'Erro de conexão';
+        uploadStatus.style.color = '#dc2626';
+      }
+    });
+
     // ── Form submission ──
     const form = document.getElementById('boxForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -254,10 +350,13 @@ if (!box) {
         isDemonstrative: true,
         active: document.getElementById('active')?.checked ?? true,
         sortOrder: parseInt(document.getElementById('sortOrder')?.value) || 0,
+        price: document.getElementById('price')?.value ? parseFloat(document.getElementById('price').value) : null,
+        pricePromotional: document.getElementById('pricePromotional')?.value ? parseFloat(document.getElementById('pricePromotional').value) : null,
+        priceVisible: document.getElementById('priceVisible')?.checked ?? false,
       };
 
       if (!data.name || !data.slug || !data.volume) {
-        window.showToast?.('Preencha os campos obrigatorios.', 'error');
+        window.showToast?.('Preencha os campos obrigatórios.', 'error');
         return;
       }
 
@@ -279,10 +378,10 @@ if (!box) {
           window.showToast?.(err.error || 'Erro ao atualizar box.', 'error');
         }
       } catch {
-        window.showToast?.('Erro de conexao.', 'error');
+        window.showToast?.('Erro de conexão.', 'error');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Salvar Alteracoes';
+        submitBtn.textContent = 'Salvar Alterações';
       }
     });
   </script>

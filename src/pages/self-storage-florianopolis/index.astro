@@ -1,0 +1,140 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Self Storage em Florianópolis',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: siteConfig.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.state,
+      postalCode: siteConfig.address.zip,
+      addressCountry: siteConfig.address.country,
+    },
+    telephone: siteConfig.contact.phone,
+  },
+  areaServed: {
+    '@type': 'City',
+    name: 'Florianópolis',
+  },
+  description: 'Serviço de self storage em Florianópolis com boxes individuais, seguros e flexíveis para pessoas e empresas.',
+};
+---
+
+<BaseLayout
+  title="Self Storage em Florianópolis"
+  description="Self storage em Florianópolis com boxes seguros e flexíveis. Guarde móveis, estoque e pertences na F.Horn, em Capoeiras."
+  jsonLd={jsonLd}
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Self Storage Florianópolis</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Self Storage</span>
+        <h1>Self storage em Florianópolis</h1>
+        <p class="service-intro">
+          Precisa de espaço extra para guardar seus pertences, móveis ou estoque do seu negócio? A F.Horn Self Storage oferece boxes individuais em Florianópolis, no bairro Capoeiras, com acesso controlado e planos mensais flexíveis.
+        </p>
+
+        <div class="content-body">
+          <h2>O que é self storage?</h2>
+          <p>
+            Self storage é um serviço de armazenamento em que você aluga um box individual para guardar o que precisar. Diferente de depósitos tradicionais, no self storage cada cliente tem seu próprio espaço, com acesso exclusivo e independente. Você guarda, organiza e retira seus itens no seu tempo, sem depender de terceiros.
+          </p>
+
+          <h2>Por que escolher a F.Horn?</h2>
+          <p>
+            Localizada na Rua Fermino Costa, 186, no bairro Capoeiras, a F.Horn está em uma região de fácil acesso na parte continental de Florianópolis, próxima a bairros como Coqueiros, Estreito, Abraão e Jardim Atlântico. Nossa estrutura foi projetada para oferecer segurança e praticidade.
+          </p>
+          <ul>
+            <li>Boxes de 3 m³ a 11 m³, com diferentes configurações de largura, altura e profundidade.</li>
+            <li>Ambiente monitorado com acesso controlado.</li>
+            <li>Planos mensais sem exigência de contratos longos.</li>
+            <li>Atendimento personalizado para ajudar na escolha do espaço ideal.</li>
+          </ul>
+
+          <h2>Para quem é o self storage?</h2>
+          <p>
+            Nosso serviço atende tanto pessoas físicas quanto empresas. Veja algumas situações em que o self storage pode ajudar:
+          </p>
+          <ul>
+            <li><strong>Mudanças:</strong> guarde seus móveis entre a saída de um imóvel e a entrada em outro.</li>
+            <li><strong>Reformas:</strong> proteja seus pertences durante obras.</li>
+            <li><strong>Organização pessoal:</strong> libere espaço em casa guardando itens sazonais, coleções ou equipamentos.</li>
+            <li><strong>Empresas:</strong> armazene estoque, documentos e equipamentos sem precisar de um galpão.</li>
+            <li><strong>E-commerces:</strong> tenha um ponto de estoque organizado e acessível.</li>
+          </ul>
+
+          <h2>Nossos tamanhos de box</h2>
+          <p>
+            Oferecemos 8 tamanhos de box, do Mini (3,01 m³) ao Box XG (11,09 m³). Cada tamanho foi pensado para diferentes necessidades de armazenamento. Use nosso <a href="/simulador-de-espaco/">simulador de espaço</a> para descobrir qual box é o ideal para você, ou <a href="/boxes/">veja todos os tamanhos disponíveis</a>.
+          </p>
+
+          <h2>Localização em Capoeiras</h2>
+          <p>
+            O bairro Capoeiras oferece localização estratégica na região continental de Florianópolis, com acesso rápido pela BR-282 e proximidade com os principais bairros do continente. Para quem vem da ilha, o acesso é direto pelas pontes. Nosso endereço completo: {siteConfig.address.full}.
+          </p>
+        </div>
+
+        <div class="service-cta">
+          <h2>Encontre o box ideal</h2>
+          <p>Simule o espaço que você precisa ou fale diretamente com nossa equipe.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="/simulador-de-espaco/" class="btn btn-primary btn-lg">Simulador de espaço</a>
+            <a href="/boxes/" class="btn btn-secondary btn-lg">Ver boxes</a>
+            <a href="/contato/" class="btn btn-ghost btn-lg">Fale conosco</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body p {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+  .content-body a { color: var(--color-brand-600); text-decoration: underline; }
+  .content-body a:hover { color: var(--color-brand-700); }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center; margin-top: 3rem;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

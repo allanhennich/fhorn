@@ -11,20 +11,22 @@ const { unit, eager = false } = Astro.props;
 ---
 
 <article class="storage-item">
-  <div class="item-image">
-    <picture>
-      <source srcset={unit.image.src} type="image/webp" />
-      <img
-        src={unit.image.fallback}
-        alt={unit.image.alt}
-        width={unit.image.width}
-        height={unit.image.height}
-        loading={eager ? "eager" : "lazy"}
-        decoding="async"
-        fetchpriority={eager ? "high" : "auto"}
-      />
-    </picture>
-    <span class="item-volume-badge">{unit.volumeLabel}</span>
+  <div class="item-image-col">
+    <div class="item-image">
+      <picture>
+        <source srcset={unit.image.src} type="image/webp" />
+        <img
+          src={unit.image.fallback}
+          alt={unit.image.alt}
+          width={unit.image.width}
+          height={unit.image.height}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+          fetchpriority={eager ? "high" : "auto"}
+        />
+      </picture>
+    </div>
+    <span class="item-volume-below">{unit.volumeLabel}</span>
   </div>
 
   <div class="item-content">
@@ -48,6 +50,7 @@ const { unit, eager = false } = Astro.props;
     </div>
 
     <div class="item-actions">
+      <span class="item-volume-label">{unit.volumeLabel}</span>
       <a href={`/boxes/${unit.slug}/`} class="btn btn-ghost item-btn">
         Detalhes
       </a>
@@ -74,13 +77,19 @@ const { unit, eager = false } = Astro.props;
     box-shadow: var(--shadow-card-hover);
   }
 
-  /* Image — small square on mobile */
-  .item-image {
-    position: relative;
+  /* Image column — image + volume below on mobile */
+  .item-image-col {
     flex-shrink: 0;
     width: 100px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item-image {
+    position: relative;
     background-color: var(--color-neutral-50);
     overflow: hidden;
+    flex: 1;
   }
 
   .item-image picture,
@@ -91,17 +100,18 @@ const { unit, eager = false } = Astro.props;
     object-fit: cover;
   }
 
-  .item-volume-badge {
-    position: absolute;
-    bottom: 0.375rem;
-    left: 0.375rem;
-    background-color: var(--color-brand-700);
-    color: white;
-    font-size: 0.625rem;
+  .item-volume-below {
+    display: block;
+    font-size: 0.6875rem;
     font-weight: 700;
-    padding: 0.125rem 0.375rem;
-    border-radius: var(--radius-sm);
-    line-height: 1.4;
+    color: white;
+    background-color: var(--color-brand-700);
+    text-align: center;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .item-volume-label {
+    display: none;
   }
 
   /* Content wrapper */
@@ -193,13 +203,8 @@ const { unit, eager = false } = Astro.props;
 
   /* ── Tablet (≥640px): bigger image ── */
   @media (min-width: 640px) {
-    .item-image {
+    .item-image-col {
       width: 140px;
-    }
-
-    .item-volume-badge {
-      font-size: var(--text-xs);
-      padding: 0.175rem 0.5rem;
     }
 
     .item-body {
@@ -246,10 +251,25 @@ const { unit, eager = false } = Astro.props;
       align-items: center;
     }
 
-    .item-image {
+    .item-image-col {
       width: 160px;
       min-height: 160px;
       align-self: stretch;
+    }
+
+    .item-volume-below {
+      display: none;
+    }
+
+    .item-volume-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      background-color: var(--color-brand-700);
+      text-align: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
     }
 
     .item-content {
@@ -276,7 +296,7 @@ const { unit, eager = false } = Astro.props;
 
   /* ── Large desktop (≥1024px) ── */
   @media (min-width: 1024px) {
-    .item-image {
+    .item-image-col {
       width: 200px;
       min-height: 200px;
     }

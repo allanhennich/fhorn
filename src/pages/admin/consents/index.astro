@@ -1,0 +1,86 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { query } from '../../../data/admin/db';
+
+const [consents] = await query<any[]>(
+  'SELECT * FROM cookie_consents ORDER BY timestamp DESC LIMIT 100'
+);
+
+const [totalRow] = await query<any[]>('SELECT COUNT(*) as total FROM cookie_consents');
+const total = totalRow[0].total;
+
+const [todayRow] = await query<any[]>(
+  'SELECT COUNT(*) as c FROM cookie_consents WHERE DATE(timestamp) = CURDATE()'
+);
+const today = todayRow[0].c;
+---
+
+<AdminLayout title="Consentimentos">
+  <div class="admin-page-header">
+    <div>
+      <h1>Consentimentos LGPD</h1>
+      <p>Registro de consentimento de cookies dos visitantes</p>
+    </div>
+  </div>
+
+  <div class="admin-stats-grid" style="margin-bottom: 1.5rem;">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon" style="background: #dcfce7; color: #16a34a;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <div class="admin-stat-number">{total}</div>
+      <div class="admin-stat-label">Total de Consentimentos</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon" style="background: #dbeafe; color: #2563eb;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="admin-stat-number">{today}</div>
+      <div class="admin-stat-label">Hoje</div>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <div class="admin-card-body" style="padding: 0; overflow-x: auto;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Data/Hora</th>
+            <th>Tipo</th>
+            <th>Cookies Aceitos</th>
+            <th>IP (hash)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {consents.length === 0 ? (
+            <tr><td colspan="4" style="text-align: center; color: #9ca3af; padding: 2rem;">Nenhum consentimento registrado ainda.</td></tr>
+          ) : (
+            consents.map((c: any) => {
+              const cookies = typeof c.cookies_accepted === 'string' ? JSON.parse(c.cookies_accepted) : c.cookies_accepted;
+              return (
+                <tr>
+                  <td style="white-space: nowrap; font-size: 0.85rem;">
+                    {new Date(c.timestamp).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                    {' '}
+                    {new Date(c.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                  </td>
+                  <td>
+                    <span class="admin-badge" style={`background: ${c.consent_type === 'accepted' ? '#dcfce7' : '#fee2e2'}; color: ${c.consent_type === 'accepted' ? '#16a34a' : '#dc2626'}; border: none;`}>
+                      {c.consent_type === 'accepted' ? 'Aceito' : c.consent_type === 'rejected' ? 'Recusado' : 'Parcial'}
+                    </span>
+                  </td>
+                  <td style="font-size: 0.8rem;">
+                    {cookies.essential && <span style="margin-right: 0.375rem; color: #16a34a;">Essenciais</span>}
+                    {cookies.analytics && <span style="margin-right: 0.375rem; color: #2563eb;">Analytics</span>}
+                    {cookies.marketing && <span style="color: #dd6b20;">Marketing</span>}
+                  </td>
+                  <td style="font-size: 0.8rem; color: #9ca3af; font-family: monospace;">{c.ip_hash}</td>
+                </tr>
+              );
+            })
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</AdminLayout>

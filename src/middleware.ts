@@ -47,7 +47,23 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   const token = sessionCookie.value;
-  const session = await validateSession(token);
+
+  let session;
+  try {
+    session = await validateSession(token);
+  } catch (err) {
+    console.error('[middleware] Erro de conexão ao validar sessão:', (err as any)?.code || err);
+    if (isApiRoute) {
+      return new Response(JSON.stringify({ error: 'Erro de conexão com o banco de dados. Tente novamente.' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json', 'Retry-After': '5' },
+      });
+    }
+    return new Response(
+      `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Erro de Conexão | F.Horn Admin</title><style>body{font-family:system-ui,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;background:#f9fafb;color:#374151}.card{text-align:center;padding:3rem;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);max-width:480px}h1{font-size:1.5rem;color:#0c2340;margin:0 0 .75rem}p{color:#6b7280;line-height:1.6;margin:0 0 1.5rem}.btn{display:inline-block;padding:.75rem 1.5rem;background:#0c2340;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;transition:background .2s}.btn:hover{background:#1a3a5c}.icon{font-size:2.5rem;margin-bottom:1rem}</style></head><body><div class="card"><div class="icon">⚠️</div><h1>Erro de Conexão</h1><p>Não foi possível conectar ao banco de dados. Isso geralmente é temporário. Aguarde alguns segundos e tente novamente.</p><a class="btn" href="${pathname}">Tentar novamente</a></div></body></html>`,
+      { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Retry-After': '5' } },
+    );
+  }
 
   if (!session) {
     // Session invalid or expired — clear cookie
@@ -63,7 +79,23 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // Look up the user from the session's userId
-  const allUsers = await listUsers();
+  let allUsers;
+  try {
+    allUsers = await listUsers();
+  } catch (err) {
+    console.error('[middleware] Erro de conexão ao buscar usuário:', (err as any)?.code || err);
+    if (isApiRoute) {
+      return new Response(JSON.stringify({ error: 'Erro de conexão com o banco de dados. Tente novamente.' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json', 'Retry-After': '5' },
+      });
+    }
+    return new Response(
+      `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Erro de Conexão | F.Horn Admin</title><style>body{font-family:system-ui,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;background:#f9fafb;color:#374151}.card{text-align:center;padding:3rem;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);max-width:480px}h1{font-size:1.5rem;color:#0c2340;margin:0 0 .75rem}p{color:#6b7280;line-height:1.6;margin:0 0 1.5rem}.btn{display:inline-block;padding:.75rem 1.5rem;background:#0c2340;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;transition:background .2s}.btn:hover{background:#1a3a5c}.icon{font-size:2.5rem;margin-bottom:1rem}</style></head><body><div class="card"><div class="icon">⚠️</div><h1>Erro de Conexão</h1><p>Não foi possível conectar ao banco de dados. Isso geralmente é temporário. Aguarde alguns segundos e tente novamente.</p><a class="btn" href="${pathname}">Tentar novamente</a></div></body></html>`,
+      { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Retry-After': '5' } },
+    );
+  }
+
   const user = allUsers.find((u) => u.id === session.userId);
 
   if (!user) {

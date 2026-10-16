@@ -1,25 +1,24 @@
 ---
-export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { storageUnits, getUnitBySlug, formatDimensions, floorArea, formatMeters } from '../../data/storageUnits';
-
-export function getStaticPaths() {
-  return storageUnits.map((unit) => ({
-    params: { slug: unit.slug },
-  }));
-}
+import { getActiveBoxes } from '../../data/admin/boxes';
+import { formatMeters } from '../../data/storageUnits';
 
 const { slug } = Astro.params;
-const unit = getUnitBySlug(slug as string);
+const allBoxes = await getActiveBoxes();
+const unit = allBoxes.find(b => b.slug === slug);
 
 if (!unit) {
   return Astro.redirect('/404');
 }
+
+function formatDimensions(u: any) { return u.dimensionLabel; }
+function floorArea(u: any) { return u.dimensions.width * u.dimensions.depth; }
 ---
 
 <BaseLayout
   title={`${unit.name} - ${unit.volumeLabel}`}
   description={`${unit.name}: ${unit.description} Dimensões: ${formatDimensions(unit)}. Self Storage em Florianópolis.`}
+  image={unit.image.fallback}
 >
   <section class="section" style="padding-top: 7rem;">
     <div class="container">
@@ -49,10 +48,18 @@ if (!unit) {
               />
             </picture>
           </div>
-          <div class="box-volume-display">
+          <div class="box-volume-display box-volume-desktop">
             <span class="volume-number">{unit.volumeLabel.replace(' m³', '')}</span>
             <span class="volume-unit">m³</span>
           </div>
+          <div class="box-volume-display box-volume-mobile">
+            <span class="volume-number">{unit.volumeLabel.replace(' m³', '')}</span>
+            <span class="volume-unit">m³</span>
+          </div>
+          <button class="box-share-btn" id="shareBtn" data-title={`${unit.name} - ${unit.volumeLabel} | F.Horn Self Storage`} data-url={`https://www.fhorn.com.br/boxes/${unit.slug}/`}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+            Compartilhar
+          </button>
         </div>
 
         <!-- Info -->
@@ -156,17 +163,65 @@ if (!unit) {
   }
 
   .box-volume-display {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
     background: var(--color-brand-700);
     color: white;
-    padding: 0.75rem 1rem;
-    border-radius: var(--radius-md);
     display: flex;
     align-items: baseline;
     gap: 0.25rem;
   }
+
+  .box-volume-desktop {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    display: none;
+  }
+
+  .box-volume-mobile {
+    padding: 0.625rem 1rem;
+    border-radius: var(--radius-md);
+    justify-content: center;
+    margin-top: 0.75rem;
+  }
+
+  @media (min-width: 1024px) {
+    .box-volume-desktop {
+      display: flex;
+    }
+    .box-volume-mobile {
+      display: none;
+    }
+  }
+
+  .box-share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.625rem 1rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-brand-700);
+    background: var(--color-brand-50);
+    border: 1px solid var(--color-brand-200);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .box-share-btn:hover {
+    background: var(--color-brand-100);
+    color: var(--color-brand-800);
+  }
+
+  .box-share-btn svg {
+    flex-shrink: 0;
+  }
+
   .volume-number {
     font-size: var(--text-h3);
     font-weight: 800;
@@ -265,3 +320,32 @@ if (!unit) {
     line-height: 1.5;
   }
 </style>
+
+<script is:inline>
+  document.getElementById('shareBtn')?.addEventListener('click', async function() {
+    const title = this.dataset.title;
+    const url = this.dataset.url;
+    const text = `Confira o ${title} na F.Horn Self Storage!`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text, url });
+      } catch (e) {
+        // User cancelled
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        const original = this.innerHTML;
+        this.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Link copiado!';
+        this.style.color = '#16a34a';
+        setTimeout(() => {
+          this.innerHTML = original;
+          this.style.color = '';
+        }, 2000);
+      } catch {
+        window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank');
+      }
+    }
+  });
+</script>

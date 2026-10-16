@@ -1,0 +1,117 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Alugar Box em Florianópolis"
+  description="Alugue um box de self storage em Florianópolis. Planos mensais flexíveis, sem contratos longos, na F.Horn em Capoeiras."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Alugar Box</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Aluguel de box</span>
+        <h1>Alugar box em Florianópolis</h1>
+        <p class="service-intro">
+          Na F.Horn Self Storage você aluga um box individual com planos mensais, sem burocracia e sem contratos de longo prazo. Escolha o tamanho que precisa e comece a usar quando quiser.
+        </p>
+
+        <div class="content-body">
+          <h2>Como funciona o aluguel de box</h2>
+          <p>
+            Alugar um box na F.Horn é simples. Você escolhe o tamanho do box de acordo com o volume de itens que precisa guardar, assina um contrato mensal e começa a utilizar o espaço. Não há exigência de permanência prolongada: você pode encerrar quando não precisar mais.
+          </p>
+          <p>
+            Todos os boxes são individuais, com acesso exclusivo do locatário. O ambiente é monitorado e o acesso é controlado, garantindo a segurança dos seus pertences.
+          </p>
+
+          <h2>Flexibilidade para sua necessidade</h2>
+          <p>
+            Diferente de alugar um imóvel ou galpão, o aluguel de box permite que você ajuste o espaço à sua necessidade real. Se você precisa de mais ou menos espaço, é possível trocar de box conforme a disponibilidade.
+          </p>
+          <ul>
+            <li>Planos mensais sem multa por cancelamento.</li>
+            <li>Sem necessidade de fiador ou caução elevada.</li>
+            <li>Contratação rápida e sem burocracia.</li>
+            <li>Boxes de 3 m³ a 11 m³ para diferentes volumes.</li>
+          </ul>
+
+          <h2>Para quem é indicado</h2>
+          <p>
+            O aluguel de box atende uma variedade de necessidades, tanto pessoais quanto empresariais:
+          </p>
+          <ul>
+            <li>Pessoas em processo de <a href="/mudanca-florianopolis/">mudança</a> que precisam de espaço temporário.</li>
+            <li>Moradores fazendo <a href="/reforma-florianopolis/">reformas</a> e precisam proteger móveis.</li>
+            <li>Quem quer <a href="/guarda-moveis-florianopolis/">guardar móveis</a> e liberar espaço em casa.</li>
+            <li>Empresas que precisam de <a href="/armazenamento-de-estoque/">armazenamento de estoque</a>.</li>
+            <li>Profissionais que precisam guardar equipamentos e materiais de trabalho.</li>
+          </ul>
+
+          <h2>Tamanhos disponíveis</h2>
+          <p>
+            Oferecemos 8 tamanhos de box, desde o Mini com 3,01 m³ (ideal para caixas e malas) até o Box XG com 11,09 m³ (comporta os itens de uma mudança completa). Se você não sabe qual tamanho escolher, use nosso <a href="/simulador-de-espaco/">simulador de espaço</a> para estimar o box ideal.
+          </p>
+
+          <h2>Localização acessível</h2>
+          <p>
+            A F.Horn fica na {siteConfig.address.full}, no bairro Capoeiras, região continental de Florianópolis. A localização é estratégica, com fácil acesso tanto para moradores do continente quanto da ilha.
+          </p>
+        </div>
+
+        <div class="service-cta">
+          <h2>Alugue seu box agora</h2>
+          <p>Veja os tamanhos disponíveis ou entre em contato para tirar suas dúvidas.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="/boxes/" class="btn btn-primary btn-lg">Ver boxes disponíveis</a>
+            <a href="/contato/" class="btn btn-secondary btn-lg">Solicitar orçamento</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body p {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+  .content-body a { color: var(--color-brand-600); text-decoration: underline; }
+  .content-body a:hover { color: var(--color-brand-700); }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center; margin-top: 3rem;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

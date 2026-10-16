@@ -94,6 +94,11 @@ import { siteConfig } from '../../config/site';
     <!-- Bottom bar -->
     <div class="footer-bottom">
       <p>&copy; {new Date().getFullYear()} {siteConfig.name}. Todos os direitos reservados.</p>
+      <nav class="footer-legal" aria-label="Links legais">
+        <a href="/politica-de-privacidade/">Política de Privacidade</a>
+        <a href="/termos-de-uso/">Termos de Uso</a>
+        <a href="/cookies/">Cookies</a>
+      </nav>
     </div>
   </div>
 </footer>
@@ -215,5 +220,27 @@ import { siteConfig } from '../../config/site';
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: var(--text-xs);
     color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-legal a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-size: var(--text-xs);
+    transition: color var(--duration-fast);
+  }
+
+  .footer-legal a:hover {
+    color: rgba(255, 255, 255, 0.7);
   }
 </style>

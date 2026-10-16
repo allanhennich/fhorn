@@ -3,7 +3,7 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import { getPool } from './db.js';
+import { query } from './db.js';
 import type { PageView } from './types.js';
 
 /** Record a page view. */
@@ -12,11 +12,10 @@ export async function trackPageView(data: {
   referrer: string;
   userAgent: string;
 }): Promise<PageView> {
-  const pool = getPool();
   const id = randomUUID();
   const now = new Date();
 
-  await pool.execute(
+  await query(
     `INSERT INTO page_views (id, path, referrer, user_agent, timestamp)
      VALUES (?, ?, ?, ?, ?)`,
     [id, data.path, data.referrer, data.userAgent, now],
@@ -42,34 +41,32 @@ export interface AnalyticsSummary {
 
 /** Build an analytics summary using SQL aggregations. */
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
-  const pool = getPool();
-
   // Total views
-  const [totalRows] = await pool.execute<any[]>(
+  const [totalRows] = await query<any[]>(
     'SELECT COUNT(*) AS cnt FROM page_views',
   );
   const totalViews = totalRows[0].cnt;
 
   // Views today
-  const [todayRows] = await pool.execute<any[]>(
+  const [todayRows] = await query<any[]>(
     'SELECT COUNT(*) AS cnt FROM page_views WHERE DATE(timestamp) = CURDATE()',
   );
   const viewsToday = todayRows[0].cnt;
 
   // Views this week (last 7 days)
-  const [weekRows] = await pool.execute<any[]>(
+  const [weekRows] = await query<any[]>(
     'SELECT COUNT(*) AS cnt FROM page_views WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 7 DAY)',
   );
   const viewsThisWeek = weekRows[0].cnt;
 
   // Views this month (last 30 days)
-  const [monthRows] = await pool.execute<any[]>(
+  const [monthRows] = await query<any[]>(
     'SELECT COUNT(*) AS cnt FROM page_views WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 30 DAY)',
   );
   const viewsThisMonth = monthRows[0].cnt;
 
   // Top 10 pages
-  const [topRows] = await pool.execute<any[]>(
+  const [topRows] = await query<any[]>(
     `SELECT path, COUNT(*) AS cnt
      FROM page_views
      GROUP BY path
@@ -82,7 +79,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   }));
 
   // Views by day (last 30 days)
-  const [dayRows] = await pool.execute<any[]>(
+  const [dayRows] = await query<any[]>(
     `SELECT DATE(timestamp) AS day, COUNT(*) AS cnt
      FROM page_views
      WHERE timestamp >= DATE_SUB(CURDATE(), INTERVAL 29 DAY)

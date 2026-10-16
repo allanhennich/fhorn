@@ -3,7 +3,7 @@
  */
 
 import { randomBytes } from 'node:crypto';
-import { getPool } from './db.js';
+import { query } from './db.js';
 import type { Session } from './types.js';
 
 const SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
@@ -20,11 +20,10 @@ function rowToSession(row: any): Session {
 
 /** Create a new session for a user. Returns the session token (the id). */
 export async function createSession(userId: string): Promise<string> {
-  const pool = getPool();
   const token = randomBytes(32).toString('hex');
   const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
 
-  await pool.execute(
+  await query(
     'INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)',
     [token, userId, expiresAt],
   );
@@ -38,13 +37,11 @@ export async function createSession(userId: string): Promise<string> {
  * Also cleans up expired sessions.
  */
 export async function validateSession(token: string): Promise<Session | null> {
-  const pool = getPool();
-
   // Clean up expired sessions
-  await pool.execute('DELETE FROM sessions WHERE expires_at <= NOW()');
+  await query('DELETE FROM sessions WHERE expires_at <= NOW()');
 
   // Find the target session (only if not expired)
-  const [rows] = await pool.execute<any[]>(
+  const [rows] = await query<any[]>(
     'SELECT * FROM sessions WHERE id = ? AND expires_at > NOW()',
     [token],
   );
@@ -56,6 +53,5 @@ export async function validateSession(token: string): Promise<Session | null> {
 
 /** Destroy (delete) a session by its token. */
 export async function destroySession(token: string): Promise<void> {
-  const pool = getPool();
-  await pool.execute('DELETE FROM sessions WHERE id = ?', [token]);
+  await query('DELETE FROM sessions WHERE id = ?', [token]);
 }

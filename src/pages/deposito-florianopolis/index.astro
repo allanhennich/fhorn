@@ -1,0 +1,117 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Depósito em Florianópolis"
+  description="Depósito para guardar móveis e pertences em Florianópolis. Boxes individuais e seguros na F.Horn Self Storage, em Capoeiras."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Depósito</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Armazenamento</span>
+        <h1>Depósito em Florianópolis</h1>
+        <p class="service-intro">
+          Procurando um depósito para guardar móveis, pertences ou estoque em Florianópolis? Na F.Horn Self Storage, você aluga um box individual com segurança e flexibilidade, sem precisar de um galpão ou sala comercial.
+        </p>
+
+        <div class="content-body">
+          <h2>Depósito individual vs. depósito compartilhado</h2>
+          <p>
+            Em depósitos tradicionais, seus pertences ficam misturados com os de outras pessoas em um espaço compartilhado. No self storage da F.Horn, cada cliente tem seu próprio box, com acesso exclusivo. Isso significa mais privacidade, mais organização e menor risco de danos ou extravios.
+          </p>
+
+          <h2>Vantagens do depósito na F.Horn</h2>
+          <ul>
+            <li><strong>Box individual:</strong> seu espaço é exclusivo, sem compartilhar com outras pessoas.</li>
+            <li><strong>Segurança:</strong> ambiente monitorado com acesso controlado.</li>
+            <li><strong>Flexibilidade:</strong> planos mensais, sem contratos de longo prazo.</li>
+            <li><strong>Vários tamanhos:</strong> de 3 m³ a 11 m³, para diferentes volumes de armazenamento.</li>
+            <li><strong>Localização:</strong> em Capoeiras, com fácil acesso pela região continental de Florianópolis.</li>
+          </ul>
+
+          <h2>Para quem é indicado</h2>
+          <p>
+            Nosso depósito atende diferentes necessidades:
+          </p>
+          <ul>
+            <li>Pessoas que precisam guardar móveis durante <a href="/mudanca-florianopolis/">mudanças</a> ou <a href="/reforma-florianopolis/">reformas</a>.</li>
+            <li>Moradores de apartamentos pequenos que precisam de espaço extra.</li>
+            <li>Empresas que precisam de <a href="/armazenamento-de-estoque/">depósito para estoque</a> sem alugar um galpão.</li>
+            <li>Profissionais autônomos com equipamentos e materiais de trabalho.</li>
+            <li>Estudantes que precisam guardar pertences durante as férias.</li>
+          </ul>
+
+          <h2>Depósito vs. galpão: qual a diferença?</h2>
+          <p>
+            Alugar um galpão ou sala comercial para armazenar pertences envolve contratos longos, custos altos com aluguel, condomínio e manutenção. Um box de self storage é uma alternativa mais acessível e flexível: você paga apenas pelo espaço que precisa, com plano mensal e sem encargos adicionais.
+          </p>
+
+          <h2>Como escolher o tamanho do depósito</h2>
+          <p>
+            O tamanho do box depende do volume de itens que você precisa guardar. Para caixas e objetos pequenos, os boxes Mini (3,01 m³) e Mini+ (3,52 m³) podem ser suficientes. Para móveis e eletrodomésticos, considere o Box G (9,05 m³) ou o Box XG (11,09 m³). Use nosso <a href="/simulador-de-espaco/">simulador de espaço</a> para uma estimativa personalizada.
+          </p>
+
+          <h2>Onde estamos</h2>
+          <p>
+            A F.Horn Self Storage fica na {siteConfig.address.full}. O bairro Capoeiras está na região continental de Florianópolis, com acesso rápido pela BR-282 e proximidade com os bairros Coqueiros, Estreito, Abraão e Jardim Atlântico.
+          </p>
+        </div>
+
+        <div class="service-cta">
+          <h2>Alugue seu depósito individual</h2>
+          <p>Veja os tamanhos disponíveis ou entre em contato com nossa equipe.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="/boxes/" class="btn btn-primary btn-lg">Ver boxes disponíveis</a>
+            <a href="/contato/" class="btn btn-secondary btn-lg">Solicitar orçamento</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body p {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+  .content-body a { color: var(--color-brand-600); text-decoration: underline; }
+  .content-body a:hover { color: var(--color-brand-700); }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center; margin-top: 3rem;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

@@ -1,0 +1,115 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Guarda Volumes em Florianópolis"
+  description="Guarda volumes em Florianópolis. Boxes individuais para guardar pertences pessoais, itens sazonais e coleções na F.Horn."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li aria-current="page">Guarda Volumes</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Para você</span>
+        <h1>Guarda volumes em Florianópolis</h1>
+        <p class="service-intro">
+          Precisa de um lugar seguro para guardar volumes e pertences pessoais? Na F.Horn Self Storage, você encontra boxes individuais para armazenar o que precisar, pelo tempo que precisar.
+        </p>
+
+        <div class="content-body">
+          <h2>O que é guarda volumes?</h2>
+          <p>
+            Guarda volumes é um serviço de armazenamento em que você aluga um espaço individual para guardar objetos e pertences que não cabem mais em casa ou que você não usa no dia a dia. Diferente de um guarda volumes de aeroporto ou rodoviária, nosso serviço é projetado para armazenamento de médio e longo prazo, com boxes privativos e acesso controlado.
+          </p>
+
+          <h2>O que você pode guardar</h2>
+          <p>
+            Nossos boxes comportam uma grande variedade de itens. Veja alguns exemplos de uso comuns:
+          </p>
+          <ul>
+            <li><strong>Itens sazonais:</strong> decorações de Natal, roupas de inverno, equipamentos de praia.</li>
+            <li><strong>Coleções:</strong> livros, discos, instrumentos musicais, artigos esportivos.</li>
+            <li><strong>Equipamentos esportivos:</strong> pranchas de surf, bicicletas, equipamentos de mergulho.</li>
+            <li><strong>Pertences pessoais:</strong> malas, caixas com lembranças, itens de família.</li>
+            <li><strong>Móveis extras:</strong> cadeiras, mesas, estantes que não estão em uso.</li>
+          </ul>
+
+          <h2>Vantagens do guarda volumes na F.Horn</h2>
+          <p>
+            Nosso serviço foi pensado para oferecer praticidade e segurança:
+          </p>
+          <ul>
+            <li>Boxes de 3 m³ a 11 m³ para diferentes volumes de itens.</li>
+            <li>Ambiente monitorado com acesso controlado.</li>
+            <li>Acesso ao seu box dentro do horário de funcionamento.</li>
+            <li>Planos mensais flexíveis, sem contratos longos.</li>
+            <li>Localização em Capoeiras, com fácil acesso pela região continental.</li>
+          </ul>
+
+          <h2>Diferença entre guarda volumes e self storage</h2>
+          <p>
+            Na prática, guarda volumes e self storage descrevem o mesmo tipo de serviço: o aluguel de um espaço individual para armazenamento. O termo "guarda volumes" é mais utilizado para pertences pessoais e objetos menores, enquanto "self storage" abrange também o armazenamento empresarial. Na F.Horn, todos os nossos boxes podem ser utilizados para qualquer finalidade.
+          </p>
+
+          <h2>Como escolher o tamanho certo</h2>
+          <p>
+            Se você não sabe quantos itens cabem em cada box, use nosso <a href="/simulador-de-espaco/">simulador de espaço</a>. Basta selecionar os objetos que deseja guardar e o sistema indica o tamanho de box recomendado. Você também pode <a href="/boxes/">ver todos os tamanhos</a> com dimensões detalhadas.
+          </p>
+        </div>
+
+        <div class="service-cta">
+          <h2>Guarde seus volumes com segurança</h2>
+          <p>Encontre o box ideal para seus pertences ou fale com nossa equipe.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="/simulador-de-espaco/" class="btn btn-primary btn-lg">Simulador de espaço</a>
+            <a href="/contato/" class="btn btn-secondary btn-lg">Fale conosco</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body p {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+  .content-body a { color: var(--color-brand-600); text-decoration: underline; }
+  .content-body a:hover { color: var(--color-brand-700); }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center; margin-top: 3rem;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

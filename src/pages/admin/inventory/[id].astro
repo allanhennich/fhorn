@@ -1,0 +1,152 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { query } from '../../../data/admin/db';
+
+const { id } = Astro.params;
+
+const [rows] = await query<any[]>('SELECT * FROM box_units WHERE id = ?', [id]);
+const unit = rows[0];
+
+if (!unit) return Astro.redirect('/admin/inventory/');
+
+const statusOptions = [
+  { value: 'disponivel', label: 'Disponível' },
+  { value: 'locado', label: 'Locado' },
+  { value: 'reservado', label: 'Reservado' },
+  { value: 'manutencao', label: 'Manutenção' },
+  { value: 'uso_interno', label: 'Uso interno' },
+  { value: 'nao_locar', label: 'Não locar' },
+];
+---
+
+<AdminLayout title={`Box ${unit.box_number}`}>
+  <div class="admin-page-header">
+    <div>
+      <h1>Box {unit.box_number}</h1>
+      <p>{unit.floor_label} — Lado {unit.side} — {Number(unit.volume).toFixed(2)} m³</p>
+    </div>
+    <a href="/admin/inventory/" class="admin-btn admin-btn-secondary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Voltar
+    </a>
+  </div>
+
+  <!-- Info card -->
+  <div class="admin-card" style="margin-bottom: 1.5rem;">
+    <div class="admin-card-body" style="padding: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+      <div>
+        <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.25rem;">Dimensões (L × A × P)</div>
+        <div style="font-weight: 600;">{Number(unit.width).toFixed(3)} × {Number(unit.height).toFixed(3)} × {Number(unit.depth).toFixed(3)} m</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.25rem;">Volume</div>
+        <div style="font-weight: 600;">{Number(unit.volume).toFixed(2)} m³</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.25rem;">Área</div>
+        <div style="font-weight: 600;">{Number(unit.area).toFixed(2)} m²</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.25rem;">Categoria</div>
+        <div style="font-weight: 600;">{unit.category}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit form -->
+  <div class="admin-card">
+    <div class="admin-card-body" style="padding: 1.5rem;">
+      <form class="admin-form" id="unitForm" novalidate>
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="status">Status <span class="required">*</span></label>
+            <select id="status" name="status" required>
+              {statusOptions.map(o => (
+                <option value={o.value} selected={unit.status === o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+          <div class="admin-form-group">
+            <label for="category">Categoria</label>
+            <input type="text" id="category" name="category" value={unit.category} />
+          </div>
+        </div>
+
+        <h3 style="margin: 1.5rem 0 1rem; font-size: 1rem; color: #374151;">Dados do locatário</h3>
+
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="tenantName">Nome</label>
+            <input type="text" id="tenantName" name="tenantName" value={unit.tenant_name} placeholder="Nome do locatário" />
+          </div>
+          <div class="admin-form-group">
+            <label for="tenantPhone">Telefone</label>
+            <input type="tel" id="tenantPhone" name="tenantPhone" value={unit.tenant_phone} placeholder="(48) 99999-9999" />
+          </div>
+        </div>
+
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="tenantEmail">E-mail</label>
+            <input type="email" id="tenantEmail" name="tenantEmail" value={unit.tenant_email} placeholder="email@exemplo.com" />
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="tenantNotes">Observações</label>
+          <textarea id="tenantNotes" name="tenantNotes" rows="3" placeholder="Anotações sobre o locatário ou o box...">{unit.tenant_notes || ''}</textarea>
+        </div>
+
+        <div class="admin-form-actions">
+          <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+            Salvar Alterações
+          </button>
+          <a href="/admin/inventory/" class="admin-btn admin-btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ unitId: unit.id }}>
+    const form = document.getElementById('unitForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        status: document.getElementById('status')?.value,
+        category: document.getElementById('category')?.value?.trim(),
+        tenant_name: document.getElementById('tenantName')?.value?.trim(),
+        tenant_phone: document.getElementById('tenantPhone')?.value?.trim(),
+        tenant_email: document.getElementById('tenantEmail')?.value?.trim(),
+        tenant_notes: document.getElementById('tenantNotes')?.value?.trim(),
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Salvando...';
+
+      try {
+        const res = await fetch('/api/admin/inventory/' + unitId, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          window.showToast?.('Box atualizado com sucesso!');
+          setTimeout(() => { window.location.href = '/admin/inventory/'; }, 800);
+        } else {
+          const err = await res.json().catch(() => ({}));
+          window.showToast?.(err.error || 'Erro ao atualizar.', 'error');
+        }
+      } catch {
+        window.showToast?.('Erro de conexão.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Salvar Alterações';
+      }
+    });
+  </script>
+</AdminLayout>

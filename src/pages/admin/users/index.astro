@@ -10,15 +10,15 @@ try {
 }
 ---
 
-<AdminLayout title="Usuarios">
+<AdminLayout title="Usuários">
   <div class="admin-page-header">
     <div>
-      <h1>Usuarios</h1>
-      <p>Gerencie os usuarios com acesso ao painel administrativo.</p>
+      <h1>Usuários</h1>
+      <p>Gerencie os usuários com acesso ao painel administrativo.</p>
     </div>
     <a href="/admin/users/new/" class="admin-btn admin-btn-primary">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
-      Novo Usuario
+      Novo Usuário
     </a>
   </div>
 
@@ -26,8 +26,8 @@ try {
     {users.length === 0 ? (
       <div class="admin-empty">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <p>Nenhum usuario cadastrado ainda.</p>
-        <a href="/admin/users/new/" class="admin-btn admin-btn-primary">Criar Primeiro Usuario</a>
+        <p>Nenhum usuário cadastrado ainda.</p>
+        <a href="/admin/users/new/" class="admin-btn admin-btn-primary">Criar Primeiro Usuário</a>
       </div>
     ) : (
       <div class="admin-table-wrap">
@@ -36,10 +36,10 @@ try {
             <tr>
               <th>Nome</th>
               <th>E-mail</th>
-              <th>Papel</th>
-              <th>Status</th>
-              <th>Criado em</th>
-              <th>Acoes</th>
+              <th class="usr-hide-mobile">Papel</th>
+              <th class="usr-hide-mobile">Status</th>
+              <th class="usr-hide-mobile">Criado em</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -47,17 +47,17 @@ try {
               <tr data-user-id={user.id}>
                 <td><strong>{user.name}</strong></td>
                 <td>{user.email}</td>
-                <td>
+                <td class="usr-hide-mobile">
                   <span class={`admin-badge ${user.role === 'admin' ? 'admin-badge-admin' : 'admin-badge-editor'}`}>
                     {user.role === 'admin' ? 'Administrador' : 'Editor'}
                   </span>
                 </td>
-                <td>
+                <td class="usr-hide-mobile">
                   <span class={`admin-badge ${user.active ? 'admin-badge-active' : 'admin-badge-inactive'}`}>
                     {user.active ? 'Ativo' : 'Inativo'}
                   </span>
                 </td>
-                <td>
+                <td class="usr-hide-mobile">
                   <span style="font-size: 0.8125rem; color: var(--admin-text-secondary);">
                     {new Date(user.createdAt).toLocaleDateString('pt-BR')}
                   </span>
@@ -97,7 +97,7 @@ try {
         </button>
       </div>
       <div class="admin-modal-body">
-        <p>Tem certeza que deseja excluir o usuario <strong id="deleteUserName"></strong>? Esta acao nao pode ser desfeita.</p>
+        <p>Tem certeza que deseja excluir o usuário <strong id="deleteUserName"></strong>? Esta ação não pode ser desfeita.</p>
       </div>
       <div class="admin-modal-footer">
         <button class="admin-btn admin-btn-secondary" id="deleteModalCancel">Cancelar</button>
@@ -145,17 +145,31 @@ try {
       try {
         const res = await fetch(`/api/admin/users/${deleteId}`, { method: 'DELETE' });
         if (res.ok) {
-          window.showToast?.('Usuario excluido com sucesso.');
+          window.showToast?.('Usuário excluído com sucesso.');
           closeDeleteModal();
           window.location.reload();
         } else {
-          window.showToast?.('Erro ao excluir usuario.', 'error');
+          window.showToast?.('Erro ao excluir usuário.', 'error');
         }
       } catch {
-        window.showToast?.('Erro de conexao.', 'error');
+        window.showToast?.('Erro de conexão.', 'error');
       } finally {
         deleteModalConfirm.disabled = false;
       }
     });
   </script>
 </AdminLayout>
+
+<style>
+  .admin-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .usr-hide-mobile {
+      display: none;
+    }
+  }
+</style>

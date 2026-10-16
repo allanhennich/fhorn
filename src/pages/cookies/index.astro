@@ -1,0 +1,304 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Política de Cookies"
+  description="Política de Cookies da F.Horn Self Storage. Saiba quais cookies utilizamos, suas finalidades e como gerencia-los."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Política de Cookies</li>
+        </ol>
+      </nav>
+
+      <div class="legal-content">
+        <span class="section-label">Legal</span>
+        <h1>Política de Cookies</h1>
+        <p class="legal-updated">Última atualização: outubro de 2026</p>
+
+        <!-- 1. O que são cookies -->
+        <h2>1. O que são cookies</h2>
+        <p>
+          Cookies são pequenos arquivos de texto armazenados no seu navegador ou dispositivo quando você acessa um site. Eles são amplamente utilizados na internet para que os sites funcionem de maneira eficiente e para fornecer informações aos administradores do site.
+        </p>
+        <p>
+          Os cookies podem ser "persistentes" (permanecem no seu dispositivo até serem excluídos manualmente ou atingirem sua data de expiração) ou "de sessão" (sao removidos automaticamente quando você fecha o navegador).
+        </p>
+
+        <!-- 2. Como utilizamos cookies -->
+        <h2>2. Como utilizamos cookies</h2>
+        <p>
+          O site <a href={siteConfig.url}>{siteConfig.url}</a>, operado pela <strong>{siteConfig.name}</strong>, utiliza cookies para as seguintes finalidades:
+        </p>
+        <ul>
+          <li>Garantir o funcionamento correto do site;</li>
+          <li>Lembrar suas preferências (como consentimento de cookies);</li>
+          <li>Analisar o tráfego e o comportamento dos visitantes;</li>
+          <li>Melhorar a experiência de navegação;</li>
+          <li>Medir a eficácia de campanhas de marketing (quando aplicável).</li>
+        </ul>
+
+        <!-- 3. Tipos de cookies -->
+        <h2>3. Tipos de cookies que utilizamos</h2>
+
+        <h3>3.1. Cookies essenciais</h3>
+        <p>
+          São estritamente necessários para o funcionamento do site. Sem eles, o site não opera corretamente. Não requerem consentimento, pois são indispensaveis para a prestação do serviço solicitado.
+        </p>
+
+        <h3>3.2. Cookies de analytics</h3>
+        <p>
+          Utilizamos o Google Analytics para coletar informações sobre como os visitantes utilizam nosso site. Esses cookies geram dados estatísticos agregados e anonimos, como número de visitantes, páginas mais acessadas e origem do tráfego. Essas informações nos ajudam a melhorar o site.
+        </p>
+
+        <h3>3.3. Cookies de marketing</h3>
+        <p>
+          Podemos utilizar cookies de plataformas de publicidade, como o Meta Pixel (Facebook/Instagram), para medir a eficácia de campanhas publicitarias e exibir anúncios relevantes. Esses cookies rastreiam sua atividade no site e podem ser usados para criar perfis de publicidade.
+        </p>
+
+        <!-- 4. Tabela de cookies -->
+        <h2>4. Lista de cookies</h2>
+        <p>A tabela a seguir detalha os cookies utilizados neste site:</p>
+
+        <div class="cookie-table-wrapper">
+          <table class="cookie-table">
+            <thead>
+              <tr>
+                <th>Cookie</th>
+                <th>Provedor</th>
+                <th>Finalidade</th>
+                <th>Duracao</th>
+                <th>Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>fhorn-cookie-consent</code></td>
+                <td>{siteConfig.name}</td>
+                <td>Armazena a preferencia de consentimento de cookies do usuário</td>
+                <td>365 dias</td>
+                <td>Essencial</td>
+              </tr>
+              <tr>
+                <td><code>_ga</code></td>
+                <td>Google Analytics</td>
+                <td>Distingue usuários unicos atribuindo um identificador gerado aleatoriamente</td>
+                <td>2 anos</td>
+                <td>Analytics</td>
+              </tr>
+              <tr>
+                <td><code>_ga_*</code></td>
+                <td>Google Analytics</td>
+                <td>Usado para manter o estado da sessao</td>
+                <td>2 anos</td>
+                <td>Analytics</td>
+              </tr>
+              <tr>
+                <td><code>_gid</code></td>
+                <td>Google Analytics</td>
+                <td>Distingue usuários unicos</td>
+                <td>24 horas</td>
+                <td>Analytics</td>
+              </tr>
+              <tr>
+                <td><code>_gat</code></td>
+                <td>Google Analytics</td>
+                <td>Limita a taxa de solicitações ao Google Analytics</td>
+                <td>1 minuto</td>
+                <td>Analytics</td>
+              </tr>
+              <tr>
+                <td><code>_fbp</code></td>
+                <td>Meta (Facebook)</td>
+                <td>Identifica navegadores para fins de publicidade e análise de sites</td>
+                <td>90 dias</td>
+                <td>Marketing</td>
+              </tr>
+              <tr>
+                <td><code>_fbc</code></td>
+                <td>Meta (Facebook)</td>
+                <td>Armazena o identificador de clique para rastreamento de conversoes</td>
+                <td>90 dias</td>
+                <td>Marketing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 5. Gerenciar cookies -->
+        <h2>5. Como gerenciar e desativar cookies</h2>
+        <p>
+          Você pode controlar e gerenciar os cookies de diversas formas. A maioria dos navegadores permite que você recuse ou aceite cookies, exclua cookies existentes e configure preferências para determinados sites.
+        </p>
+        <p>Veja como gerenciar cookies nos principais navegadores:</p>
+        <ul>
+          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer">Google Chrome</a></li>
+          <li><a href="https://support.mozilla.org/pt-BR/kb/proteção-aprimorada-contra-rastreamento-firefox" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a></li>
+          <li><a href="https://support.apple.com/pt-br/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer">Safari</a></li>
+          <li><a href="https://support.microsoft.com/pt-br/microsoft-edge/excluir-cookies-no-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer">Microsoft Edge</a></li>
+        </ul>
+        <p>
+          <strong>Importante:</strong> ao desativar determinados cookies, algumas funcionalidades do site podem ficar comprometidas ou indisponíveis.
+        </p>
+        <p>
+          Para desativar especificamente o rastreamento do Google Analytics, você pode instalar o <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">complemento de desativacao do Google Analytics</a>.
+        </p>
+
+        <!-- 6. Consentimento -->
+        <h2>6. Consentimento</h2>
+        <p>
+          Ao acessar nosso site pela primeira vez, você será informado sobre o uso de cookies por meio de um banner. Ao clicar em "Aceitar", você consente com o uso de todos os cookies descritos nesta política. Você pode alterar suas preferências a qualquer momento por meio das configuracoes do seu navegador.
+        </p>
+
+        <!-- 7. Alterações -->
+        <h2>7. Alterações nesta política</h2>
+        <p>
+          Esta Política de Cookies poderá ser atualizada periodicamente. Eventuais alterações serão publicadas nesta página com a indicação da data da última atualização.
+        </p>
+
+        <!-- 8. Contato -->
+        <h2>8. Contato</h2>
+        <p>
+          Para dúvidas sobre esta Política de Cookies ou sobre o tratamento dos seus dados pessoais, entre em contato conosco:
+        </p>
+        <div class="legal-contact-box">
+          <p><strong>{siteConfig.name}</strong></p>
+          <p>E-mail: <a href="mailto:contato@fhorn.com.br">contato@fhorn.com.br</a></p>
+          <p>Telefone: <a href={`tel:${siteConfig.contact.phoneRaw}`}>{siteConfig.contact.phone}</a></p>
+          <p>Endereço: {siteConfig.address.full}</p>
+        </div>
+
+        <p style="margin-top: 2rem;">
+          Para mais informações sobre como tratamos seus dados pessoais, consulte nossa <a href="/politica-de-privacidade/">Política de Privacidade</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .legal-content {
+    max-width: 48rem;
+  }
+
+  .legal-updated {
+    font-size: var(--text-sm);
+    color: var(--color-neutral-500);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-neutral-200);
+  }
+
+  .legal-content h2 {
+    font-size: var(--text-h3);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-neutral-900);
+  }
+
+  .legal-content h3 {
+    font-size: var(--text-h4);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-neutral-800);
+  }
+
+  .legal-content p {
+    font-size: var(--text-body);
+    color: var(--color-neutral-600);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .legal-content ul {
+    margin: 0.5rem 0 1.5rem;
+    padding-left: 1.25rem;
+  }
+
+  .legal-content li {
+    font-size: var(--text-body);
+    color: var(--color-neutral-600);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-content a {
+    color: var(--color-brand-600);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-content a:hover {
+    color: var(--color-brand-700);
+  }
+
+  .legal-contact-box {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: var(--color-neutral-50);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  .legal-contact-box p {
+    margin-bottom: 0.25rem;
+  }
+
+  /* Cookie table */
+  .cookie-table-wrapper {
+    overflow-x: auto;
+    margin: 1rem 0 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  .cookie-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    min-width: 600px;
+  }
+
+  .cookie-table th {
+    background: var(--color-neutral-50);
+    color: var(--color-neutral-700);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--color-neutral-200);
+    white-space: nowrap;
+  }
+
+  .cookie-table td {
+    padding: 0.75rem 1rem;
+    color: var(--color-neutral-600);
+    border-bottom: 1px solid var(--color-neutral-100);
+    vertical-align: top;
+  }
+
+  .cookie-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .cookie-table code {
+    background: var(--color-neutral-100);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--color-neutral-700);
+  }
+</style>

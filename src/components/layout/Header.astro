@@ -59,8 +59,8 @@ const { variant = 'solid' } = Astro.props;
     </button>
   </div>
 
-  <MobileMenu />
 </header>
+<MobileMenu />
 
 <script>
   const header = document.getElementById('site-header');
@@ -84,21 +84,39 @@ const { variant = 'solid' } = Astro.props;
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll();
 
+  // Enable transitions only after first paint
+  requestAnimationFrame(() => {
+    header?.classList.add('header-ready');
+  });
+
   // Mobile menu
+  const backdrop = document.getElementById('mobile-menu-backdrop');
+
   toggle?.addEventListener('click', () => {
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!isOpen));
     mobileMenu?.classList.toggle('mobile-menu-open');
+    if (backdrop) {
+      backdrop.style.opacity = isOpen ? '0' : '1';
+      backdrop.style.pointerEvents = isOpen ? 'none' : 'auto';
+    }
     document.body.style.overflow = isOpen ? '' : 'hidden';
     toggle.setAttribute('aria-label', isOpen ? 'Abrir menu' : 'Fechar menu');
   });
 
+  function closeMenu() {
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Abrir menu');
+    mobileMenu?.classList.remove('mobile-menu-open');
+    if (backdrop) {
+      backdrop.style.opacity = '0';
+      backdrop.style.pointerEvents = 'none';
+    }
+    document.body.style.overflow = '';
+  }
+
   mobileMenu?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      toggle?.setAttribute('aria-expanded', 'false');
-      mobileMenu.classList.remove('mobile-menu-open');
-      document.body.style.overflow = '';
-    });
+    link.addEventListener('click', closeMenu);
   });
 </script>
 
@@ -110,6 +128,9 @@ const { variant = 'solid' } = Astro.props;
     left: 0;
     right: 0;
     z-index: 50;
+  }
+
+  .header.header-ready {
     transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                 backdrop-filter 0.3s cubic-bezier(0.16, 1, 0.3, 1);

@@ -17,17 +17,33 @@ const jsonLd = {
   url: siteConfig.url,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Rua Fermino Costa, 186',
-    addressLocality: 'Florianópolis',
-    addressRegion: 'SC',
-    postalCode: '88085-030',
-    addressCountry: 'BR',
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.city,
+    addressRegion: siteConfig.address.state,
+    postalCode: siteConfig.address.zip,
+    addressCountry: siteConfig.address.country,
   },
   telephone: siteConfig.contact.phone,
+  priceRange: '$$',
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:00',
+    closes: '18:00',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -27.5956,
+    longitude: -48.5744,
+  },
   areaServed: {
     '@type': 'City',
     name: 'Florianópolis',
   },
+  sameAs: [
+    siteConfig.social.instagram,
+    siteConfig.social.linkedin,
+  ],
 };
 ---
 

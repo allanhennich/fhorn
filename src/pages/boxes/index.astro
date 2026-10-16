@@ -1,8 +1,9 @@
 ---
-export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { storageUnits } from '../../data/storageUnits';
+import { getActiveBoxes } from '../../data/admin/boxes';
 import StorageCard from '../../components/storage/StorageCard.astro';
+
+const storageUnits = await getActiveBoxes();
 ---
 
 <BaseLayout

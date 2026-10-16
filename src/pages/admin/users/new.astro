@@ -2,10 +2,10 @@
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 ---
 
-<AdminLayout title="Novo Usuario">
+<AdminLayout title="Novo Usuário">
   <div class="admin-page-header">
     <div>
-      <h1>Novo Usuario</h1>
+      <h1>Novo Usuário</h1>
       <p>Crie uma nova conta de acesso ao painel administrativo.</p>
     </div>
     <a href="/admin/users/" class="admin-btn admin-btn-secondary">
@@ -20,13 +20,13 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         <!-- Name -->
         <div class="admin-form-group">
           <label for="name">Nome completo <span class="required">*</span></label>
-          <input type="text" id="name" name="name" placeholder="Nome do usuario" required />
+          <input type="text" id="name" name="name" placeholder="Nome do usuário" required />
         </div>
 
         <!-- Email -->
         <div class="admin-form-group">
           <label for="email">E-mail <span class="required">*</span></label>
-          <input type="email" id="email" name="email" placeholder="usuario@email.com" autocomplete="off" required />
+          <input type="email" id="email" name="email" placeholder="usuário@email.com" autocomplete="off" required />
         </div>
 
         <!-- Password -->
@@ -43,7 +43,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
             <option value="editor">Editor</option>
             <option value="admin">Administrador</option>
           </select>
-          <span class="admin-form-hint">Administradores tem acesso completo. Editores podem gerenciar conteudo.</span>
+          <span class="admin-form-hint">Administradores têm acesso completo. Editores podem gerenciar conteúdo.</span>
         </div>
 
         <!-- Active -->
@@ -58,7 +58,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         <div class="admin-form-actions">
           <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
-            Criar Usuario
+            Criar Usuário
           </button>
           <a href="/admin/users/" class="admin-btn admin-btn-secondary">Cancelar</a>
         </div>
@@ -80,7 +80,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       const active = document.getElementById('active')?.checked ?? true;
 
       if (!name || !email || !password) {
-        window.showToast?.('Preencha todos os campos obrigatorios.', 'error');
+        window.showToast?.('Preencha todos os campos obrigatórios.', 'error');
         return;
       }
 
@@ -100,17 +100,17 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         });
 
         if (res.ok) {
-          window.showToast?.('Usuario criado com sucesso!');
+          window.showToast?.('Usuário criado com sucesso!');
           setTimeout(() => { window.location.href = '/admin/users/'; }, 800);
         } else {
           const err = await res.json().catch(() => ({}));
-          window.showToast?.(err.error || 'Erro ao criar usuario.', 'error');
+          window.showToast?.(err.error || 'Erro ao criar usuário.', 'error');
         }
       } catch {
-        window.showToast?.('Erro de conexao.', 'error');
+        window.showToast?.('Erro de conexão.', 'error');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Criar Usuario';
+        submitBtn.textContent = 'Criar Usuário';
       }
     });
   </script>

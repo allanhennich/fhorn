@@ -192,7 +192,16 @@ export default function SpaceCalculator() {
               Limpar
             </button>
             <button
-              onClick={() => setShowResult(true)}
+              onClick={() => {
+                setShowResult(true);
+                setTimeout(() => {
+                  const el = document.querySelector('.calc-result-title');
+                  if (el) {
+                    const y = el.getBoundingClientRect().top + window.scrollY - 100;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  }
+                }, 100);
+              }}
               className="calc-result-btn"
             >
               Ver resultado
@@ -289,7 +298,16 @@ export default function SpaceCalculator() {
                 </a>
               );
             })()}
-            <button onClick={() => setShowResult(false)} className="calc-back-btn">
+            <button onClick={() => {
+                setShowResult(false);
+                setTimeout(() => {
+                  const el = document.querySelector('.calc-tabs');
+                  if (el) {
+                    const y = el.getBoundingClientRect().top + window.scrollY - 100;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  }
+                }, 100);
+              }} className="calc-back-btn">
               Voltar ao simulador
             </button>
           </div>

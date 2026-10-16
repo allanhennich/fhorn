@@ -20,7 +20,7 @@ if (!user) {
 <AdminLayout title={`Editar: ${user.name}`}>
   <div class="admin-page-header">
     <div>
-      <h1>Editar Usuario</h1>
+      <h1>Editar Usuário</h1>
       <p>Editando: <strong>{user.name}</strong></p>
     </div>
     <a href="/admin/users/" class="admin-btn admin-btn-secondary">
@@ -60,7 +60,7 @@ if (!user) {
             <option value="editor" selected={user.role === 'editor'}>Editor</option>
             <option value="admin" selected={user.role === 'admin'}>Administrador</option>
           </select>
-          <span class="admin-form-hint">Administradores tem acesso completo. Editores podem gerenciar conteudo.</span>
+          <span class="admin-form-hint">Administradores têm acesso completo. Editores podem gerenciar conteúdo.</span>
         </div>
 
         <!-- Active -->
@@ -83,7 +83,7 @@ if (!user) {
         <div class="admin-form-actions">
           <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
-            Salvar Alteracoes
+            Salvar Alterações
           </button>
           <a href="/admin/users/" class="admin-btn admin-btn-secondary">Cancelar</a>
         </div>
@@ -106,7 +106,7 @@ if (!user) {
       const active = document.getElementById('active')?.checked ?? true;
 
       if (!name || !email) {
-        window.showToast?.('Preencha todos os campos obrigatorios.', 'error');
+        window.showToast?.('Preencha todos os campos obrigatórios.', 'error');
         return;
       }
 
@@ -131,17 +131,17 @@ if (!user) {
         });
 
         if (res.ok) {
-          window.showToast?.('Usuario atualizado com sucesso!');
+          window.showToast?.('Usuário atualizado com sucesso!');
           setTimeout(() => { window.location.href = '/admin/users/'; }, 800);
         } else {
           const err = await res.json().catch(() => ({}));
-          window.showToast?.(err.error || 'Erro ao atualizar usuario.', 'error');
+          window.showToast?.(err.error || 'Erro ao atualizar usuário.', 'error');
         }
       } catch {
-        window.showToast?.('Erro de conexao.', 'error');
+        window.showToast?.('Erro de conexão.', 'error');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Salvar Alteracoes';
+        submitBtn.textContent = 'Salvar Alterações';
       }
     });
   </script>

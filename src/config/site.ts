@@ -30,7 +30,7 @@ export const siteConfig = {
 
   business: {
     foundedYear: undefined, // a confirmar
-    cnpj: '', // a definir
+    cnpj: '60.749.391/0001-73',
     openingHours: '', // a definir
   },
 

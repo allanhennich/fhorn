@@ -46,7 +46,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
         <!-- Dimensions -->
         <div class="admin-form-group">
-          <label>Dimensoes (metros) <span class="required">*</span></label>
+          <label>Dimensões (metros) <span class="required">*</span></label>
           <div class="admin-form-grid-3">
             <div>
               <input type="number" id="dimWidth" name="dimWidth" step="0.01" min="0" placeholder="Largura" required />
@@ -61,25 +61,40 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         </div>
 
         <div class="admin-form-group">
-          <label for="dimensionLabel">Label das Dimensoes</label>
+          <label for="dimensionLabel">Label das Dimensões</label>
           <input type="text" id="dimensionLabel" name="dimensionLabel" placeholder="1.0 x 1.0 x 1.0 m" />
-          <span class="admin-form-hint">Auto-formatado a partir das dimensoes.</span>
+          <span class="admin-form-hint">Auto-formatado a partir das dimensões.</span>
         </div>
 
         <!-- Image -->
         <div class="admin-form-group">
           <label>Imagem</label>
+          <!-- Preview -->
+          <div id="newImagePreview" style="display: none; margin-bottom: 1rem; border: 2px solid #dd6b20; border-radius: 8px; overflow: hidden; width: 160px;">
+            <img id="newImagePreviewImg" src="" alt="Nova imagem" style="width: 100%; height: auto; display: block;" />
+            <div style="padding: 0.5rem; font-size: 0.75rem; color: #dd6b20; background: #fffaf0; font-weight: 600;">Nova imagem</div>
+          </div>
+          <!-- Upload -->
+          <div style="margin-bottom: 1rem;">
+            <label for="imageUpload" class="admin-btn admin-btn-secondary admin-btn-sm" style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+              Enviar imagem
+            </label>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
+            <span id="uploadStatus" style="margin-left: 0.5rem; font-size: 0.8rem; color: #64748b;"></span>
+          </div>
+          <!-- Caminhos -->
           <div class="admin-form-grid-3">
             <div class="admin-form-group" style="margin-bottom:0">
-              <input type="text" id="imageSrc" name="imageSrc" placeholder="/images/box.webp" />
-              <span class="admin-form-hint">Caminho principal</span>
+              <input type="text" id="imageSrc" name="imageSrc" placeholder="/images/boxes/box.webp" />
+              <span class="admin-form-hint">Caminho principal (.webp)</span>
             </div>
             <div class="admin-form-group" style="margin-bottom:0">
-              <input type="text" id="imageFallback" name="imageFallback" placeholder="/images/box.png" />
-              <span class="admin-form-hint">Fallback (PNG/JPG)</span>
+              <input type="text" id="imageFallback" name="imageFallback" placeholder="/images/boxes/box.png" />
+              <span class="admin-form-hint">Fallback (.png/.jpg)</span>
             </div>
             <div class="admin-form-group" style="margin-bottom:0">
-              <input type="text" id="imageAlt" name="imageAlt" placeholder="Foto do Box Pequeno" />
+              <input type="text" id="imageAlt" name="imageAlt" placeholder="Foto do Box" />
               <span class="admin-form-hint">Texto alternativo</span>
             </div>
           </div>
@@ -87,7 +102,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
         <!-- Description -->
         <div class="admin-form-group">
-          <label for="description">Descricao</label>
+          <label for="description">Descrição</label>
           <textarea id="description" name="description" placeholder="Descreva o box de armazenamento..."></textarea>
         </div>
 
@@ -103,6 +118,32 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           </button>
         </div>
 
+        <!-- Pricing -->
+        <div class="admin-form-group">
+          <label style="font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Preços
+          </label>
+        </div>
+        <div class="admin-form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="admin-form-group">
+            <label for="price">Preço Mensal (R$)</label>
+            <input type="number" id="price" name="price" step="0.01" min="0" placeholder="0,00" />
+            <span class="admin-form-hint">Valor mensal do aluguel.</span>
+          </div>
+          <div class="admin-form-group">
+            <label for="pricePromotional">Preço Promocional (R$)</label>
+            <input type="number" id="pricePromotional" name="pricePromotional" step="0.01" min="0" placeholder="0,00" />
+            <span class="admin-form-hint">Deixe vazio se não houver promoção.</span>
+          </div>
+          <div class="admin-form-group" style="display: flex; align-items: flex-end; padding-bottom: 1.75rem;">
+            <label class="admin-toggle">
+              <input type="checkbox" id="priceVisible" name="priceVisible" />
+              <span>Exibir preço no site</span>
+            </label>
+          </div>
+        </div>
+
         <!-- Active + Sort Order -->
         <div class="admin-form-grid">
           <div class="admin-form-group">
@@ -112,7 +153,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
             </label>
           </div>
           <div class="admin-form-group">
-            <label for="sortOrder">Ordem de exibicao</label>
+            <label for="sortOrder">Ordem de exibição</label>
             <input type="number" id="sortOrder" name="sortOrder" min="0" value="0" />
           </div>
         </div>
@@ -233,10 +274,13 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         isDemonstrative: true,
         active: document.getElementById('active')?.checked ?? true,
         sortOrder: parseInt(document.getElementById('sortOrder')?.value) || 0,
+        price: document.getElementById('price')?.value ? parseFloat(document.getElementById('price').value) : null,
+        pricePromotional: document.getElementById('pricePromotional')?.value ? parseFloat(document.getElementById('pricePromotional').value) : null,
+        priceVisible: document.getElementById('priceVisible')?.checked ?? false,
       };
 
       if (!data.name || !data.slug || !data.volume) {
-        window.showToast?.('Preencha os campos obrigatorios.', 'error');
+        window.showToast?.('Preencha os campos obrigatórios.', 'error');
         return;
       }
 
@@ -258,7 +302,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           window.showToast?.(err.error || 'Erro ao criar box.', 'error');
         }
       } catch {
-        window.showToast?.('Erro de conexao.', 'error');
+        window.showToast?.('Erro de conexão.', 'error');
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Salvar Box';

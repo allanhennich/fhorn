@@ -1,0 +1,252 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Política de Privacidade"
+  description="Política de Privacidade da F.Horn Self Storage. Saiba como coletamos, usamos e protegemos seus dados pessoais em conformidade com a LGPD."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Política de Privacidade</li>
+        </ol>
+      </nav>
+
+      <div class="legal-content">
+        <span class="section-label">Legal</span>
+        <h1>Política de Privacidade</h1>
+        <p class="legal-updated">Última atualização: outubro de 2026</p>
+
+        <!-- 1. Introdução -->
+        <h2>1. Introdução</h2>
+        <p>
+          A <strong>{siteConfig.name}</strong>, pessoa jurídica de direito privado, inscrita no CNPJ sob o n. 60.749.391/0001-73, com sede na {siteConfig.address.full}, é a controladora dos dados pessoais tratados por meio deste site.
+        </p>
+        <p>
+          Esta Política de Privacidade tem como objetivo informar a você, titular de dados, de forma clara e transparente, como seus dados pessoais são coletados, utilizados, armazenados e protegidos ao acessar e utilizar o site <a href={siteConfig.url}>{siteConfig.url}</a>, em conformidade com a Lei Geral de Proteção de Dados Pessoais (Lei n. 13.709/2018 - LGPD) e demais legislações aplicáveis.
+        </p>
+        <p>
+          Ao utilizar nosso site, você declara estar ciente e de acordo com os termos desta Política. Caso não concorde com qualquer disposição aqui prevista, recomendamos que não prossiga com a navegação.
+        </p>
+
+        <!-- 2. Dados que coletamos -->
+        <h2>2. Dados que coletamos</h2>
+
+        <h3>2.1. Dados fornecidos por você</h3>
+        <p>Ao preencher formulários de contato ou solicitar orçamentos em nosso site, podemos coletar os seguintes dados pessoais:</p>
+        <ul>
+          <li>Nome completo;</li>
+          <li>Endereço de e-mail;</li>
+          <li>Número de telefone;</li>
+          <li>Mensagem ou descrição da necessidade de armazenamento.</li>
+        </ul>
+
+        <h3>2.2. Dados coletados automaticamente</h3>
+        <p>Durante a sua navegação, podemos coletar automaticamente determinadas informações por meio de cookies e tecnologias semelhantes:</p>
+        <ul>
+          <li>Endereço IP;</li>
+          <li>Tipo de navegador e sistema operacional;</li>
+          <li>Páginas visitadas e tempo de permanência;</li>
+          <li>Origem do acesso (como você chegou ao site);</li>
+          <li>Resolução de tela e tipo de dispositivo;</li>
+          <li>Data e horário do acesso.</li>
+        </ul>
+
+        <!-- 3. Como usamos os dados -->
+        <h2>3. Como usamos os dados</h2>
+        <p>Os dados pessoais coletados são utilizados para as seguintes finalidades:</p>
+        <ul>
+          <li><strong>Atendimento:</strong> responder solicitações de contato e orçamento enviadas por você;</li>
+          <li><strong>Comunicação:</strong> entrar em contato para fornecer informações sobre nossos serviços;</li>
+          <li><strong>Melhoria do site:</strong> analisar o comportamento de navegação para aprimorar a experiência do usuário;</li>
+          <li><strong>Analytics:</strong> compreender o perfil dos visitantes e a eficácia de nossas páginas;</li>
+          <li><strong>Segurança:</strong> detectar e prevenir atividades fraudulentas ou mal-intencionadas;</li>
+          <li><strong>Obrigações legais:</strong> cumprir exigências legais e regulatórias aplicáveis.</li>
+        </ul>
+
+        <!-- 4. Base legal -->
+        <h2>4. Base legal para o tratamento</h2>
+        <p>O tratamento dos seus dados pessoais é realizado com base nas seguintes hipóteses legais previstas na LGPD (art. 7.):</p>
+        <ul>
+          <li><strong>Consentimento (art. 7., I):</strong> para o envio de comunicações e utilização de cookies não essenciais;</li>
+          <li><strong>Execução de contrato ou procedimentos preliminares (art. 7., V):</strong> para atendimento de solicitações de orçamento e contratação de serviços;</li>
+          <li><strong>Legítimo interesse (art. 7., IX):</strong> para análise e melhoria do site, desde que respeitados seus direitos e liberdades fundamentais;</li>
+          <li><strong>Cumprimento de obrigação legal (art. 7., II):</strong> quando exigido por lei ou regulamento aplicável.</li>
+        </ul>
+
+        <!-- 5. Compartilhamento de dados -->
+        <h2>5. Compartilhamento de dados</h2>
+        <p>
+          A {siteConfig.name} <strong>não vende, aluga ou comercializa</strong> seus dados pessoais. No entanto, seus dados podem ser compartilhados com terceiros nas seguintes situações:
+        </p>
+        <ul>
+          <li><strong>Google Analytics:</strong> para fins de análise de tráfego e comportamento do usuário no site. O Google pode processar dados em servidores localizados fora do Brasil. Para mais informações, consulte a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidade do Google</a>;</li>
+          <li><strong>Provedor de hospedagem:</strong> os dados são armazenados nos servidores do nosso provedor de hospedagem, que adota medidas de segurança compatíveis com os padrões do mercado;</li>
+          <li><strong>Autoridades competentes:</strong> quando houver exigencia legal, regulatoria ou ordem judicial.</li>
+        </ul>
+
+        <!-- 6. Cookies -->
+        <h2>6. Cookies</h2>
+        <p>
+          Cookies são pequenos arquivos de texto armazenados em seu dispositivo quando você acessa nosso site. Utilizamos cookies para diferentes finalidades:
+        </p>
+        <ul>
+          <li><strong>Cookies essenciais:</strong> necessários para o funcionamento básico do site, como navegação entre páginas e acesso a áreas seguras;</li>
+          <li><strong>Cookies de analytics:</strong> utilizados pelo Google Analytics para coletar informações sobre como você interage com o site, de forma anônima e agregada;</li>
+          <li><strong>Cookies de marketing:</strong> podem ser utilizados para exibir anúncios relevantes com base nas suas preferências de navegação (ex.: Meta Pixel).</li>
+        </ul>
+        <p>
+          Para informações detalhadas sobre os cookies que utilizamos, consulte nossa <a href="/cookies/">Política de Cookies</a>.
+        </p>
+
+        <!-- 7. Direitos do titular -->
+        <h2>7. Seus direitos como titular de dados</h2>
+        <p>De acordo com a LGPD (art. 18), você tem os seguintes direitos em relação aos seus dados pessoais:</p>
+        <ul>
+          <li><strong>Confirmacao e acesso:</strong> confirmar se tratamos seus dados e obter acesso a eles;</li>
+          <li><strong>Correção:</strong> solicitar a correção de dados incompletos, inexatos ou desatualizados;</li>
+          <li><strong>Anonimizacao, bloqueio ou eliminação:</strong> solicitar a anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos;</li>
+          <li><strong>Portabilidade:</strong> solicitar a portabilidade dos dados a outro fornecedor de servico;</li>
+          <li><strong>Eliminacao dos dados tratados com consentimento:</strong> solicitar a eliminação dos dados pessoais tratados com base no seu consentimento;</li>
+          <li><strong>Informação sobre compartilhamento:</strong> ser informado sobre as entidades públicas e privadas com as quais seus dados são compartilhados;</li>
+          <li><strong>Revogacao do consentimento:</strong> revogar o consentimento a qualquer momento, mediante solicitação expressa.</li>
+        </ul>
+        <p>
+          Para exercer qualquer um desses direitos, entre em contato conosco por meio do e-mail <a href="mailto:contato@fhorn.com.br">contato@fhorn.com.br</a>.
+        </p>
+
+        <!-- 8. Retenção de dados -->
+        <h2>8. Retenção de dados</h2>
+        <p>
+          Seus dados pessoais serão armazenados pelo período necessário para cumprir as finalidades descritas nesta Política, observados os seguintes critérios:
+        </p>
+        <ul>
+          <li><strong>Dados de contato:</strong> mantidos enquanto houver uma relação comercial ativa ou pelo prazo necessário para atendimento de sua solicitação, e posteriormente pelo prazo legal de guarda aplicável;</li>
+          <li><strong>Dados de navegação:</strong> retidos pelo período configurado nas ferramentas de analytics (em geral, até 26 meses);</li>
+          <li><strong>Dados para cumprimento legal:</strong> mantidos pelo prazo exigido pela legislação vigente.</li>
+        </ul>
+        <p>
+          Após o término do período de retenção, os dados serão eliminados de forma segura ou anonimizados.
+        </p>
+
+        <!-- 9. Segurança -->
+        <h2>9. Segurança dos dados</h2>
+        <p>
+          A {siteConfig.name} adota medidas técnicas e organizacionais adequadas para proteger seus dados pessoais contra acessos não autorizados, situações acidentais ou ilícitas de destruição, perda, alteração ou qualquer forma de tratamento inadequado. Entre as medidas adotadas, destacam-se:
+        </p>
+        <ul>
+          <li>Conexao segura via protocolo HTTPS (criptografia SSL/TLS);</li>
+          <li>Controle de acesso restrito aos dados pessoais;</li>
+          <li>Atualização periódica dos sistemas e plataformas utilizadas;</li>
+          <li>Hospedagem em servidores com proteção contra ataques e invasões.</li>
+        </ul>
+        <p>
+          Embora adotemos as melhores práticas de segurança, nenhum sistema é completamente seguro. Em caso de incidente de segurança que possa causar risco ou dano relevante, os titulares afetados e a Autoridade Nacional de Proteção de Dados (ANPD) serão devidamente comunicados.
+        </p>
+
+        <!-- 10. Alterações -->
+        <h2>10. Alterações nesta Política</h2>
+        <p>
+          Esta Política de Privacidade poderá ser atualizada periodicamente para refletir mudanças em nossas práticas de tratamento de dados ou na legislação aplicável. A versão atualizada será sempre publicada nesta página com a indicação da data da última atualização.
+        </p>
+        <p>
+          Recomendamos que você revise esta Política periodicamente. Em caso de alterações significativas, poderemos notificá-lo por meio dos canais de comunicação disponíveis.
+        </p>
+
+        <!-- 11. Contato do encarregado -->
+        <h2>11. Contato do encarregado de dados (DPO)</h2>
+        <p>
+          Para esclarecimentos, dúvidas ou solicitações relacionadas a esta Política de Privacidade ou ao tratamento de seus dados pessoais, entre em contato com nosso encarregado de dados:
+        </p>
+        <div class="legal-contact-box">
+          <p><strong>{siteConfig.name}</strong></p>
+          <p>Encarregado de Proteção de Dados</p>
+          <p>E-mail: <a href="mailto:contato@fhorn.com.br">contato@fhorn.com.br</a></p>
+          <p>Telefone: <a href={`tel:${siteConfig.contact.phoneRaw}`}>{siteConfig.contact.phone}</a></p>
+          <p>Endereço: {siteConfig.address.full}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .legal-content {
+    max-width: 48rem;
+  }
+
+  .legal-updated {
+    font-size: var(--text-sm);
+    color: var(--color-neutral-500);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-neutral-200);
+  }
+
+  .legal-content h2 {
+    font-size: var(--text-h3);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-neutral-900);
+  }
+
+  .legal-content h3 {
+    font-size: var(--text-h4);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-neutral-800);
+  }
+
+  .legal-content p {
+    font-size: var(--text-body);
+    color: var(--color-neutral-600);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .legal-content ul {
+    margin: 0.5rem 0 1.5rem;
+    padding-left: 1.25rem;
+  }
+
+  .legal-content li {
+    font-size: var(--text-body);
+    color: var(--color-neutral-600);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-content a {
+    color: var(--color-brand-600);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-content a:hover {
+    color: var(--color-brand-700);
+  }
+
+  .legal-contact-box {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: var(--color-neutral-50);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  .legal-contact-box p {
+    margin-bottom: 0.25rem;
+  }
+</style>

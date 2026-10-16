@@ -57,6 +57,9 @@ async function migrate(): Promise<void> {
       is_demonstrative BOOLEAN NOT NULL DEFAULT TRUE,
       active BOOLEAN NOT NULL DEFAULT TRUE,
       sort_order INT NOT NULL DEFAULT 0,
+      price DECIMAL(10,2) DEFAULT NULL,
+      price_promotional DECIMAL(10,2) DEFAULT NULL,
+      price_visible BOOLEAN NOT NULL DEFAULT FALSE,
       created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )
@@ -86,6 +89,20 @@ async function migrate(): Promise<void> {
     )
   `);
   console.log('    page_views ✓');
+
+  // ── 1b. Add pricing columns if missing (incremental migration) ────────
+  try {
+    await pool.execute(`
+      ALTER TABLE admin_boxes
+        ADD COLUMN IF NOT EXISTS price DECIMAL(10,2) DEFAULT NULL,
+        ADD COLUMN IF NOT EXISTS price_promotional DECIMAL(10,2) DEFAULT NULL,
+        ADD COLUMN IF NOT EXISTS price_visible BOOLEAN NOT NULL DEFAULT FALSE
+    `);
+    console.log('    admin_boxes pricing columns ✓');
+  } catch {
+    // Columns already exist or DB doesn't support IF NOT EXISTS — safe to ignore
+    console.log('    admin_boxes pricing columns already exist — skipping.');
+  }
 
   console.log('  All tables created.\n');
 

@@ -1,0 +1,215 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Termos de Uso"
+  description="Termos de Uso do site da F.Horn Self Storage. Condições gerais de utilização do site e dos serviços de self storage."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li aria-current="page">Termos de Uso</li>
+        </ol>
+      </nav>
+
+      <div class="legal-content">
+        <span class="section-label">Legal</span>
+        <h1>Termos de Uso</h1>
+        <p class="legal-updated">Última atualização: outubro de 2026</p>
+
+        <!-- 1. Aceitacao -->
+        <h2>1. Aceitacao dos termos</h2>
+        <p>
+          Ao acessar e utilizar o site <a href={siteConfig.url}>{siteConfig.url}</a> (doravante denominado "Site"), operado pela <strong>{siteConfig.name}</strong>, pessoa jurídica de direito privado, inscrita no CNPJ sob o n. 60.749.391/0001-73, com sede na {siteConfig.address.full}, você concorda em cumprir e estar vinculado aos presentes Termos de Uso.
+        </p>
+        <p>
+          Caso não concorde com qualquer disposição destes Termos, recomendamos que não utilize o Site.
+        </p>
+
+        <!-- 2. Descrição dos serviços -->
+        <h2>2. Descrição dos serviços</h2>
+        <p>
+          A {siteConfig.name} oferece serviços de self storage e guarda moveis em Florianópolis/SC, consistindo na locacao de espacos individuais (boxes) para armazenamento de bens moveis.
+        </p>
+        <p>
+          O Site tem como objetivo fornecer informações sobre os serviços oferecidos, permitir que o usuário solicite orçamentos, entre em contato com a empresa e consulte conteúdos relacionados ao armazenamento.
+        </p>
+        <p>
+          As informações apresentadas no Site, incluindo dimensões e características dos boxes, possuem caráter informativo e ilustrativo. As condições específicas de contratação, incluindo preços, disponibilidade e prazos, serão tratadas diretamente entre a {siteConfig.name} e o cliente interessado.
+        </p>
+
+        <!-- 3. Uso do site -->
+        <h2>3. Uso do site</h2>
+        <p>O usuário se compromete a utilizar o Site de forma etica, legal e de acordo com as seguintes condições:</p>
+        <ul>
+          <li>Não utilizar o Site para fins ilicitos ou contrarios a ordem pública e a moral;</li>
+          <li>Não tentar acessar áreas restritas do Site sem autorização;</li>
+          <li>Não transmitir vírus, malware ou qualquer código malicioso;</li>
+          <li>Não coletar informações de outros usuários sem consentimento;</li>
+          <li>Não utilizar mecanismos automatizados (bots, scrapers) para acessar ou extrair conteúdo do Site sem autorização previa;</li>
+          <li>Fornecer informações verdadeiras e atualizadas nos formulários de contato.</li>
+        </ul>
+
+        <!-- 4. Cadastro e conta -->
+        <h2>4. Cadastro e conta</h2>
+        <p>
+          Caso o Site venha a disponibilizar funcionalidades que exijam cadastro ou criacao de conta, o usuário será responsável por manter a confidencialidade de suas credenciais de acesso e por todas as atividades realizadas sob sua conta.
+        </p>
+        <p>
+          A {siteConfig.name} reserva-se o direito de recusar, suspender ou cancelar qualquer cadastro a seu exclusivo critério, especialmente em caso de violação destes Termos.
+        </p>
+
+        <!-- 5. Propriedade intelectual -->
+        <h2>5. Propriedade intelectual</h2>
+        <p>
+          Todo o conteúdo presente no Site, incluindo, mas não se limitando a, textos, imagens, fotografias, logotipos, marcas, icones, layouts, códigos-fonte e design grafico, é de propriedade da {siteConfig.name} ou de seus licenciadores, sendo protegido pela legislação brasileira de propriedade intelectual e direitos autorais (Lei n. 9.610/1998 e Lei n. 9.279/1996).
+        </p>
+        <p>
+          E vedada a reprodução, distribuição, modificação, exibição pública ou qualquer outra forma de utilização do conteúdo do Site sem autorização previa e expressa da {siteConfig.name}.
+        </p>
+
+        <!-- 6. Limitacao de responsabilidade -->
+        <h2>6. Limitacao de responsabilidade</h2>
+        <p>A {siteConfig.name} não será responsável por:</p>
+        <ul>
+          <li>Danos diretos ou indiretos decorrentes do uso ou da impossibilidade de uso do Site;</li>
+          <li>Interrupcoes temporarias no acesso ao Site por motivos tecnicos, manutencao ou eventos de forca maior;</li>
+          <li>Conteudos de sites de terceiros acessados por meio de links presentes no Site;</li>
+          <li>Eventuais imprecisoes nas informações apresentadas, sendo estas de caráter meramente informativo;</li>
+          <li>Atos praticados por terceiros que comprometam a segurança do usuário durante a navegação.</li>
+        </ul>
+        <p>
+          O Site é disponibilizado "no estado em que se encontra", sem garantias expressas ou implicitas de qualquer natureza, incluindo garantias de comercialização, adequação a um propósito específico ou não violação.
+        </p>
+
+        <!-- 7. Itens proibidos -->
+        <h2>7. Itens proibidos para armazenamento</h2>
+        <p>
+          O serviço de self storage da {siteConfig.name} não permite o armazenamento dos seguintes itens, por razoes de segurança e conformidade legal:
+        </p>
+        <ul>
+          <li><strong>Materiais inflamaveis ou combustiveis:</strong> gasolina, alcool, querosene, gas liquefeito, solventes e similares;</li>
+          <li><strong>Explosivos e munições:</strong> fogos de artificio, dinamite, armas de fogo e municoes;</li>
+          <li><strong>Materiais perigosos:</strong> substancias toxicas, radioativas, corrosivas ou quimicas perigosas;</li>
+          <li><strong>Produtos pereciveis:</strong> alimentos, produtos organicos ou qualquer material sujeito a decomposicao;</li>
+          <li><strong>Itens ilegais:</strong> drogas ilícitas, produtos contrabandeados, falsificados ou adquiridos de forma ilegal;</li>
+          <li><strong>Animais:</strong> vivos ou mortos;</li>
+          <li><strong>Plantas vivas:</strong> que possam atrair pragas ou causar danos a outros boxes;</li>
+          <li><strong>Lixo ou residuos:</strong> materiais sem utilidade que possam gerar mau cheiro, pragas ou riscos sanitarios;</li>
+          <li><strong>Valores em grande quantidade:</strong> dinheiro em especie, joias de alto valor sem seguro proprio.</li>
+        </ul>
+        <p>
+          A {siteConfig.name} reserva-se o direito de recusar ou encerrar a locacao do box caso seja constatado o armazenamento de itens proibidos.
+        </p>
+
+        <!-- 8. Política de cancelamento -->
+        <h2>8. Política de cancelamento</h2>
+        <p>
+          As condições de cancelamento do contrato de locacao de box serão definidas no instrumento contratual firmado entre as partes. Em caso de desistencia, o cliente devera comunicar a {siteConfig.name} com antecedencia, conforme estipulado em contrato.
+        </p>
+        <p>
+          Os termos específicos sobre multas, prazos e devolucao de valores serão detalhados no contrato individual de prestação de serviços.
+        </p>
+
+        <!-- 9. Legislacao aplicável -->
+        <h2>9. Legislacao aplicável e foro</h2>
+        <p>
+          Estes Termos de Uso são regidos pela legislação da República Federativa do Brasil. Quaisquer disputas ou controvérsias decorrentes da utilização do Site ou da interpretação destes Termos serão submetidas ao foro da Comarca de Florianópolis, Estado de Santa Catarina, com exclusao de qualquer outro, por mais privilegiado que seja.
+        </p>
+
+        <!-- 10. Contato -->
+        <h2>10. Contato</h2>
+        <p>
+          Para dúvidas, sugestoes ou reclamacoes relacionadas a estes Termos de Uso, entre em contato conosco:
+        </p>
+        <div class="legal-contact-box">
+          <p><strong>{siteConfig.name}</strong></p>
+          <p>E-mail: <a href="mailto:contato@fhorn.com.br">contato@fhorn.com.br</a></p>
+          <p>Telefone: <a href={`tel:${siteConfig.contact.phoneRaw}`}>{siteConfig.contact.phone}</a></p>
+          <p>Endereço: {siteConfig.address.full}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .legal-content {
+    max-width: 48rem;
+  }
+
+  .legal-updated {
+    font-size: var(--text-sm);
+    color: var(--color-neutral-500);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-neutral-200);
+  }
+
+  .legal-content h2 {
+    font-size: var(--text-h3);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-neutral-900);
+  }
+
+  .legal-content h3 {
+    font-size: var(--text-h4);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-neutral-800);
+  }
+
+  .legal-content p {
+    font-size: var(--text-body);
+    color: var(--color-neutral-600);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .legal-content ul {
+    margin: 0.5rem 0 1.5rem;
+    padding-left: 1.25rem;
+  }
+
+  .legal-content li {
+    font-size: var(--text-body);
+    color: var(--color-neutral-600);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .legal-content a {
+    color: var(--color-brand-600);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-content a:hover {
+    color: var(--color-brand-700);
+  }
+
+  .legal-contact-box {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: var(--color-neutral-50);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  .legal-contact-box p {
+    margin-bottom: 0.25rem;
+  }
+</style>

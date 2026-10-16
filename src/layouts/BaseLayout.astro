@@ -2,6 +2,7 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import WhatsAppFab from '../components/layout/WhatsAppFab.astro';
+import CookieConsent from '../components/layout/CookieConsent.astro';
 import { siteConfig } from '../config/site';
 import '../styles/global.css';
 
@@ -69,7 +70,9 @@ const imageUrl = new URL(image, siteConfig.url).href;
     <meta name="twitter:image" content={imageUrl} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Fonts: Inter + Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -101,5 +104,29 @@ const imageUrl = new URL(image, siteConfig.url).href;
     </main>
     <Footer />
     <WhatsAppFab />
+    <CookieConsent />
+
+    <!-- Meta Pixel - uncomment and add pixel ID when ready -->
+    <!--
+    <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', 'PIXEL_ID_HERE');
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=PIXEL_ID_HERE&ev=PageView&noscript=1" />
+    </noscript>
+    -->
+
+    <!-- reCAPTCHA v3 - uncomment when ready -->
+    <!-- <script src="https://www.google.com/recaptcha/api.js?render=SITE_KEY_HERE" is:inline></script> -->
   </body>
 </html>

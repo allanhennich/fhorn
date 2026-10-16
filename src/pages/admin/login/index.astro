@@ -16,14 +16,21 @@ import '../../../styles/admin.css';
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0c2340" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="F.Horn" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
   </head>
   <body class="admin-body">
     <div class="admin-login">
       <div class="admin-login-card">
         <div class="admin-login-logo">
-          <div class="admin-login-logo-icon">FH</div>
-          <h1>F.Horn Admin</h1>
+          <img src="/images/fhorn-logo.png" alt="F.Horn Self Storage" style="height: 3.5rem; width: auto; margin-bottom: 0.75rem;" />
+          <h1>Painel Administrativo</h1>
           <p>Acesse o painel de controle</p>
         </div>
 
@@ -48,14 +55,25 @@ import '../../../styles/admin.css';
 
           <div class="admin-form-group">
             <label for="password">Senha</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Sua senha"
-              autocomplete="current-password"
-              required
-            />
+            <div style="position: relative;">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Sua senha"
+                autocomplete="current-password"
+                required
+                style="padding-right: 3rem;"
+              />
+              <button type="button" id="togglePassword" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280; padding: 0.25rem;" aria-label="Mostrar senha">
+                <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="eyeOffIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div style="text-align: right; margin-bottom: 1rem;">
+            <a href="/admin/forgot-password/" style="font-size: 0.8rem; color: #dd6b20; text-decoration: none; font-weight: 500;">Esqueci minha senha</a>
           </div>
 
           <button type="submit" class="admin-btn admin-btn-primary" id="loginSubmit">
@@ -66,6 +84,20 @@ import '../../../styles/admin.css';
     </div>
 
     <script is:inline>
+      // Toggle password visibility
+      const toggleBtn = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eyeIcon');
+      const eyeOffIcon = document.getElementById('eyeOffIcon');
+
+      toggleBtn?.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        eyeIcon.style.display = isPassword ? 'none' : 'block';
+        eyeOffIcon.style.display = isPassword ? 'block' : 'none';
+        toggleBtn.setAttribute('aria-label', isPassword ? 'Ocultar senha' : 'Mostrar senha');
+      });
+
       const form = document.getElementById('loginForm');
       const errorBox = document.getElementById('loginError');
       const errorText = document.getElementById('loginErrorText');
@@ -103,7 +135,7 @@ import '../../../styles/admin.css';
           errorText.textContent = data.error || 'Credenciais invalidas. Tente novamente.';
           errorBox?.classList.add('show');
         } catch (err) {
-          errorText.textContent = 'Erro de conexao. Tente novamente.';
+          errorText.textContent = 'Erro de conexão. Tente novamente.';
           errorBox?.classList.add('show');
         } finally {
           submitBtn.disabled = false;

@@ -27,6 +27,9 @@ export interface AdminBox {
   isDemonstrative: boolean;
   active: boolean;
   sortOrder: number;
+  price: number | null;
+  pricePromotional: number | null;
+  priceVisible: boolean;
   createdAt: string;
   updatedAt: string;
 }

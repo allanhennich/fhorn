@@ -1,0 +1,108 @@
+---
+import '../../../styles/admin.css';
+---
+
+<!doctype html>
+<html lang="pt-BR" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Recuperar Senha | F.Horn Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-login">
+      <div class="admin-login-card">
+        <div class="admin-login-logo">
+          <img src="/images/fhorn-logo.png" alt="F.Horn Self Storage" style="height: 3.5rem; width: auto; margin-bottom: 0.75rem;" />
+          <h1>Recuperar Senha</h1>
+          <p>Informe seu e-mail para receber o link de recuperação</p>
+        </div>
+
+        <div class="admin-login-error" id="msgBox" style="display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+          <span id="msgText"></span>
+        </div>
+
+        <div id="successBox" style="display: none; background: #dcfce7; color: #16a34a; padding: 1rem; border-radius: 8px; text-align: center; margin-bottom: 1rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.5rem;"><path d="M20 6 9 17l-5-5"/></svg>
+          <p style="margin: 0; font-weight: 600;">E-mail enviado!</p>
+          <p style="margin: 0.25rem 0 0; font-size: 0.85rem;">Verifique sua caixa de entrada e siga as instruções.</p>
+        </div>
+
+        <form class="admin-login-form" id="forgotForm" novalidate>
+          <div class="admin-form-group">
+            <label for="email">E-mail</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <button type="submit" class="admin-btn admin-btn-primary" id="submitBtn" style="width: 100%;">
+            Enviar link de recuperação
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <a href="/admin/login/" style="font-size: 0.85rem; color: #6b7280; text-decoration: none;">
+            ← Voltar ao login
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      const form = document.getElementById('forgotForm');
+      const msgBox = document.getElementById('msgBox');
+      const msgText = document.getElementById('msgText');
+      const successBox = document.getElementById('successBox');
+      const submitBtn = document.getElementById('submitBtn');
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email')?.value?.trim();
+
+        if (!email) {
+          msgBox.style.display = 'flex';
+          msgText.textContent = 'Informe seu e-mail.';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+        msgBox.style.display = 'none';
+
+        try {
+          const res = await fetch('/api/admin/auth/forgot-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+
+          // Always show success (don't reveal if email exists)
+          form.style.display = 'none';
+          successBox.style.display = 'block';
+        } catch {
+          msgBox.style.display = 'flex';
+          msgText.textContent = 'Erro de conexão. Tente novamente.';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar link de recuperação';
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,170 @@
+---
+// Cookie consent banner — LGPD compliant
+// Uses localStorage key 'fhorn-cookie-consent' to remember user preference
+---
+
+<div id="cookie-consent-banner" class="cookie-banner" role="dialog" aria-label="Consentimento de cookies" hidden>
+  <div class="cookie-banner-inner">
+    <p class="cookie-banner-text">
+      Utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa
+      <a href="/cookies/">Política de Cookies</a>.
+    </p>
+    <div class="cookie-banner-actions">
+      <a href="/cookies/" class="cookie-btn-secondary">Configurar</a>
+      <button id="cookie-accept-btn" class="cookie-btn-primary" type="button">Aceitar</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    var STORAGE_KEY = 'fhorn-cookie-consent';
+    var banner = document.getElementById('cookie-consent-banner');
+    var acceptBtn = document.getElementById('cookie-accept-btn');
+
+    if (!banner || !acceptBtn) return;
+
+    // Check if user has already consented
+    try {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+    } catch (e) {
+      // localStorage unavailable — show banner anyway
+    }
+
+    // Show the banner
+    banner.removeAttribute('hidden');
+
+    acceptBtn.addEventListener('click', function() {
+      var consentData = {
+        accepted: true,
+        date: new Date().toISOString()
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(consentData));
+      } catch (e) {}
+
+      // Registrar consentimento no servidor (LGPD)
+      try {
+        navigator.sendBeacon('/api/consent', JSON.stringify({
+          type: 'accepted',
+          cookies: { essential: true, analytics: true, marketing: true }
+        }));
+      } catch (e) {}
+
+      banner.setAttribute('hidden', '');
+    });
+  })();
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100; /* Above WhatsApp FAB (1000) */
+    background: var(--color-brand-900);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .cookie-banner[hidden] {
+    display: none;
+  }
+
+  .cookie-banner-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .cookie-banner-text {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+
+  .cookie-banner-text a {
+    color: var(--color-accent-300);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cookie-banner-text a:hover {
+    color: var(--color-accent-200);
+  }
+
+  .cookie-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .cookie-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.5rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: white;
+    background: var(--color-accent-500);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--duration-fast);
+    white-space: nowrap;
+  }
+
+  .cookie-btn-primary:hover {
+    background: var(--color-accent-600);
+  }
+
+  .cookie-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--duration-fast), border-color var(--duration-fast);
+    white-space: nowrap;
+  }
+
+  .cookie-btn-secondary:hover {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Responsive: stack on small screens */
+  @media (max-width: 639px) {
+    .cookie-banner-inner {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      gap: 1rem;
+    }
+
+    .cookie-banner-actions {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .cookie-btn-primary {
+      flex: 1;
+    }
+  }
+</style>

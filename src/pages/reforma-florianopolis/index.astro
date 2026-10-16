@@ -1,0 +1,116 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../config/site';
+---
+
+<BaseLayout
+  title="Onde Guardar Móveis Durante a Reforma"
+  description="Guarde seus móveis durante a reforma em Florianópolis. Boxes seguros e temporários na F.Horn Self Storage, em Capoeiras."
+>
+  <section class="section" style="padding-top: 7rem;">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Início</a></li>
+          <li><a href="/guarda-moveis-florianopolis/">Guarda Móveis</a></li>
+          <li aria-current="page">Reforma</li>
+        </ol>
+      </nav>
+
+      <div class="service-page">
+        <span class="section-label">Para você</span>
+        <h1>Onde guardar móveis durante a reforma</h1>
+        <p class="service-intro">
+          Reformar a casa ou o apartamento exige planejamento, e proteger seus móveis faz parte desse processo. Na F.Horn Self Storage, você guarda tudo em um box seguro enquanto a obra acontece.
+        </p>
+
+        <div class="content-body">
+          <h2>Por que guardar móveis durante a reforma?</h2>
+          <p>
+            Durante uma obra, móveis e pertences ficam expostos a poeira, respingos de tinta, umidade e risco de danos por impacto. Mesmo cobertos com lonas, não há garantia de proteção total. Guardar os itens em um box externo elimina esse risco e ainda libera espaço para a equipe de obra trabalhar com mais eficiência.
+          </p>
+
+          <h2>Benefícios de usar self storage na reforma</h2>
+          <ul>
+            <li><strong>Proteção total:</strong> seus móveis ficam em um ambiente fechado, longe da poeira e da umidade da obra.</li>
+            <li><strong>Mais espaço para a obra:</strong> com os móveis fora, os profissionais trabalham com mais agilidade e menos riscos de dano.</li>
+            <li><strong>Flexibilidade de prazo:</strong> reformas nem sempre terminam no prazo previsto. Com planos mensais, você mantém o box pelo tempo necessário.</li>
+            <li><strong>Acesso quando precisar:</strong> se precisar retirar algo durante a reforma, basta ir ao box no horário de funcionamento.</li>
+          </ul>
+
+          <h2>Quais itens guardar?</h2>
+          <p>
+            Você pode guardar qualquer item que não queira expor ao ambiente de obra:
+          </p>
+          <ul>
+            <li>Sofás, poltronas e cadeiras.</li>
+            <li>Mesas de jantar e escrivaninhas.</li>
+            <li>Guarda-roupas e cômodas (desmontados ou inteiros, dependendo do tamanho do box).</li>
+            <li>Eletrodomésticos como geladeira, micro-ondas e máquina de lavar.</li>
+            <li>Colchões, tapetes e cortinas.</li>
+            <li>Caixas com objetos pessoais, louças e decoração.</li>
+          </ul>
+
+          <h2>Qual tamanho de box escolher?</h2>
+          <p>
+            O tamanho depende do cômodo que está sendo reformado. Para uma reforma de quarto, um Box M (7,50 m³) pode ser suficiente. Para uma reforma de sala e cozinha, considere um Box G (9,05 m³) ou maior. Se for uma reforma geral do imóvel, o Box XG (11,09 m³) é indicado.
+          </p>
+          <p>
+            Use nosso <a href="/simulador-de-espaco/">simulador de espaço</a> para estimar o box ideal com base nos itens que você precisa guardar. Você também pode <a href="/boxes/">comparar todos os tamanhos</a>.
+          </p>
+
+          <h2>Como funciona</h2>
+          <p>
+            Entre em contato, escolha o box ideal, e guarde seus pertences antes do início da obra. Durante a reforma, seus itens ficam seguros na F.Horn, em Capoeiras ({siteConfig.address.full}). Quando a obra terminar, você retira tudo e devolve o box.
+          </p>
+        </div>
+
+        <div class="service-cta">
+          <h2>Proteja seus móveis durante a reforma</h2>
+          <p>Simule o espaço necessário ou fale com nossa equipe para agendar.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+            <a href="/simulador-de-espaco/" class="btn btn-primary btn-lg">Simulador de espaço</a>
+            <a href="/contato/" class="btn btn-secondary btn-lg">Solicitar orçamento</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb ol {
+    display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0 0 2rem;
+    font-size: var(--text-sm); color: var(--color-neutral-500);
+  }
+  .breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 0.5rem; color: var(--color-neutral-300); }
+  .breadcrumb a { color: var(--color-neutral-500); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-brand-600); }
+
+  .service-page { }
+  .service-intro {
+    font-size: var(--text-body-lg); color: var(--color-neutral-600);
+    line-height: 1.7; margin-top: 1rem; margin-bottom: 3rem;
+  }
+
+  .content-body h2 { margin-top: 2rem; margin-bottom: 0.75rem; }
+  .content-body p {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .content-body ul { margin: 0.75rem 0 1.5rem; padding-left: 1.25rem; }
+  .content-body li {
+    font-size: var(--text-body); color: var(--color-neutral-600);
+    line-height: 1.7; margin-bottom: 0.5rem;
+  }
+  .content-body a { color: var(--color-brand-600); text-decoration: underline; }
+  .content-body a:hover { color: var(--color-brand-700); }
+
+  .service-cta {
+    background: var(--color-neutral-50); padding: 2.5rem; border-radius: var(--radius-lg);
+    text-align: center; margin-top: 3rem;
+  }
+  .service-cta h2 { margin-bottom: 0.5rem; }
+  .service-cta p { color: var(--color-neutral-600); margin-bottom: 1.5rem; }
+</style>

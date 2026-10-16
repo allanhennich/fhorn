@@ -37,10 +37,11 @@ try {
             <tr>
               <th>Nome</th>
               <th>Volume</th>
-              <th>Dimensoes</th>
+              <th>Dimensões</th>
+              <th>Preço Mensal</th>
               <th>Ordem</th>
               <th>Status</th>
-              <th>Acoes</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +54,26 @@ try {
                 </td>
                 <td>{box.volumeLabel || `${box.volume} m³`}</td>
                 <td>{box.dimensionLabel || `${box.dimensions.width}x${box.dimensions.height}x${box.dimensions.depth}`}</td>
+                <td>
+                  {box.price != null ? (
+                    <div>
+                      {box.pricePromotional != null ? (
+                        <>
+                          <small style="text-decoration: line-through; color: var(--admin-text-muted);">R$ {box.price.toFixed(2)}</small>
+                          <br />
+                          <strong style="color: var(--admin-success, #16a34a);">R$ {box.pricePromotional.toFixed(2)}</strong>
+                        </>
+                      ) : (
+                        <strong>R$ {box.price.toFixed(2)}</strong>
+                      )}
+                      {!box.priceVisible && (
+                        <br /><small style="color: var(--admin-text-muted);">(oculto)</small>
+                      )}
+                    </div>
+                  ) : (
+                    <span style="color: var(--admin-text-muted);">—</span>
+                  )}
+                </td>
                 <td>{box.sortOrder}</td>
                 <td>
                   <span class={`admin-badge ${box.active ? 'admin-badge-active' : 'admin-badge-inactive'}`}>
@@ -104,7 +125,7 @@ try {
         </button>
       </div>
       <div class="admin-modal-body">
-        <p>Tem certeza que deseja excluir o box <strong id="deleteBoxName"></strong>? Esta acao nao pode ser desfeita.</p>
+        <p>Tem certeza que deseja excluir o box <strong id="deleteBoxName"></strong>? Esta ação não pode ser desfeita.</p>
       </div>
       <div class="admin-modal-footer">
         <button class="admin-btn admin-btn-secondary" id="deleteModalCancel">Cancelar</button>
@@ -129,7 +150,7 @@ try {
             window.showToast?.('Erro ao alterar status.', 'error');
           }
         } catch {
-          window.showToast?.('Erro de conexao.', 'error');
+          window.showToast?.('Erro de conexão.', 'error');
         } finally {
           btn.disabled = false;
         }
@@ -173,14 +194,14 @@ try {
       try {
         const res = await fetch(`/api/admin/boxes/${deleteId}`, { method: 'DELETE' });
         if (res.ok) {
-          window.showToast?.('Box excluido com sucesso.');
+          window.showToast?.('Box excluído com sucesso.');
           closeDeleteModal();
           window.location.reload();
         } else {
           window.showToast?.('Erro ao excluir box.', 'error');
         }
       } catch {
-        window.showToast?.('Erro de conexao.', 'error');
+        window.showToast?.('Erro de conexão.', 'error');
       } finally {
         deleteModalConfirm.disabled = false;
       }

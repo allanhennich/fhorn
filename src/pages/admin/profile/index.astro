@@ -1,0 +1,217 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { query } from '../../../data/admin/db';
+
+const user = Astro.locals.user;
+if (!user) return Astro.redirect('/admin/login/');
+
+const [rows] = await query<any[]>('SELECT * FROM admin_users WHERE id = ?', [user.id]);
+const fullUser = rows[0];
+
+const tab = Astro.url.searchParams.get('tab') || 'profile';
+---
+
+<AdminLayout title="Meu Perfil">
+  <div class="admin-page-header">
+    <div>
+      <h1>Meu Perfil</h1>
+      <p>Gerencie suas informações pessoais e segurança</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="profile-tabs">
+    <a href="/admin/profile/" class={`profile-tab ${tab === 'profile' ? 'active' : ''}`}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Dados Pessoais
+    </a>
+    <a href="/admin/profile/?tab=password" class={`profile-tab ${tab === 'password' ? 'active' : ''}`}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Alterar Senha
+    </a>
+  </div>
+
+  {tab === 'profile' && (
+    <div class="admin-card">
+      <div class="admin-card-body" style="padding: 1.5rem;">
+        <form class="admin-form" id="profileForm" novalidate>
+          <div class="admin-form-group">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" value={fullUser.name} required />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" value={fullUser.email} required />
+          </div>
+
+          <div class="admin-form-group">
+            <label>Papel</label>
+            <input type="text" value={fullUser.role === 'admin' ? 'Administrador' : 'Editor'} disabled style="background: #f3f4f6; color: #6b7280;" />
+          </div>
+
+          <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 1rem;">
+            Conta criada em {new Date(fullUser.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+          </div>
+
+          <div class="admin-form-actions">
+            <button type="submit" class="admin-btn admin-btn-primary" id="saveProfileBtn">
+              Salvar Alterações
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )}
+
+  {tab === 'password' && (
+    <div class="admin-card">
+      <div class="admin-card-body" style="padding: 1.5rem;">
+        <form class="admin-form" id="passwordForm" novalidate>
+          <div class="admin-form-group">
+            <label for="currentPassword">Senha Atual</label>
+            <input type="password" id="currentPassword" name="currentPassword" required placeholder="Digite sua senha atual" />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="newPassword">Nova Senha</label>
+            <input type="password" id="newPassword" name="newPassword" required placeholder="Mínimo 8 caracteres" minlength="8" />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="confirmPassword">Confirmar Nova Senha</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repita a nova senha" />
+          </div>
+
+          <div class="admin-form-actions">
+            <button type="submit" class="admin-btn admin-btn-primary" id="savePasswordBtn">
+              Alterar Senha
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )}
+</AdminLayout>
+
+<style>
+  .profile-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+
+  .profile-tab:hover {
+    background: #f3f4f6;
+    color: #374151;
+  }
+
+  .profile-tab.active {
+    background: #0c2340;
+    color: white;
+  }
+</style>
+
+<script is:inline define:vars={{ userId: user.id }}>
+  // Profile form
+  const profileForm = document.getElementById('profileForm');
+  profileForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('saveProfileBtn');
+    const name = document.getElementById('name')?.value?.trim();
+    const email = document.getElementById('email')?.value?.trim();
+
+    if (!name || !email) {
+      window.showToast?.('Preencha todos os campos.', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+
+    try {
+      const res = await fetch('/api/admin/users/' + userId, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email }),
+      });
+
+      if (res.ok) {
+        window.showToast?.('Perfil atualizado com sucesso!');
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        const err = await res.json().catch(() => ({}));
+        window.showToast?.(err.error || 'Erro ao atualizar.', 'error');
+      }
+    } catch {
+      window.showToast?.('Erro de conexão.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Salvar Alterações';
+    }
+  });
+
+  // Password form
+  const passwordForm = document.getElementById('passwordForm');
+  passwordForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('savePasswordBtn');
+    const currentPassword = document.getElementById('currentPassword')?.value;
+    const newPassword = document.getElementById('newPassword')?.value;
+    const confirmPassword = document.getElementById('confirmPassword')?.value;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      window.showToast?.('Preencha todos os campos.', 'error');
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      window.showToast?.('A nova senha deve ter no mínimo 8 caracteres.', 'error');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      window.showToast?.('As senhas não coincidem.', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Alterando...';
+
+    try {
+      const res = await fetch('/api/admin/users/' + userId, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: newPassword }),
+      });
+
+      if (res.ok) {
+        window.showToast?.('Senha alterada com sucesso!');
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+      } else {
+        const err = await res.json().catch(() => ({}));
+        window.showToast?.(err.error || 'Erro ao alterar senha.', 'error');
+      }
+    } catch {
+      window.showToast?.('Erro de conexão.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Alterar Senha';
+    }
+  });
+</script>

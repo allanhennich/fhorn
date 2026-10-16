@@ -1,27 +1,123 @@
 # F.Horn Self Storage
 
-> Guarda móveis e self storage em Florianópolis, SC.
+> Guarda móveis e self storage em Florianópolis, SC — soluções de armazenamento seguras e flexíveis para pessoas e empresas.
 
-F.Horn Self Storage oferece soluções de armazenamento seguras e flexíveis para pessoas e empresas em Florianópolis, Santa Catarina.
+## Sobre a F.Horn
 
-## Serviços
-
-- Guarda Móveis: armazenamento de móveis durante mudanças, reformas ou para liberar espaço em casa.
-- Self Storage para Empresas: armazenamento de estoque, documentos e equipamentos empresariais.
-- Guarda Documentos: armazenamento seguro de arquivos e documentos.
+F.Horn Self Storage é uma empresa de self storage localizada no bairro Capoeiras, em Florianópolis, Santa Catarina. Oferecemos boxes individuais para armazenamento de móveis, documentos, estoque empresarial e pertences pessoais. Nosso espaço é monitorado, com acesso controlado e planos mensais flexíveis, sem exigência de contratos longos.
 
 ## Localização
 
-Rua Fermino Costa, 186 - Capoeiras, Florianópolis - SC, CEP 88085-030
+- Endereço: Rua Fermino Costa, 186 - Capoeiras, Florianópolis - SC, CEP 88085-030
+- Bairro: Capoeiras (região continental de Florianópolis)
+- Coordenadas aproximadas: -27.5956, -48.5744
 
 ## Contato
 
-Telefone: (48) 3380-0272
+- Telefone: (48) 3380-0272
+- WhatsApp: +55 48 3380-0272
+- Instagram: @f.hornselfstorage
+- LinkedIn: https://www.linkedin.com/company/f-horn/
+- Site: https://www.fhorn.com.br
 
-## Links úteis
+## Serviços
 
-- Nossos espaços: /boxes/
+### Guarda Móveis
+Armazenamento de móveis e pertences pessoais durante mudanças, reformas ou para liberar espaço em casa. Boxes seguros com acesso facilitado.
+
+### Self Storage para Empresas
+Armazenamento de estoque, documentos e equipamentos empresariais. Ideal para e-commerces, escritórios e negócios que precisam de espaço extra.
+
+### Armazenamento de Estoque
+Boxes para guardar produtos e mercadorias. Planos mensais sem compromisso de longo prazo, com ambiente monitorado.
+
+### Guarda Documentos
+Armazenamento seguro de arquivos e documentos. Indicado para escritórios de contabilidade, advocacia e empresas com obrigações fiscais de guarda.
+
+### Armazenamento para Mudança
+Espaço temporário para guardar móveis entre a saída de um imóvel e a entrada em outro. Sem pressa, sem improviso.
+
+### Armazenamento para Reforma
+Proteção de móveis e pertences durante obras residenciais. Guarde tudo e resgate quando a reforma terminar.
+
+### Guarda Volumes
+Armazenamento de volumes diversos, itens sazonais, coleções e equipamentos esportivos. Libere espaço sem se desfazer do que é importante.
+
+## Tamanhos de Box Disponíveis
+
+Todos os boxes possuem dimensões reais (L x A x P = Largura x Altura x Profundidade, em metros).
+
+### Mini — 3,01 m³
+- Dimensões: 1,009 x 1,428 x 2,091 m
+- Ideal para: caixas de papelão, malas de viagem, caixas organizadoras, roupas e itens sazonais.
+
+### Mini+ — 3,52 m³
+- Dimensões: 0,817 x 1,449 x 2,974 m
+- Ideal para: caixas compridas, equipamentos esportivos, pranchas, itens sazonais.
+
+### Box P — 5,01 m³
+- Dimensões: 1,726 x 1,403 x 2,067 m
+- Ideal para: caixas de papelão, malas, cadeiras dobráveis, estante pequena.
+
+### Box M — 7,50 m³
+- Dimensões: 1,017 x 2,877 x 2,563 m
+- Pé-direito alto para empilhar. Ideal para: itens de mudança, reformas, acervos, mesa desmontada.
+
+### Box M+ — 8,49 m³
+- Dimensões: 1,000 x 2,873 x 2,955 m
+- Largura extra com pé-direito alto. Ideal para: sofá pequeno, cômoda, eletrodomésticos, bicicleta.
+
+### Box G — 9,05 m³
+- Dimensões: 1,050 x 2,879 x 2,994 m
+- Profundo e alto. Ideal para: bicicleta, home office, armário pequeno, frigobar.
+
+### Box GG — 9,95 m³
+- Dimensões: 1,143 x 2,905 x 2,996 m
+- Amplo e profundo. Ideal para: guarda-roupa, cama de casal desmontada, estoque comercial.
+
+### Box XG — 11,09 m³
+- Dimensões: 1,308 x 2,853 x 2,973 m
+- O maior box. Ideal para: geladeira, máquina de lavar, bicicleta, colchão, caixas de uma mudança completa.
+
+## Perguntas Frequentes
+
+### O que é self storage?
+Self storage é um serviço de armazenamento em que você aluga um box individual para guardar seus pertences, móveis, documentos ou estoque. Você tem acesso ao seu box dentro do horário de funcionamento.
+
+### Qual o tamanho de box ideal para mim?
+Depende do volume de itens que você precisa guardar. Nosso simulador de espaço (disponível em /simulador-de-espaco/) ajuda a estimar o box ideal com base nos objetos que você tem.
+
+### Preciso assinar contrato longo?
+Não. Os planos são mensais, sem exigência de permanência mínima prolongada.
+
+### Meus pertences ficam seguros?
+Sim. O espaço é monitorado e com acesso controlado. Cada cliente tem acesso exclusivo ao seu box.
+
+### Posso guardar qualquer coisa?
+Não é permitido guardar materiais inflamáveis, explosivos, perecíveis, ilegais ou animais. Para dúvidas específicas, entre em contato.
+
+### Onde fica a F.Horn?
+Rua Fermino Costa, 186 - Capoeiras, Florianópolis - SC. O bairro Capoeiras fica na região continental, com fácil acesso pela BR-282 e proximidade com bairros como Coqueiros, Estreito, Abraão e Jardim Atlântico.
+
+### Como funciona o acesso?
+O acesso ao box é feito dentro do horário de funcionamento, com identificação e controle na entrada.
+
+## Páginas do Site
+
+- Início: /
+- Nossos espaços (boxes): /boxes/
 - Simulador de espaço: /simulador-de-espaco/
 - Como funciona: /como-funciona/
+- Guarda Móveis: /guarda-moveis-florianopolis/
+- Self Storage para Empresas: /self-storage-para-empresas/
+- Armazenamento de Estoque: /armazenamento-de-estoque/
+- Guarda Documentos: /guarda-documentos/
+- Self Storage Florianópolis: /self-storage-florianopolis/
+- Alugar Box: /alugar-box-florianopolis/
+- Guarda Volumes: /guarda-volumes-florianopolis/
+- Mudança: /mudanca-florianopolis/
+- Reforma: /reforma-florianopolis/
+- Depósito: /deposito-florianopolis/
+- Sobre a F.Horn: /sobre/
 - Blog: /blog/
 - Contato: /contato/
