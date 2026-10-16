@@ -8,7 +8,7 @@ import node from '@astrojs/node';
 export default defineConfig({
   site: 'https://www.fhorn.com.br',
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  adapter: node({ mode: 'middleware' }),
   integrations: [
     react(),
     sitemap({
