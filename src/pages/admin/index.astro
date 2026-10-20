@@ -1,7 +1,7 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import { query } from '../../data/admin/db';
-import { getAnalyticsSummary } from '../../data/admin/analytics';
+import { getGA4Summary } from '../../data/admin/ga4';
 
 const user = Astro.locals.user as { name: string } | undefined;
 
@@ -28,16 +28,16 @@ for (const f of floorOrder) {
   };
 }
 
-// Analytics
+// Analytics (Google Analytics 4)
 let totalPageViews = 0;
 let todayViews = 0;
 let weekViews = 0;
 try {
-  const analytics = await getAnalyticsSummary();
-  totalPageViews = analytics.totalViews;
-  todayViews = analytics.viewsToday;
-  weekViews = analytics.viewsThisWeek;
-} catch { /* analytics not ready */ }
+  const ga = await getGA4Summary();
+  totalPageViews = ga.totalViews;
+  todayViews = ga.viewsToday;
+  weekViews = ga.viewsThisWeek;
+} catch { /* GA4 not configured or unavailable */ }
 ---
 
 <AdminLayout title="Painel">
