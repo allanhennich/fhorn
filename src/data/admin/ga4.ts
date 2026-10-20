@@ -6,24 +6,22 @@
  */
 
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 let client: BetaAnalyticsDataClient | null = null;
 
 function getClient(): BetaAnalyticsDataClient {
   if (!client) {
-    const clientEmail = import.meta.env?.GA_CLIENT_EMAIL || process.env.GA_CLIENT_EMAIL;
-    const privateKey = (import.meta.env?.GA_PRIVATE_KEY || process.env.GA_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+    // Try keyFile first (ga-credentials.json in project root)
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const keyFile = path.resolve(__dirname, '..', '..', '..', 'ga-credentials.json');
 
-    if (!clientEmail || !privateKey) {
-      throw new Error('GA_CLIENT_EMAIL and GA_PRIVATE_KEY environment variables are required');
+    try {
+      client = new BetaAnalyticsDataClient({ keyFilename: keyFile });
+    } catch {
+      throw new Error('ga-credentials.json not found in project root');
     }
-
-    client = new BetaAnalyticsDataClient({
-      credentials: {
-        client_email: clientEmail,
-        private_key: privateKey,
-      },
-    });
   }
   return client;
 }
