@@ -1,5 +1,6 @@
 ---
 import type { AdminBox } from '../../data/admin/types';
+import { siteConfig } from '../../config/site';
 
 interface Props {
   unit: AdminBox;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { unit, eager = false } = Astro.props;
+const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsappRaw}?text=${encodeURIComponent(`Olá! Tenho interesse no ${unit.name} (${unit.volumeLabel}). Gostaria de mais informações.`)}`;
 
 const floorArea = Math.round(unit.dimensions.width * unit.dimensions.depth * 100) / 100;
 const floorAreaLabel = floorArea.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -73,8 +75,8 @@ function formatCurrency(value: number): string {
       <a href={`/boxes/${unit.slug}/`} class="btn btn-ghost item-btn">
         Detalhes
       </a>
-      <a href="/contato/" class="btn btn-primary item-btn">
-        Orçamento
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary item-btn">
+        Quero Esse
       </a>
     </div>
   </div>
