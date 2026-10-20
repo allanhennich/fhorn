@@ -17,6 +17,7 @@ export function generateSlug(name: string): string {
     .replace(/[\u0300-\u036f]/g, '')        // strip combining diacritical marks
     .toLowerCase()
     .trim()
+    .replace(/\+/g, '-plus')               // convert + to -plus
     .replace(/[^a-z0-9\s-]/g, '')          // remove non-alphanumeric (except space/hyphen)
     .replace(/[\s]+/g, '-')                 // spaces to hyphens
     .replace(/-+/g, '-')                    // collapse multiple hyphens
@@ -154,12 +155,13 @@ export async function updateBox(
   if (data.name !== undefined) {
     fields.push('name = ?');
     values.push(data.name);
-    fields.push('slug = ?');
-    values.push(generateSlug(data.name));
   }
-  if (data.slug !== undefined && data.name === undefined) {
+  if (data.slug !== undefined) {
     fields.push('slug = ?');
     values.push(data.slug);
+  } else if (data.name !== undefined) {
+    fields.push('slug = ?');
+    values.push(generateSlug(data.name));
   }
   if (data.volume !== undefined) {
     fields.push('volume = ?');
