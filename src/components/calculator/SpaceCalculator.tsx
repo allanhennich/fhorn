@@ -11,6 +11,26 @@ import { siteConfig } from '../../config/site';
 
 const STORAGE_KEY = 'fhorn-calculator-selection';
 
+const volumeMap: Record<string, number> = {
+  'mini': 3, 'mini-plus': 3, 'box-p': 5, 'box-m': 7,
+  'box-m-plus': 8, 'box-g': 9, 'box-gg': 10, 'box-xg': 11,
+};
+
+const priceMap: Record<string, number> = {
+  'mini': 195, 'mini-plus': 195, 'box-p': 200, 'box-m': 250,
+  'box-m-plus': 280, 'box-g': 300, 'box-gg': 350, 'box-xg': 380,
+};
+
+function boxDisplayName(unit: StorageUnit): string {
+  return `Box ${volumeMap[unit.slug] ?? Math.round(unit.volume)}m³`;
+}
+
+function boxPrice(unit: StorageUnit): string {
+  const p = priceMap[unit.slug];
+  if (!p) return '';
+  return p.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
 interface SelectedItem {
   item: CalculatorItem;
   quantity: number;
@@ -39,6 +59,11 @@ export default function SpaceCalculator() {
   const [activeCategory, setActiveCategory] = useState<CalculatorCategory>('sala');
   const [selection, setSelection] = useState<Selection>(loadSavedSelection);
   const [showResult, setShowResult] = useState(false);
+  const [customItems, setCustomItems] = useState<{ id: string; name: string; w: number; h: number; d: number }[]>([]);
+  const [customName, setCustomName] = useState('');
+  const [customW, setCustomW] = useState('');
+  const [customH, setCustomH] = useState('');
+  const [customD, setCustomD] = useState('');
 
   useEffect(() => {
     saveSelection(selection);
@@ -62,7 +87,50 @@ export default function SpaceCalculator() {
 
   const clearAll = useCallback(() => {
     setSelection({});
+    setCustomItems([]);
     setShowResult(false);
+  }, []);
+
+  const [customFit, setCustomFit] = useState<{ fits: boolean; box: StorageUnit | null; message: string } | null>(null);
+
+  /** Check if dimensions fit in any box (try all 6 orientations) */
+  function fitsInBox(objW: number, objH: number, objD: number, box: StorageUnit): boolean {
+    const o = [objW, objH, objD].sort((a, b) => a - b);
+    const b = [box.dimensions.width, box.dimensions.height, box.dimensions.depth].sort((a, b) => a - b);
+    return o[0] <= b[0] && o[1] <= b[1] && o[2] <= b[2];
+  }
+
+  function findFittingBox(objW: number, objH: number, objD: number): { fits: boolean; box: StorageUnit | null; message: string } {
+    for (const unit of storageUnits) {
+      if (fitsInBox(objW, objH, objD, unit)) {
+        const price = priceMap[unit.slug];
+        const priceText = price ? ` — ${price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}/mês` : '';
+        return { fits: true, box: unit, message: `Cabe no ${boxDisplayName(unit)}${priceText}` };
+      }
+    }
+    return { fits: false, box: null, message: 'Este objeto não cabe em nenhum dos nossos boxes. Entre em contato para avaliarmos uma solução.' };
+  }
+
+  const addCustomItem = useCallback(() => {
+    const w = parseFloat(customW.replace(',', '.'));
+    const h = parseFloat(customH.replace(',', '.'));
+    const d = parseFloat(customD.replace(',', '.'));
+    if (!w || !h || !d || w <= 0 || h <= 0 || d <= 0) return;
+    const name = customName.trim() || 'Item personalizado';
+    const id = `custom-${Date.now()}`;
+    const fit = findFittingBox(w, h, d);
+    setCustomFit(fit);
+    if (fit.fits) {
+      setCustomItems(prev => [...prev, { id, name, w, h, d }]);
+      setCustomName('');
+      setCustomW('');
+      setCustomH('');
+      setCustomD('');
+    }
+  }, [customName, customW, customH, customD]);
+
+  const removeCustomItem = useCallback((id: string) => {
+    setCustomItems(prev => prev.filter(i => i.id !== id));
   }, []);
 
   const selectedItems: SelectedItem[] = useMemo(() => {
@@ -75,9 +143,13 @@ export default function SpaceCalculator() {
       .filter((s) => s.item);
   }, [selection]);
 
+  const customVolume = useMemo(() => {
+    return customItems.reduce((acc, c) => acc + c.w * c.h * c.d, 0);
+  }, [customItems]);
+
   const totalVolume = useMemo(() => {
-    return selectedItems.reduce((acc, { item, quantity }) => acc + item.volume * quantity, 0);
-  }, [selectedItems]);
+    return selectedItems.reduce((acc, { item, quantity }) => acc + item.volume * quantity, 0) + customVolume;
+  }, [selectedItems, customVolume]);
 
   const adjustedVolume = useMemo(() => {
     return totalVolume * siteConfig.calculatorMargin;
@@ -96,8 +168,8 @@ export default function SpaceCalculator() {
   }, [suggestedUnits, adjustedVolume]);
 
   const totalItems = useMemo(() => {
-    return selectedItems.reduce((acc, s) => acc + s.quantity, 0);
-  }, [selectedItems]);
+    return selectedItems.reduce((acc, s) => acc + s.quantity, 0) + customItems.length;
+  }, [selectedItems, customItems]);
 
   const categoryItems = calculatorItems.filter((i) => i.category === activeCategory);
 
@@ -106,9 +178,12 @@ export default function SpaceCalculator() {
     for (const { item, quantity } of selectedItems) {
       lines.push(`- ${item.name}: ${quantity}x`);
     }
+    for (const c of customItems) {
+      lines.push(`- ${c.name}: ${c.w.toFixed(2)}×${c.h.toFixed(2)}×${c.d.toFixed(2)}m (${(c.w*c.h*c.d).toFixed(2)} m³)`);
+    }
     lines.push('', `Volume estimado: ${adjustedVolume.toFixed(1)} m³`);
     if (bestMatch) {
-      lines.push(`Box sugerido: ${bestMatch.name} (${bestMatch.volume} m³)`);
+      lines.push(`Box sugerido: ${boxDisplayName(bestMatch)}`);
     }
     lines.push('', 'Aguardo retorno. Obrigado!');
     return lines.join('\n');
@@ -170,6 +245,65 @@ export default function SpaceCalculator() {
         })}
       </div>
 
+      {/* Custom item form */}
+      <div className="calc-custom">
+        <h4 className="calc-custom-title">Item personalizado</h4>
+        <p className="calc-custom-desc">Tem um objeto específico? Informe as medidas em metros.</p>
+        <div className="calc-custom-form">
+          <input
+            type="text"
+            placeholder="Nome (opcional)"
+            value={customName}
+            onChange={e => setCustomName(e.target.value)}
+            className="calc-custom-input calc-custom-name"
+          />
+          <div className="calc-custom-measures">
+            <input
+              type="text"
+              inputMode="decimal"
+              placeholder="Largura (m)"
+              value={customW}
+              onChange={e => setCustomW(e.target.value)}
+              className="calc-custom-input"
+            />
+            <span className="calc-custom-x">×</span>
+            <input
+              type="text"
+              inputMode="decimal"
+              placeholder="Altura (m)"
+              value={customH}
+              onChange={e => setCustomH(e.target.value)}
+              className="calc-custom-input"
+            />
+            <span className="calc-custom-x">×</span>
+            <input
+              type="text"
+              inputMode="decimal"
+              placeholder="Prof. (m)"
+              value={customD}
+              onChange={e => setCustomD(e.target.value)}
+              className="calc-custom-input"
+            />
+          </div>
+          <button onClick={addCustomItem} className="calc-custom-add">Adicionar</button>
+        </div>
+        {customFit && (
+          <div className={`calc-custom-feedback ${customFit.fits ? 'calc-feedback-ok' : 'calc-feedback-no'}`}>
+            {customFit.fits ? '✓' : '✗'} {customFit.message}
+          </div>
+        )}
+        {customItems.length > 0 && (
+          <div className="calc-custom-list">
+            {customItems.map(c => (
+              <div key={c.id} className="calc-custom-item">
+                <span>{c.name} ({c.w.toFixed(2)} × {c.h.toFixed(2)} × {c.d.toFixed(2)} m) = {(c.w*c.h*c.d).toFixed(2)} m³</span>
+                <button onClick={() => removeCustomItem(c.id)} className="calc-custom-remove">×</button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Summary bar */}
       {totalItems > 0 && (
         <div className="calc-summary">
@@ -223,6 +357,12 @@ export default function SpaceCalculator() {
                 <span className="calc-result-qty">{quantity}x</span>
               </div>
             ))}
+            {customItems.map(c => (
+              <div key={c.id} className="calc-result-item">
+                <span>{c.name} ({c.w.toFixed(2)}×{c.h.toFixed(2)}×{c.d.toFixed(2)}m)</span>
+                <span className="calc-result-qty">{(c.w*c.h*c.d).toFixed(2)} m³</span>
+              </div>
+            ))}
           </div>
 
           <div className="calc-result-volume">
@@ -242,8 +382,8 @@ export default function SpaceCalculator() {
               <p className="calc-suggestion-label">Box sugerido:</p>
               <div className="calc-suggestion-box">
                 <div>
-                  <strong className="calc-suggestion-name">{bestMatch.name}</strong>
-                  <span className="calc-suggestion-vol">{bestMatch.volumeLabel}</span>
+                  <strong className="calc-suggestion-name">{boxDisplayName(bestMatch)}</strong>
+                  {boxPrice(bestMatch) && <span className="calc-suggestion-price">{boxPrice(bestMatch)}/mês</span>}
                 </div>
                 <span className="calc-suggestion-dims">
                   {bestMatch.dimensionLabel}
@@ -251,7 +391,7 @@ export default function SpaceCalculator() {
               </div>
               {suggestedUnits.length > 1 && (
                 <p className="calc-suggestion-alt">
-                  Alternativa: <strong>{suggestedUnits[1].name}</strong> ({suggestedUnits[1].volumeLabel})
+                  Alternativa: <strong>{boxDisplayName(suggestedUnits[1])}</strong> {boxPrice(suggestedUnits[1]) && `(${boxPrice(suggestedUnits[1])}/mês)`}
                 </p>
               )}
             </div>
@@ -262,8 +402,7 @@ export default function SpaceCalculator() {
               <p className="calc-suggestion-label">Box sugerido:</p>
               <div className="calc-suggestion-box">
                 <div>
-                  <strong className="calc-suggestion-name">{storageUnits[storageUnits.length - 1].name}</strong>
-                  <span className="calc-suggestion-vol">{storageUnits[storageUnits.length - 1].volumeLabel}</span>
+                  <strong className="calc-suggestion-name">{boxDisplayName(storageUnits[storageUnits.length - 1])}</strong>
                 </div>
                 <p className="calc-notice-text" style={{ marginTop: '0.5rem' }}>
                   O volume estimado é alto. Recomendamos uma avaliação presencial.
