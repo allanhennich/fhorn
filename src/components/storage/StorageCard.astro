@@ -8,12 +8,20 @@ interface Props {
 }
 
 const { unit, eager = false } = Astro.props;
-const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsappRaw}?text=${encodeURIComponent(`Olá! Tenho interesse no ${unit.name} (${unit.volumeLabel}). Gostaria de mais informações.`)}`;
+
+const volumeMap: Record<string, number> = {
+  'mini': 3, 'mini-plus': 3, 'box-p': 5, 'box-m': 7,
+  'box-m-plus': 8, 'box-g': 9, 'box-gg': 10, 'box-xg': 11,
+};
+const volumeRounded = volumeMap[unit.slug] ?? Math.round(unit.volume);
+const displayName = `Box ${volumeRounded}m³`;
+
+const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsappRaw}?text=${encodeURIComponent(`Olá! Tenho interesse no ${displayName}. Gostaria de mais informações.`)}`;
 
 const floorArea = Math.round(unit.dimensions.width * unit.dimensions.depth * 100) / 100;
 const floorAreaLabel = floorArea.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-const hasPrice = unit.priceVisible && unit.price != null;
+const hasPrice = unit.price != null;
 const hasPromo = hasPrice && unit.pricePromotional != null && unit.pricePromotional < unit.price!;
 
 function formatCurrency(value: number): string {
@@ -41,9 +49,7 @@ function formatCurrency(value: number): string {
 
   <div class="item-content">
     <div class="item-body">
-      <span class="item-volume-badge">{unit.volumeLabel}</span>
-
-      <h3 class="item-title">{unit.name}</h3>
+      <h3 class="item-title">{displayName}</h3>
 
       <p class="item-dimensions">
         {unit.dimensionLabel} &middot; {floorAreaLabel} m²
@@ -58,20 +64,19 @@ function formatCurrency(value: number): string {
       </div>
     </div>
 
-    {hasPrice && (
-      <div class="item-price">
-        {hasPromo ? (
-          <>
-            <span class="item-price-old">{formatCurrency(unit.price!)}</span>
-            <span class="item-price-current">{formatCurrency(unit.pricePromotional!)}<span class="item-price-period">/mês</span></span>
-          </>
-        ) : (
-          <span class="item-price-current">{formatCurrency(unit.price!)}<span class="item-price-period">/mês</span></span>
-        )}
-      </div>
-    )}
-
     <div class="item-actions">
+      {hasPrice && (
+        <div class="item-price">
+          {hasPromo ? (
+            <>
+              <span class="item-price-old">{formatCurrency(unit.price!)}</span>
+              <span class="item-price-current">{formatCurrency(unit.pricePromotional!)}<span class="item-price-period">/mês</span></span>
+            </>
+          ) : (
+            <span class="item-price-current">{formatCurrency(unit.price!)}<span class="item-price-period">/mês</span></span>
+          )}
+        </div>
+      )}
       <a href={`/boxes/${unit.slug}/`} class="btn btn-ghost item-btn">
         Detalhes
       </a>
@@ -116,6 +121,7 @@ function formatCurrency(value: number): string {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
   }
 
   /* Content wrapper */
@@ -133,19 +139,6 @@ function formatCurrency(value: number): string {
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
-  }
-
-  /* Volume badge */
-  .item-volume-badge {
-    display: inline-block;
-    align-self: flex-start;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    color: white;
-    background-color: var(--color-brand-700);
-    padding: 0.2rem 0.625rem;
-    border-radius: var(--radius-sm);
-    line-height: 1.4;
   }
 
   .item-title {
@@ -190,9 +183,9 @@ function formatCurrency(value: number): string {
     white-space: nowrap;
   }
 
-  /* Price — visible on mobile */
+  /* Price */
   .item-price {
-    padding: 0 0.875rem;
+    padding: 0;
   }
 
   .item-price-old {
@@ -221,8 +214,8 @@ function formatCurrency(value: number): string {
   .item-actions {
     padding: 0.625rem 0.875rem 0.875rem;
     display: flex;
+    flex-direction: column;
     gap: 0.5rem;
-    align-items: center;
   }
 
   .item-btn {
@@ -244,10 +237,6 @@ function formatCurrency(value: number): string {
       gap: 0.375rem;
     }
 
-    .item-volume-badge {
-      font-size: var(--text-xs);
-    }
-
     .item-title {
       font-size: var(--text-h4);
     }
@@ -264,10 +253,6 @@ function formatCurrency(value: number): string {
     .item-tag {
       font-size: var(--text-xs);
       padding: 0.175rem 0.5rem;
-    }
-
-    .item-price {
-      padding: 0 1rem;
     }
 
     .item-actions {
@@ -310,18 +295,12 @@ function formatCurrency(value: number): string {
       gap: 0.375rem;
     }
 
-    .item-volume-badge {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.75rem;
-    }
-
     .item-description {
       -webkit-line-clamp: unset;
       overflow: visible;
     }
 
     .item-actions {
-      flex-direction: column;
       padding: 1.25rem 1.5rem 1.25rem 0;
       min-width: 150px;
     }
@@ -329,7 +308,6 @@ function formatCurrency(value: number): string {
     .item-price {
       text-align: center;
       padding: 0;
-      margin-bottom: 0.25rem;
     }
   }
 

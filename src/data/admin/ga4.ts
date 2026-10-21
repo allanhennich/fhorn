@@ -27,7 +27,7 @@ function getClient(): BetaAnalyticsDataClient {
 }
 
 function getPropertyId(): string {
-  return import.meta.env?.GA_PROPERTY_ID || process.env.GA_PROPERTY_ID || '558458223';
+  return import.meta.env?.GA_PROPERTY_ID || process.env.GA_PROPERTY_ID || '';
 }
 
 export interface GA4Summary {

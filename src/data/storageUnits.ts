@@ -62,8 +62,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 1.009, height: 1.428, depth: 2.091 },
     dimensionLabel: "1,009 × 1,428 × 2,091 m",
     image: img(
-      "mini-3-01m3",
-      "Box Mini da F.Horn Self Storage, 3,01 m³ — 1,009 × 1,428 × 2,091 m",
+      "box-3m3",
+      "Box 3m³ da F.Horn Self Storage — 1,009 × 1,428 × 2,091 m",
     ),
     description:
       "Ideal para poucos itens: caixas, malas e objetos sazonais guardados com segurança.",
@@ -80,8 +80,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 0.817, height: 1.449, depth: 2.974 },
     dimensionLabel: "0,817 × 1,449 × 2,974 m",
     image: img(
-      "mini-plus-3-52m3",
-      "Box Mini+ da F.Horn Self Storage, 3,52 m³ — 0,817 × 1,449 × 2,974 m",
+      "box-3m3",
+      "Box 3m³ da F.Horn Self Storage — 0,817 × 1,449 × 2,974 m",
     ),
     description:
       "Estreito e profundo: ótimo para caixas compridas, equipamentos esportivos e itens sazonais.",
@@ -98,8 +98,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 1.726, height: 1.403, depth: 2.067 },
     dimensionLabel: "1,726 × 1,403 × 2,067 m",
     image: img(
-      "box-p-5-01m3",
-      "Box P da F.Horn Self Storage, 5,01 m³ — 1,726 × 1,403 × 2,067 m",
+      "box-5m3",
+      "Box 5m³ da F.Horn Self Storage — 1,726 × 1,403 × 2,067 m",
     ),
     description:
       "Mais espaço para o dia a dia: caixas, malas, cadeiras dobráveis e pequenos itens domésticos.",
@@ -116,8 +116,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 1.017, height: 2.877, depth: 2.563 },
     dimensionLabel: "1,017 × 2,877 × 2,563 m",
     image: img(
-      "box-m-7-50m3",
-      "Box M da F.Horn Self Storage, 7,50 m³ — 1,017 × 2,877 × 2,563 m",
+      "box-7m3",
+      "Box 7m³ da F.Horn Self Storage — 1,017 × 2,877 × 2,563 m",
     ),
     description:
       "Pé-direito alto para empilhar com organização: perfeito para itens de mudança, reformas e acervos.",
@@ -134,8 +134,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 1.000, height: 2.873, depth: 2.955 },
     dimensionLabel: "1,000 × 2,873 × 2,955 m",
     image: img(
-      "box-m-plus-8-49m3",
-      "Box M+ da F.Horn Self Storage, 8,49 m³ — 1,000 × 2,873 × 2,955 m",
+      "box-8m3",
+      "Box 8m³ da F.Horn Self Storage — 1,000 × 2,873 × 2,955 m",
     ),
     description:
       "Largura extra com pé-direito alto: acomoda móveis médios e eletrodomésticos com folga.",
@@ -152,8 +152,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 1.050, height: 2.879, depth: 2.994 },
     dimensionLabel: "1,050 × 2,879 × 2,994 m",
     image: img(
-      "box-g-9-05m3",
-      "Box G da F.Horn Self Storage, 9,05 m³ — 1,050 × 2,879 × 2,994 m",
+      "box-9m3",
+      "Box 9m³ da F.Horn Self Storage — 1,050 × 2,879 × 2,994 m",
     ),
     description:
       "Profundo e alto: espaço para bicicleta, home office, armário e caixas no mesmo lugar.",
@@ -170,8 +170,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 1.143, height: 2.905, depth: 2.996 },
     dimensionLabel: "1,143 × 2,905 × 2,996 m",
     image: img(
-      "box-gg-9-95m3",
-      "Box GG da F.Horn Self Storage, 9,95 m³ — 1,143 × 2,905 × 2,996 m",
+      "box-10m3",
+      "Box 10m³ da F.Horn Self Storage — 1,143 × 2,905 × 2,996 m",
     ),
     description:
       "Amplo e profundo: para mudanças parciais, estoque comercial e móveis maiores.",
@@ -188,8 +188,8 @@ export const storageUnits: StorageUnit[] = [
     dimensions: { width: 1.308, height: 2.853, depth: 2.973 },
     dimensionLabel: "1,308 × 2,853 × 2,973 m",
     image: img(
-      "box-xg-11-09m3",
-      "Box XG da F.Horn Self Storage, 11,09 m³ — 1,308 × 2,853 × 2,973 m",
+      "box-11m3",
+      "Box 11m³ da F.Horn Self Storage — 1,308 × 2,853 × 2,973 m",
     ),
     description:
       "O maior box da F.Horn: comporta geladeira, máquina de lavar, bicicleta, colchão e caixas de uma mudança.",
