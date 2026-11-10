@@ -31,6 +31,8 @@ const pageTitle = title
   ? siteConfig.seo.titleTemplate.replace('%s', title)
   : siteConfig.seo.defaultTitle;
 
+const gtmId = /^GTM-[A-Z0-9]+$/.test(siteConfig.analytics.gtmId) ? siteConfig.analytics.gtmId : '';
+
 const canonicalUrl = canonical || new URL(Astro.url.pathname, siteConfig.url).href;
 const imageUrl = new URL(image, siteConfig.url).href;
 ---
@@ -39,6 +41,18 @@ const imageUrl = new URL(image, siteConfig.url).href;
 <html lang="pt-BR" dir="ltr">
   <head>
     <meta charset="utf-8" />
+
+    <!-- Google Tag Manager -->
+    {gtmId && (
+      <script is:inline define:vars={{ gtmId }}>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',gtmId);
+      </script>
+    )}
+    <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#0c2340" media="(prefers-color-scheme: light)" />
@@ -97,6 +111,9 @@ const imageUrl = new URL(image, siteConfig.url).href;
     )}
   </head>
   <body class="min-h-screen flex flex-col">
+    {gtmId && (
+      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    )}
     <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
     <Header variant={headerVariant} />
     <main id="main-content" class="flex-1">

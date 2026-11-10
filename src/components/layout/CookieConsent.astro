@@ -51,6 +51,12 @@
         }));
       } catch (e) {}
 
+      // Avisar o Google Tag Manager (gatilho: evento personalizado cookie_consent_accepted)
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'cookie_consent_accepted' });
+      } catch (e) {}
+
       banner.setAttribute('hidden', '');
     });
   })();

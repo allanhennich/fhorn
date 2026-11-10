@@ -47,6 +47,11 @@ export const siteConfig = {
     defaultImage: '/images/og-default.jpg',
   },
 
+  analytics: {
+    /** Contêiner do Google Tag Manager (GTM-XXXXXXX). PUBLIC_GTM_ID vazio no .env desativa. */
+    gtmId: (import.meta.env.PUBLIC_GTM_ID ?? 'GTM-M97D9VRW').trim(),
+  },
+
   /** Margem de segurança aplicada ao volume calculado (1.3 = 30%) */
   calculatorMargin: 1.3,
 } as const;
